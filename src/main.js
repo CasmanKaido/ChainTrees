@@ -3,6 +3,7 @@ import { DashboardPage } from './pages/DashboardPage.js'
 import { LeaderboardPage } from './pages/LeaderboardPage.js'
 import { RewardsPage } from './pages/RewardsPage.js'
 import { AchievementsPage } from './pages/AchievementsPage.js'
+import { MetadataPage } from './pages/MetadataPage.js'
 import { WalletConnect } from './components/WalletConnect.js'
 import './styles/main.css'
 import './styles/layout.css'
@@ -12,6 +13,7 @@ import './styles/dashboard.css'
 import './styles/leaderboard.css'
 import './styles/rewards.css'
 import './styles/achievements.css'
+import './styles/metadata.css'
 import './config/walletConfig.js'
 
 console.log('🌳 ChainTrees - Initializing...')
@@ -43,6 +45,7 @@ class ChainTreesApp {
               <button class="nav-btn" data-page="dashboard">My Forest</button>
               <button class="nav-btn" data-page="rewards">Rewards</button>
               <button class="nav-btn" data-page="achievements">Badges</button>
+              <button class="nav-btn" data-page="metadata">IPFS</button>
               <button class="nav-btn" data-page="leaderboard">Leaderboard</button>
             </nav>
             <div id="wallet-connect-container"></div>
@@ -96,6 +99,9 @@ class ChainTreesApp {
       this.currentPage.render()
     } else if (pageName === 'achievements') {
       this.currentPage = new AchievementsPage('main-content')
+      this.currentPage.render()
+    } else if (pageName === 'metadata') {
+      this.currentPage = new MetadataPage('main-content')
       this.currentPage.render()
     }
   }

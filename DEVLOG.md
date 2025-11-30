@@ -1,101 +1,98 @@
 # ChainTrees Development Log
 
-## Commit 1: Project Initialization & Configuration ✅
-...
+## Commit 1-13: Previous Commits ✅
+[See earlier entries for commits 1-13]
 
-## Commit 2: Reown AppKit Integration & Wallet Connection ✅
-...
-
-## Commit 4: Smart Contract Development - Tree NFT ✅
-...
-
-## Commit 5: Smart Contract - Token & Rewards System ✅
-...
-
-## Commit 6: Contract Deployment & Verification ✅
-...
-
-## Commit 7: Tree Minting Interface ✅
-...
-
-## Commit 8: Procedural Tree SVG Generator ✅
-...
-
-## Commit 9: User Dashboard & Tree Gallery ✅
-...
-
-## Commit 10: Leaderboard & Global Statistics ✅
-...
-
-## Commit 11: Staking & Rewards Interface ✅
-...
-
-## Commit 12: Achievements & Badges System ✅
-...
-
-## Commit 13: Enhanced Tree Growth & Watering System ✅
+## Commit 14: IPFS Integration & Metadata ✅
 
 **Date**: November 28, 2025  
 **Branch**: `main`
 
 ### Changes Made
 
-#### Tree Visualization Enhancements
-- ✅ `src/generators/treeGenerator.js` - Enhanced SVG Generation
-  - **Dramatic Stage Differences**: Seedlings are tiny, Ancient trees are massive
-  - **Stage-Based Complexity**: 
-    - Seedling (Stage 0): Simple thin stem with few leaves
-    - Sapling (Stage 1): Thicker trunk, more foliage
-    - Mature (Stage 2): Visible branches, dense canopy
-    - Ancient (Stage 3): Multiple branches, sparkle effects, maximum size
-  - **Visual Polish**: Added animated sparkles for Ancient trees
-  - **getStageName()**: Utility method for consistent stage naming
+#### IPFS Service
+- ✅ `src/services/ipfsService.js` - Pinata Integration
+  - **uploadJSON**: Upload metadata objects to IPFS
+  - **uploadSVG**: Upload SVG images as files
+  - **uploadTreeMetadata**: Complete metadata upload flow
+  - **uploadBatchMetadata**: Batch upload for multiple trees
+  - **ERC-721 Standard**: Generates compliant metadata with attributes
+  - **Metadata Fields**:
+    - name, description, image, external_url
+    - attributes: Species, Growth Stage, Water Count, Carbon Offset, Rarity
 
-#### Dashboard Improvements
-- ✅ `src/pages/DashboardPage.js` - Growth & Watering Features
-  - **Watering Cooldown**: 24-hour timer display with countdown
-  - **Growth Progress Bar**: Visual progress toward next stage
-  - **Stage Badges**: Color-coded badges for each growth stage
-  - **Progress Hints**: "X/Y waters to next stage" indicator
-  - **Ancient Badge**: Special ⭐ badge for fully grown trees
-  - **Cooldown Timer**: Real-time countdown display
+#### Metadata Manager Page
+- ✅ `src/pages/MetadataPage.js` - IPFS Upload Interface
+  - **Tree List View**: Shows all user trees with preview
+  - **Individual Upload**: Upload single tree metadata
+  - **Batch Upload**: Upload all trees at once
+  - **Upload Status**: Visual feedback with IPFS links
+  - **Configuration Check**: Warns if Pinata keys not configured
+  - **Results Display**: Shows success/failure for each upload
 
 #### Styling
-- ✅ `src/styles/dashboard.css` - Enhanced Tree Cards
-  - Stage-specific badge colors (green → blue → purple → gold)
-  - Animated progress bars with gradient fills
-  - Pulsing animation for Ancient badge
-  - Cooldown timer styling
-  - Growth progress container with hints
+- ✅ `src/styles/metadata.css` - Metadata Manager Styles
+  - Tree list with preview thumbnails
+  - Upload action buttons
+  - Success/error status displays
+  - IPFS link buttons
+  - Upload summary statistics
+
+#### Application Updates
+- ✅ `src/main.js` - Navigation Integration
+  - Added "IPFS" tab to main navigation
+  - Integrated MetadataPage into routing system
 
 ### Features Implemented
 
-1. **Visual Growth Progression**
-   - Trees visually transform as they grow
-   - Each stage has unique characteristics
-   - Ancient trees have special sparkle effects
+1. **Decentralized Metadata**
+   - Tree metadata stored on IPFS (Pinata)
+   - SVG images uploaded to IPFS
+   - Permanent, immutable storage
 
-2. **Watering Mechanics**
-   - 24-hour cooldown enforcement
-   - Real-time countdown display
-   - Clear visual feedback on button state
+2. **Marketplace Compatibility**
+   - ERC-721 standard metadata format
+   - Attributes for OpenSea/Rarible filtering
+   - External URLs for deep linking
 
-3. **Growth Tracking**
-   - Progress bars show advancement to next stage
-   - Water count requirements displayed
-   - Fully grown trees marked as complete
+3. **Batch Operations**
+   - Upload all trees at once
+   - Progress tracking
+   - Error handling per tree
 
-### User Experience Improvements
+4. **User Experience**
+   - Visual upload status
+   - Direct IPFS gateway links
+   - Configuration validation
 
-- **Engagement**: Users can see their trees grow over time
-- **Clarity**: Progress bars make growth requirements transparent
-- **Anticipation**: Cooldown timers create return-to-play incentives
-- **Achievement**: Ancient trees feel special and rewarding
+### Technical Details
+
+**Metadata Structure**:
+```json
+{
+  "name": "Oak #42",
+  "description": "A Mature Oak tree...",
+  "image": "ipfs://QmXxx...",
+  "external_url": "https://chaintrees.app/tree/42",
+  "attributes": [
+    { "trait_type": "Species", "value": "Oak" },
+    { "trait_type": "Growth Stage", "value": "Mature" },
+    { "display_type": "number", "trait_type": "Water Count", "value": 15 },
+    { "display_type": "number", "trait_type": "Carbon Offset (g)", "value": 500 },
+    { "trait_type": "Rarity", "value": "Rare" }
+  ]
+}
+```
+
+**Environment Variables Required**:
+- `VITE_PINATA_API_KEY`
+- `VITE_PINATA_SECRET_KEY`
 
 ### Next Steps
 
-**Proceed to Commit 14**: IPFS Integration & Metadata
-- Upload tree metadata to IPFS
-- Store SVG images on IPFS
-- Update token URIs to point to IPFS
-- Implement metadata refresh mechanism
+**Proceed to Commit 15**: Final Testing & Deployment
+- Deploy contracts to testnet
+- End-to-end testing
+- Documentation updates
+- Production build verification
+- Final polish and bug fixes
