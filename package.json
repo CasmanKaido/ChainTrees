@@ -41,13 +41,56 @@
         "vite": "^5.0.0",
         "wagmi": "^2.19.5"
     },
-    "devDependencies": {
-        "eslint": "^8.55.0",
-        "prettier": "^3.1.1",
-        "vitest": "^1.0.4"
-    },
-    "engines": {
-        "node": ">=18.0.0",
-        "npm": ">=9.0.0"
+    {
+        "name": "chaintrees",
+        "version": "1.0.0",
+        "description": "NFT Tree Planting Platform - Blockchain for environmental impact",
+        "type": "module",
+        "scripts": {
+            "dev": "vite",
+            "build": "vite build",
+            "preview": "vite preview",
+            "lint": "eslint src --ext .js",
+            "format": "prettier --write \"src/**/*.{js,css}\"",
+            "test": "vitest",
+            "deploy": "npm run build && vercel --prod"
+        },
+        "keywords": [
+            "nft",
+            "blockchain",
+            "web3",
+            "environment",
+            "carbon-offset",
+            "dao",
+            "ethereum",
+            "walletconnect"
+        ],
+        "author": "ChainTrees Team",
+        "license": "MIT",
+        "repository": {
+            "type": "git",
+            "url": "https://github.com/CasmanKaido/ChainTrees.git"
+        },
+        "bugs": {
+            "url": "https://github.com/CasmanKaido/ChainTrees/issues"
+        },
+        "homepage": "https://github.com/CasmanKaido/ChainTrees#readme",
+        "dependencies": {
+            "@reown/appkit": "^1.8.14",
+            "@reown/appkit-adapter-wagmi": "^1.8.14",
+            "@tanstack/react-query": "^5.90.11",
+            "@walletconnect/web3-provider": "^1.8.0",
+            "viem": "^2.40.3",
+            "vite": "^5.0.0",
+            "wagmi": "^2.19.5"
+        },
+        "devDependencies": {
+            "eslint": "^8.55.0",
+            "prettier": "^3.1.1",
+            "vitest": "^1.0.4"
+        },
+        "engines": {
+            "node": "20.x",
+            "npm": ">=9.0.0"
+        }
     }
-}
