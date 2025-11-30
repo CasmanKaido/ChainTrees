@@ -18,6 +18,7 @@ import './styles/social.css'
 import './styles/feed.css'
 import './styles/gifting.css'
 import './styles/marketplace.css'
+import './styles/auction.css'
 import './config/walletConfig.js'
 
 console.log('🌳 ChainTrees - Initializing...')

@@ -1,10 +1,13 @@
 import { marketplaceService } from '../services/marketplaceService.js';
 import { MarketplaceGrid } from '../components/MarketplaceGrid.js';
+import { AuctionGrid } from '../components/AuctionGrid.js';
+import { auctionSystem } from '../utils/auctionSystem.js';
 
 export class MarketplacePage {
     constructor(containerId) {
         this.containerId = containerId;
         this.grid = new MarketplaceGrid('market-listings-container');
+        this.auctionGrid = new AuctionGrid('auction-listings-container');
     }
 
     async render() {
@@ -24,6 +27,10 @@ export class MarketplacePage {
             + Create Listing
           </button>
         </div>
+
+        <div id="auction-listings-container"></div>
+
+        <h2 style="margin:2rem 0 1rem; color:#e2e8f0">🌲 Standard Listings</h2>
 
         <div class="market-filters">
           <div class="filter-group">
@@ -51,6 +58,7 @@ export class MarketplacePage {
       </div>
     `;
 
+        this.auctionGrid.render();
         this.grid.render();
         this.attachListeners();
     }
@@ -75,6 +83,22 @@ export class MarketplacePage {
                 } catch (e) {
                     alert(e.message);
                 }
+            }
+        };
+
+        // Global bid handler
+        window.placeBid = async (auctionId) => {
+            const input = document.getElementById(`bid-input-${auctionId}`);
+            const amount = input.value;
+
+            if (!amount) return alert('Enter bid amount');
+
+            try {
+                await auctionSystem.placeBid(auctionId, amount, '0xUserWallet');
+                alert('Bid placed successfully! 🔥');
+                this.auctionGrid.render();
+            } catch (e) {
+                alert(e.message);
             }
         };
 
