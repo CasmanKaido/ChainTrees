@@ -1,51 +1,57 @@
 {
-  "name": "chaintrees",
-  "version": "1.0.0",
-  "type": "module",
-  "description": "Plant trees on-chain and track your environmental impact",
-  "main": "src/main.js",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "test": "vitest",
-    "test:coverage": "vitest --coverage",
-    "test:ui": "vitest --ui",
-    "deploy:contracts": "hardhat run scripts/deploy.js",
-    "compile": "hardhat compile",
-    "lint": "eslint src/**/*.js",
-    "format": "prettier --write \"src/**/*.{js,css,html}\""
-  },
-  "keywords": [
-    "web3",
-    "nft",
-    "environment",
-    "carbon-offset",
-    "walletconnect",
-    "reown",
-    "blockchain"
-  ],
-  "author": "ChainTrees Team",
-  "license": "MIT",
-  "dependencies": {
-    "@reown/appkit": "^1.0.0",
-    "@reown/appkit-adapter-wagmi": "^1.0.0",
-    "wagmi": "^2.0.0",
-    "viem": "^2.0.0",
-    "@tanstack/react-query": "^5.0.0",
-    "chart.js": "^4.4.0"
-  },
-  "devDependencies": {
-    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
-    "@openzeppelin/contracts": "^5.0.0",
-    "@playwright/test": "^1.40.0",
-    "@vitest/ui": "^1.0.0",
-    "dotenv": "^17.2.3",
-    "eslint": "^8.55.0",
-    "hardhat": "^2.19.0",
-    "ipfs-http-client": "^60.0.0",
-    "prettier": "^3.1.0",
-    "vite": "^5.0.0",
-    "vitest": "^1.0.0"
-  }
+    "name": "chaintrees",
+    "version": "1.0.0",
+    "type": "module",
+    "description": "Plant trees on-chain and track your environmental impact",
+    "main": "src/main.js",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview",
+        "test": "vitest",
+        "test:coverage": "vitest --coverage",
+        "test:ui": "vitest --ui",
+        "test:contracts": "cd contracts && npx hardhat test",
+        "compile": "cd contracts && npx hardhat compile",
+        "deploy:all": "cd contracts && node node_modules/hardhat/internal/cli/cli.js run scripts/deployAll.js",
+        "deploy:sepolia": "cd contracts && node node_modules/hardhat/internal/cli/cli.js run scripts/deployAll.js --network sepolia",
+        "deploy:mumbai": "cd contracts && node node_modules/hardhat/internal/cli/cli.js run scripts/deployAll.js --network mumbai",
+        "deploy:base-sepolia": "cd contracts && node node_modules/hardhat/internal/cli/cli.js run scripts/deployAll.js --network baseSepolia",
+        "verify:sepolia": "cd contracts && npx hardhat verify --network sepolia",
+        "verify:mumbai": "cd contracts && npx hardhat verify --network mumbai",
+        "lint": "eslint src/**/*.js",
+        "format": "prettier --write \"src/**/*.{js,css,html}\""
+    },
+    "keywords": [
+        "web3",
+        "nft",
+        "environment",
+        "carbon-offset",
+        "walletconnect",
+        "reown",
+        "blockchain"
+    ],
+    "author": "ChainTrees Team",
+    "license": "MIT",
+    "dependencies": {
+        "@reown/appkit": "^1.0.0",
+        "@reown/appkit-adapter-wagmi": "^1.0.0",
+        "wagmi": "^2.0.0",
+        "viem": "^2.0.0",
+        "@tanstack/react-query": "^5.0.0",
+        "chart.js": "^4.4.0"
+    },
+    "devDependencies": {
+        "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+        "@openzeppelin/contracts": "^5.0.0",
+        "@playwright/test": "^1.40.0",
+        "@vitest/ui": "^1.0.0",
+        "dotenv": "^17.2.3",
+        "eslint": "^8.55.0",
+        "hardhat": "^2.19.0",
+        "ipfs-http-client": "^60.0.0",
+        "prettier": "^3.1.0",
+        "vite": "^5.0.0",
+        "vitest": "^1.0.0"
+    }
 }

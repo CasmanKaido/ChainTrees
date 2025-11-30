@@ -214,7 +214,74 @@ bun run dev
 
 ---
 
+## 🚢 Deployment
 
+### Smart Contract Deployment
+
+```bash
+# Compile contracts
+npm run compile
+
+# Run tests
+npm run test:contracts
+
+# Deploy to testnet (e.g., Sepolia)
+npm run deploy:sepolia
+
+# Verify contracts on Etherscan
+npm run verify:sepolia
+```
+
+### Frontend Deployment
+
+```bash
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+
+# Deploy to Vercel/Netlify
+# Follow platform-specific instructions
+```
+
+### Deployed Contracts
+
+#### Sepolia Testnet
+- **ChainTree NFT**: `0x...` (Coming soon)
+- **TreeToken**: `0x...` (Coming soon)
+- **RewardSystem**: `0x...` (Coming soon)
+- **Achievements**: `0x...` (Coming soon)
+
+*Addresses will be updated after deployment*
+
+---
+
+## 🧪 Testing
+
+### Run All Tests
+```bash
+# Contract tests
+npm run test:contracts
+
+# Frontend tests (if implemented)
+npm test
+
+# E2E tests
+npm run test:e2e
+```
+
+### Manual Testing Checklist
+See [TESTING.md](TESTING.md) for comprehensive testing guide covering:
+- ✅ Wallet connection
+- ✅ Tree minting
+- ✅ Watering mechanics
+- ✅ Growth stages
+- ✅ Staking & rewards
+- ✅ Achievement badges
+- ✅ IPFS metadata upload
+
+---
 
 ## 🌟 Future Enhancements
 
