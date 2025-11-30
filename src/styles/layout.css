@@ -27,6 +27,36 @@
     background-clip: text;
 }
 
+/* Navigation Styles */
+.main-nav {
+    display: flex;
+    gap: var(--space-sm);
+    background: var(--surface);
+    padding: 4px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+}
+
+.nav-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    padding: 8px 16px;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.nav-btn:hover {
+    color: var(--text);
+}
+
+.nav-btn.active {
+    background: var(--primary);
+    color: white;
+}
+
 /* Footer Styles */
 .app-footer {
     text-align: center;
@@ -34,4 +64,16 @@
     color: var(--text-secondary);
     border-top: 1px solid var(--border);
     margin-top: auto;
+}
+
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        gap: var(--space-md);
+    }
+
+    .main-nav {
+        width: 100%;
+        justify-content: center;
+    }
 }

@@ -65,8 +65,6 @@ export class ContractService {
     async getTotalSupply() {
         try {
             const address = this.getAddress('ChainTree')
-            // Note: totalSupply might not be in the ABI if using Counters internally without public getter
-            // But we added it in our contract
             const supply = await readContract(wagmiConfig, {
                 address,
                 abi: ABIS.ChainTree,
@@ -76,6 +74,55 @@ export class ContractService {
         } catch (error) {
             console.error('Error fetching total supply:', error)
             return 0
+        }
+    }
+
+    async getUserTrees(address) {
+        try {
+            const contractAddress = this.getAddress('ChainTree')
+
+            // 1. Get token IDs owned by user
+            const tokenIds = await readContract(wagmiConfig, {
+                address: contractAddress,
+                abi: ABIS.ChainTree,
+                functionName: 'getTreesByOwner',
+                args: [address]
+            })
+
+            // 2. Fetch data for each tree
+            const trees = await Promise.all(
+                tokenIds.map(async (id) => {
+                    const data = await this.getTreeData(id)
+                    return {
+                        id: Number(id),
+                        ...data
+                    }
+                })
+            )
+
+            return trees
+        } catch (error) {
+            console.error('Error fetching user trees:', error)
+            return []
+        }
+    }
+
+    async waterTree(tokenId) {
+        try {
+            const address = this.getAddress('ChainTree')
+            console.log(`Watering tree ${tokenId}`)
+
+            const hash = await writeContract(wagmiConfig, {
+                address,
+                abi: ABIS.ChainTree,
+                functionName: 'waterTree',
+                args: [tokenId]
+            })
+
+            return hash
+        } catch (error) {
+            console.error('Error watering tree:', error)
+            throw error
         }
     }
 }
