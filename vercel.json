@@ -1,0 +1,36 @@
+{
+    "buildCommand": "npm run build",
+    "outputDirectory": "dist",
+    "devCommand": "npm run dev",
+    "installCommand": "npm install",
+    "framework": "vite",
+    "env": {
+        "VITE_WALLETCONNECT_PROJECT_ID": "@walletconnect_project_id",
+        "VITE_INFURA_API_KEY": "@infura_api_key",
+        "VITE_ALCHEMY_API_KEY": "@alchemy_api_key",
+        "VITE_PINATA_API_KEY": "@pinata_api_key",
+        "VITE_PINATA_SECRET_KEY": "@pinata_secret_key"
+    },
+    "regions": [
+        "iad1"
+    ],
+    "headers": [
+        {
+            "source": "/(.*)",
+            "headers": [
+                {
+                    "key": "X-Content-Type-Options",
+                    "value": "nosniff"
+                },
+                {
+                    "key": "X-Frame-Options",
+                    "value": "DENY"
+                },
+                {
+                    "key": "X-XSS-Protection",
+                    "value": "1; mode=block"
+                }
+            ]
+        }
+    ]
+}
