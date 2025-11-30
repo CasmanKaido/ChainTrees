@@ -1,71 +1,68 @@
 export class ProposalCard {
-    constructor(proposal, onVote) {
-        this.proposal = proposal;
-        this.onVote = onVote;
-    }
+  constructor(proposal, onVote) {
+    this.proposal = proposal;
+    this.onVote = onVote;
+  }
 
-    render() {
-        const { id, title, description, status, votesFor, votesAgainst, endDate } = this.proposal;
-        const totalVotes = votesFor + votesAgainst;
-        const percentFor = totalVotes > 0 ? (votesFor / totalVotes) * 100 : 0;
-        const percentAgainst = totalVotes > 0 ? (votesAgainst / totalVotes) * 100 : 0;
+  render() {
+    const totalVotes = this.proposal.forVotes + this.proposal.againstVotes + this.proposal.abstainVotes;
+    const forPercent = totalVotes > 0 ? (this.proposal.forVotes / totalVotes) * 100 : 0;
+    const againstPercent = totalVotes > 0 ? (this.proposal.againstVotes / totalVotes) * 100 : 0;
 
-        const isActive = status === 'active';
+    const timeLeft = new Date(this.proposal.endTime) - new Date();
+    const daysLeft = Math.ceil(timeLeft / (1000 * 60 * 60 * 24));
+    const isClosed = timeLeft <= 0 || this.proposal.status !== 'ACTIVE';
 
-        return `
-      <div class="proposal-card">
+    return `
+      <div class="proposal-card" id="prop-${this.proposal.id}">
         <div class="proposal-header">
-          <div>
-            <span class="proposal-status status-${status.toLowerCase()}">${status}</span>
-            <span style="color: var(--text-secondary); font-size: 0.8rem; margin-left: 1rem;">Ends: ${endDate}</span>
-          </div>
-          <span style="color: var(--text-secondary);">#${id}</span>
+          <span class="proposal-status ${isClosed ? 'status-closed' : 'status-active'}">
+            ${isClosed ? 'Closed' : 'Active'}
+          </span>
+          <span style="color:#94a3b8; font-size:0.85rem">
+            ${isClosed ? 'Ended' : `Ends in ${daysLeft} days`}
+          </span>
         </div>
 
-        <h3 class="proposal-title">${title}</h3>
-        <p class="proposal-desc">${description}</p>
+        <div class="proposal-title">${this.proposal.title}</div>
+        <div class="proposal-desc">${this.proposal.description}</div>
 
-        <div class="vote-bars">
-          <div class="vote-row">
-            <div class="vote-label">
-              <span>For</span>
-              <span>${votesFor.toLocaleString()} VP (${percentFor.toFixed(1)}%)</span>
-            </div>
-            <div class="vote-progress-bg">
-              <div class="vote-progress-fill fill-for" style="width: ${percentFor}%"></div>
-            </div>
-          </div>
-
-          <div class="vote-row">
-            <div class="vote-label">
-              <span>Against</span>
-              <span>${votesAgainst.toLocaleString()} VP (${percentAgainst.toFixed(1)}%)</span>
-            </div>
-            <div class="vote-progress-bg">
-              <div class="vote-progress-fill fill-against" style="width: ${percentAgainst}%"></div>
-            </div>
-          </div>
+        <div class="vote-bar-container">
+          <div class="vote-bar-for" style="width: ${forPercent}%"></div>
+          <div class="vote-bar-against" style="width: ${againstPercent}%"></div>
         </div>
 
-        ${isActive ? `
-          <div class="vote-actions">
-            <button class="vote-btn btn-for" data-id="${id}" data-vote="for">Vote For</button>
-            <button class="vote-btn btn-against" data-id="${id}" data-vote="against">Vote Against</button>
+        <div class="vote-stats">
+          <span style="color:#10b981">For: ${this.proposal.forVotes.toLocaleString()}</span>
+          <span style="color:#ef4444">Against: ${this.proposal.againstVotes.toLocaleString()}</span>
+        </div>
+
+        ${!isClosed ? `
+          <div style="display:flex; gap:1rem; margin-top:1.5rem">
+            <button class="vote-btn vote-for" data-id="${this.proposal.id}" data-choice="FOR">
+              Vote For
+            </button>
+            <button class="vote-btn vote-against" data-id="${this.proposal.id}" data-choice="AGAINST">
+              Vote Against
+            </button>
           </div>
         ` : ''}
       </div>
     `;
-    }
+  }
 
-    attachListeners(container) {
-        const forBtn = container.querySelector(`.btn-for[data-id="${this.proposal.id}"]`);
-        const againstBtn = container.querySelector(`.btn-against[data-id="${this.proposal.id}"]`);
+  attachListeners(container) {
+    const card = container.querySelector(`#prop-${this.proposal.id}`);
+    if (!card) return;
 
-        if (forBtn) {
-            forBtn.addEventListener('click', () => this.onVote(this.proposal.id, true));
-        }
-        if (againstBtn) {
-            againstBtn.addEventListener('click', () => this.onVote(this.proposal.id, false));
-        }
+    const forBtn = card.querySelector('.vote-for');
+    const againstBtn = card.querySelector('.vote-against');
+
+    if (forBtn) {
+      forBtn.addEventListener('click', () => this.onVote(this.proposal.id, 'FOR'));
     }
+    if (againstBtn) {
+      againstBtn.addEventListener('click', () => this.onVote(this.proposal.id, 'AGAINST'));
+    }
+  }
 }

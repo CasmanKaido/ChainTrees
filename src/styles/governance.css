@@ -144,3 +144,31 @@
     min-height: 150px;
     resize: vertical;
 }
+/* Voting Buttons */
+.vote-btn {
+  flex: 1;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.1s, opacity 0.2s;
+}
+
+.vote-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+.vote-for {
+  background: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.vote-against {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
