@@ -54,7 +54,10 @@ class ChainTreesApp {
     this.renderLayout()
     this.initializeWallet()
     this.setupNavigation()
-    this.loadPage('mint')
+    this.loadPage('landing') // Start with landing page
+
+    // Make app globally available for landing page CTAs
+    window.app = this;
   }
 
   renderLayout() {
@@ -65,7 +68,8 @@ class ChainTreesApp {
           <div class="header-content">
             <div class="logo">🌳 ChainTrees</div>
             <nav class="main-nav">
-              <button class="nav-btn active" data-page="mint">Plant</button>
+              <button class="nav-btn active" data-page="landing">Home</button>
+              <button class="nav-btn" data-page="mint">Plant</button>
               <button class="nav-btn" data-page="dashboard">My Forest</button>
               <button class="nav-btn" data-page="rewards">Rewards</button>
               <button class="nav-btn" data-page="achievements">Badges</button>
@@ -115,7 +119,10 @@ class ChainTreesApp {
     try {
       if (this.currentPage && this.currentPage.destroy) this.currentPage.destroy()
       let PageClass
-      if (pageName === 'mint') {
+      if (pageName === 'landing') {
+        const { LandingPage } = await import('./pages/LandingPage.js')
+        PageClass = LandingPage
+      } else if (pageName === 'mint') {
         const { MintPage } = await import('./pages/MintPage.js')
         PageClass = MintPage
       } else if (pageName === 'marketplace') {
