@@ -43,6 +43,30 @@ export class GovernanceSystem {
         return proposal;
     }
 
+    /**
+   * Cast a vote on a proposal
+   * @param {string} proposalId ID of the proposal
+   * @param {string} voter Address of the voter
+   * @param {string} choice 'FOR', 'AGAINST', 'ABSTAIN'
+   * @param {number} weight Voting power (default 1)
+   */
+    vote(proposalId, voter, choice, weight = 1) {
+        const proposal = this.proposals.find(p => p.id === proposalId);
+        if (!proposal) throw new Error('Proposal not found');
+        if (proposal.status !== 'ACTIVE') throw new Error('Proposal is not active');
+        if (new Date(proposal.endTime) < new Date()) throw new Error('Voting period ended');
+        if (proposal.voters[voter]) throw new Error('Already voted');
+
+        proposal.voters[voter] = choice;
+
+        if (choice === 'FOR') proposal.forVotes += weight;
+        else if (choice === 'AGAINST') proposal.againstVotes += weight;
+        else if (choice === 'ABSTAIN') proposal.abstainVotes += weight;
+
+        this.save();
+        return proposal;
+    }
+
     getProposals(filter = 'ALL') {
         if (filter === 'ACTIVE') {
             return this.proposals.filter(p => p.status === 'ACTIVE' && new Date(p.endTime) > new Date());
