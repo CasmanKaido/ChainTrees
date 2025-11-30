@@ -1,32 +1,34 @@
 import { levelingSystem } from '../utils/levelingSystem.js';
 import { friendSystem } from '../utils/friendSystem.js';
+import { UserTransactions } from '../components/UserTransactions.js';
 import '../styles/profile.css';
 
 export class PublicProfilePage {
-    constructor(containerId) {
-        this.containerId = containerId;
-        this.currentAddress = null;
-    }
+  constructor(containerId) {
+    this.containerId = containerId;
+    this.currentAddress = null;
+    this.transactions = new UserTransactions('profile-transactions');
+  }
 
-    async render(address) {
-        this.currentAddress = address;
-        const container = document.getElementById(this.containerId);
-        if (!container) return;
+  async render(address) {
+    this.currentAddress = address;
+    const container = document.getElementById(this.containerId);
+    if (!container) return;
 
-        // Mock data for now - in real app, fetch from contract/backend
-        const userData = {
-            address: address,
-            xp: 12500,
-            trees: 42,
-            carbonOffset: 850,
-            joinDate: '2023-09-15'
-        };
+    // Mock data for now - in real app, fetch from contract/backend
+    const userData = {
+      address: address,
+      xp: 12500,
+      trees: 42,
+      carbonOffset: 850,
+      joinDate: '2023-09-15'
+    };
 
-        const level = levelingSystem.getLevel(userData.xp);
-        const title = levelingSystem.getTitle(level);
-        const isFriend = friendSystem.isFriend(address);
+    const level = levelingSystem.getLevel(userData.xp);
+    const title = levelingSystem.getTitle(level);
+    const isFriend = friendSystem.isFriend(address);
 
-        container.innerHTML = `
+    container.innerHTML = `
       <div class="profile-container">
         <div class="profile-header-card">
           <div class="profile-avatar-large">
@@ -56,19 +58,19 @@ export class PublicProfilePage {
           </div>
           <div class="profile-actions">
             ${!isFriend
-                ? `<button class="add-btn" onclick="window.addFriend('${address}')">Add Friend</button>`
-                : `<button class="add-btn" style="background:#475569" disabled>Friends</button>`
-            }
+        ? `<button class="add-btn" onclick="window.addFriend('${address}')">Add Friend</button>`
+        : `<button class="add-btn" style="background:#475569" disabled>Friends</button>`
+      }
           </div>
         </div>
 
         <div class="profile-tabs">
-          <button class="profile-tab active">Forest</button>
-          <button class="profile-tab">Badges</button>
-          <button class="profile-tab">Activity</button>
+          <button class="profile-tab active" onclick="window.switchProfileTab('forest', event)">Forest</button>
+          <button class="profile-tab" onclick="window.switchProfileTab('badges', event)">Badges</button>
+          <button class="profile-tab" onclick="window.switchProfileTab('activity', event)">Activity</button>
         </div>
 
-        <div class="forest-grid">
+        <div id="profile-content-forest" class="forest-grid">
           <!-- Mock Trees -->
           ${Array(8).fill(0).map((_, i) => `
             <div class="forest-item">
@@ -78,16 +80,30 @@ export class PublicProfilePage {
             </div>
           `).join('')}
         </div>
+
+        <div id="profile-content-activity" style="display:none">
+          <div id="profile-transactions"></div>
+        </div>
       </div>
     `;
 
-        window.addFriend = (addr) => {
-            try {
-                friendSystem.addFriend(addr);
-                this.render(addr); // Re-render to update button
-            } catch (e) {
-                alert(e.message);
-            }
-        };
-    }
+    this.transactions.render(address);
+
+    window.addFriend = (addr) => {
+      try {
+        friendSystem.addFriend(addr);
+        this.render(addr); // Re-render to update button
+      } catch (e) {
+        alert(e.message);
+      }
+    };
+
+    window.switchProfileTab = (tab, event) => {
+      document.getElementById('profile-content-forest').style.display = tab === 'forest' ? 'grid' : 'none';
+      document.getElementById('profile-content-activity').style.display = tab === 'activity' ? 'block' : 'none';
+
+      document.querySelectorAll('.profile-tab').forEach(t => t.classList.remove('active'));
+      event.target.classList.add('active');
+    };
+  }
 }
