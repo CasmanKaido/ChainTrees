@@ -3,6 +3,7 @@ import { CreateProposalModal } from '../components/CreateProposalModal.js';
 import { DelegateModal } from '../components/DelegateModal.js';
 import { governanceSystem } from '../utils/governanceSystem.js';
 import { tokenSystem } from '../utils/tokenSystem.js';
+import { treasurySystem } from '../utils/treasurySystem.js';
 import { walletState } from '../utils/walletState.js';
 import '../styles/governance.css';
 
@@ -28,6 +29,7 @@ export class GovernancePage {
     const proposals = governanceSystem.getProposals();
     const userAddress = '0xUserWallet'; // Mock for now
     const votingPower = tokenSystem.getVotes(userAddress);
+    const treasuryBalance = treasurySystem.getBalance();
 
     container.innerHTML = `
       <div class="governance-container">
@@ -61,6 +63,10 @@ export class GovernancePage {
           <div class="gov-stat-item">
             <span class="gov-stat-value">${proposals.length}</span>
             <span class="gov-stat-label">Total Proposals</span>
+          </div>
+          <div class="gov-stat-item">
+            <span class="gov-stat-value">${treasuryBalance.toLocaleString()} Ξ</span>
+            <span class="gov-stat-label">Treasury Balance</span>
           </div>
         </div>
 
