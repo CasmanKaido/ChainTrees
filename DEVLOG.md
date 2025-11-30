@@ -31,47 +31,71 @@
 ...
 
 ## Commit 12: Achievements & Badges System ✅
+...
+
+## Commit 13: Enhanced Tree Growth & Watering System ✅
 
 **Date**: November 28, 2025  
 **Branch**: `main`
 
 ### Changes Made
 
-#### Frontend Logic
-- ✅ `src/services/contractService.js` - Added Achievement Logic
-  - `getAchievements`: Batch fetches ERC-1155 balances for all badge IDs
-  - `mintBadge`: Allows users to mint badges (simulated eligibility check)
+#### Tree Visualization Enhancements
+- ✅ `src/generators/treeGenerator.js` - Enhanced SVG Generation
+  - **Dramatic Stage Differences**: Seedlings are tiny, Ancient trees are massive
+  - **Stage-Based Complexity**: 
+    - Seedling (Stage 0): Simple thin stem with few leaves
+    - Sapling (Stage 1): Thicker trunk, more foliage
+    - Mature (Stage 2): Visible branches, dense canopy
+    - Ancient (Stage 3): Multiple branches, sparkle effects, maximum size
+  - **Visual Polish**: Added animated sparkles for Ancient trees
+  - **getStageName()**: Utility method for consistent stage naming
 
-#### UI Components
-- ✅ `src/pages/AchievementsPage.js` - Badges Interface
-  - **Progress Tracking**: Visual progress bar for unlocked badges
-  - **Badge Grid**: Displays all 5 available badges
-  - **Lock/Unlock States**: Visual distinction for earned badges
-  - **Minting Flow**: Button to mint unlocked badges
+#### Dashboard Improvements
+- ✅ `src/pages/DashboardPage.js` - Growth & Watering Features
+  - **Watering Cooldown**: 24-hour timer display with countdown
+  - **Growth Progress Bar**: Visual progress toward next stage
+  - **Stage Badges**: Color-coded badges for each growth stage
+  - **Progress Hints**: "X/Y waters to next stage" indicator
+  - **Ancient Badge**: Special ⭐ badge for fully grown trees
+  - **Cooldown Timer**: Real-time countdown display
 
-- ✅ `src/styles/achievements.css` - Achievement Styling
-  - Card hover effects
-  - Grayscale filter for locked badges
-  - Animated progress bar
-
-#### Application Updates
-- ✅ `src/main.js` - Navigation Update
-  - Added "Badges" tab to main navigation
-  - Integrated AchievementsPage into routing system
+#### Styling
+- ✅ `src/styles/dashboard.css` - Enhanced Tree Cards
+  - Stage-specific badge colors (green → blue → purple → gold)
+  - Animated progress bars with gradient fills
+  - Pulsing animation for Ancient badge
+  - Cooldown timer styling
+  - Growth progress container with hints
 
 ### Features Implemented
 
-1. **Gamification**
-   - Users are rewarded for their engagement (Planting, Watering, Holding)
-   - Visual collection of milestones
+1. **Visual Growth Progression**
+   - Trees visually transform as they grow
+   - Each stage has unique characteristics
+   - Ancient trees have special sparkle effects
 
-2. **ERC-1155 Integration**
-   - Efficient batch fetching of token balances
-   - Support for semi-fungible tokens (badges)
+2. **Watering Mechanics**
+   - 24-hour cooldown enforcement
+   - Real-time countdown display
+   - Clear visual feedback on button state
+
+3. **Growth Tracking**
+   - Progress bars show advancement to next stage
+   - Water count requirements displayed
+   - Fully grown trees marked as complete
+
+### User Experience Improvements
+
+- **Engagement**: Users can see their trees grow over time
+- **Clarity**: Progress bars make growth requirements transparent
+- **Anticipation**: Cooldown timers create return-to-play incentives
+- **Achievement**: Ancient trees feel special and rewarding
 
 ### Next Steps
 
-**Proceed to Commit 13**: Responsive Design & Mobile Optimization
-- Audit all pages for mobile responsiveness
-- Implement hamburger menu for mobile navigation
-- Optimize touch targets and layout
+**Proceed to Commit 14**: IPFS Integration & Metadata
+- Upload tree metadata to IPFS
+- Store SVG images on IPFS
+- Update token URIs to point to IPFS
+- Implement metadata refresh mechanism

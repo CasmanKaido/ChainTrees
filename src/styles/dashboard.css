@@ -115,9 +115,18 @@
     color: var(--text-secondary);
 }
 
+.detail-item {
+    display: flex;
+    align-items: center;
+}
+
 .detail-item span {
     color: var(--text);
     font-weight: 600;
+}
+
+.detail-icon {
+    margin-right: 4px;
 }
 
 .water-btn {
@@ -147,6 +156,12 @@
     filter: grayscale(1);
 }
 
+.water-btn.disabled {
+    background: rgba(245, 158, 11, 0.1);
+    color: #f59e0b;
+    border-color: rgba(245, 158, 11, 0.2);
+}
+
 /* Empty State */
 .empty-state {
     text-align: center;
@@ -165,4 +180,122 @@
 .empty-text {
     color: var(--text-secondary);
     margin-bottom: var(--space-md);
+}
+
+/* Growth Progress */
+.tree-stage-info {
+    margin-bottom: var(--space-md);
+}
+
+.stage-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: var(--space-sm);
+}
+
+.stage-badge.stage-0 {
+    background: rgba(34, 197, 94, 0.15);
+    color: #22c55e;
+}
+
+.stage-badge.stage-1 {
+    background: rgba(59, 130, 246, 0.15);
+    color: #3b82f6;
+}
+
+.stage-badge.stage-2 {
+    background: rgba(168, 85, 247, 0.15);
+    color: #a855f7;
+}
+
+.stage-badge.stage-3 {
+    background: rgba(251, 191, 36, 0.15);
+    color: #fbbf24;
+}
+
+.growth-progress {
+    background: var(--surface-light);
+    padding: var(--space-sm);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+}
+
+.progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--text-secondary);
+}
+
+.progress-bar-bg {
+    height: 6px;
+    background: var(--surface);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 4px;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: var(--gradient-primary);
+    border-radius: 3px;
+    transition: width 0.5s ease-out;
+}
+
+.progress-hint {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+.fully-grown {
+    text-align: center;
+    padding: var(--space-sm);
+    background: rgba(251, 191, 36, 0.1);
+    border-radius: var(--radius-md);
+    color: #fbbf24;
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+/* Ancient Badge */
+.ancient-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(251, 191, 36, 0.95);
+    color: #78350f;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(251, 191, 36, 0.3);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.05);
+        opacity: 0.9;
+    }
+}
+
+/* Cooldown Timer */
+.cooldown-timer {
+    font-weight: 700;
+    color: #f59e0b;
 }
