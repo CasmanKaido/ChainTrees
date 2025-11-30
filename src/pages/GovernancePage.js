@@ -2,13 +2,29 @@ import { ProposalCard } from '../components/ProposalCard.js';
 import { CreateProposalModal } from '../components/CreateProposalModal.js';
 import { governanceSystem } from '../utils/governanceSystem.js';
 import { walletState } from '../utils/walletState.js';
-if (governanceSystem.getProposals().length === 0) {
-    this.generateMockProposals();
-}
+import '../styles/governance.css';
 
-const proposals = governanceSystem.getProposals();
+export class GovernancePage {
+    constructor(containerId) {
+        this.containerId = containerId;
+        this.modal = new CreateProposalModal();
+        // Expose refresh for modal
+        window.refreshGovernance = () => this.render();
+        window.executeProposal = (id) => this.handleExecute(id);
+    }
 
-container.innerHTML = `
+    async render() {
+        const container = document.getElementById(this.containerId);
+        if (!container) return;
+
+        // Generate mock proposals if empty
+        if (governanceSystem.getProposals().length === 0) {
+            this.generateMockProposals();
+        }
+
+        const proposals = governanceSystem.getProposals();
+
+        container.innerHTML = `
       <div class="governance-container">
         <div class="gov-header">
           <div>
@@ -43,57 +59,70 @@ container.innerHTML = `
       </div>
     `;
 
-this.renderProposals(proposals);
-this.attachListeners();
+        this.renderProposals(proposals);
+        this.attachListeners();
     }
 
-renderProposals(proposals) {
-    const list = document.getElementById('proposals-list');
-    if (!list) return;
+    renderProposals(proposals) {
+        const list = document.getElementById('proposals-list');
+        if (!list) return;
 
-    list.innerHTML = proposals.map(prop => {
-        const component = new ProposalCard(prop, (id, choice) => this.handleVote(id, choice));
-        return component.render();
-    }).join('');
+        list.innerHTML = proposals.map(prop => {
+            const component = new ProposalCard(prop, (id, choice) => this.handleVote(id, choice));
+            return component.render();
+        }).join('');
 
-    proposals.forEach(prop => {
-        const component = new ProposalCard(prop, (id, choice) => this.handleVote(id, choice));
-        component.attachListeners(list);
-    });
-}
-
-attachListeners() {
-    const btn = document.getElementById('new-prop-btn');
-    if (btn) {
-        btn.addEventListener('click', () => {
-            const account = walletState.getAccount();
-            /*
-            if (!account.isConnected) {
-              alert('Please connect your wallet');
-              return;
-            }
-            */
-            this.modal.open();
+        proposals.forEach(prop => {
+            const component = new ProposalCard(prop, (id, choice) => this.handleVote(id, choice));
+            component.attachListeners(list);
         });
     }
-}
+
+    attachListeners() {
+        const btn = document.getElementById('new-prop-btn');
+        if (btn) {
+            btn.addEventListener('click', () => {
+                this.modal.open();
+            });
+        }
+    }
 
     async handleVote(id, choice) {
-    /*
-    const account = walletState.getAccount();
-    if (!account.isConnected) {
-      alert('Please connect your wallet');
-      return;
-    }
-    */
-    const account = { address: '0xUserWallet' }; // Mock for now
+        const account = { address: '0xUserWallet' }; // Mock for now
 
-    if (!confirm(`Vote ${choice} on proposal?`)) return;
-    governanceSystem.createProposal(
-        'Add Redwood Species',
-        'Introduce the Redwood tree species as a Legendary rarity item.',
-        '0xDaoMember2',
-        3
-    );
-}
+        if (!confirm(`Vote ${choice} on proposal?`)) return;
+
+        try {
+            governanceSystem.vote(id, account.address, choice, 1250); // Mock 1250 VP
+            alert('Vote cast successfully! 🗳️');
+            this.render(); // Refresh
+        } catch (error) {
+            alert('Voting failed: ' + error.message);
+        }
+    }
+
+    async handleExecute(id) {
+        try {
+            governanceSystem.executeProposal(id);
+            alert('Proposal executed successfully! ⚡');
+            this.render();
+        } catch (error) {
+            alert('Execution failed: ' + error.message);
+        }
+    }
+
+    generateMockProposals() {
+        governanceSystem.createProposal(
+            'Increase Staking APY to 8%',
+            'Proposal to increase the base staking APY from 5% to 8% to attract more long-term holders.',
+            '0xDaoMember1',
+            7
+        );
+        governanceSystem.createProposal(
+            'Add Redwood Species',
+            'Introduce the Redwood tree species as a Legendary rarity item.',
+            '0xDaoMember2',
+            3
+        );
+    }
 }
