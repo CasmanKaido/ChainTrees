@@ -20,6 +20,7 @@ import './styles/gifting.css'
 import './styles/marketplace.css'
 import './styles/auction.css'
 import './styles/offers.css'
+import './styles/governance.css'
 import './config/walletConfig.js'
 
 console.log('🌳 ChainTrees - Initializing...')
