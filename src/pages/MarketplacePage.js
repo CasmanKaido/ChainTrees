@@ -1,128 +1,87 @@
-import { MarketplaceListing } from '../components/MarketplaceListing.js';
-import { ListTreeModal } from '../components/ListTreeModal.js';
-import { walletState } from '../utils/walletState.js';
-import '../styles/marketplace.css';
+import { marketplaceService } from '../services/marketplaceService.js';
+import { MarketplaceGrid } from '../components/MarketplaceGrid.js';
 
 export class MarketplacePage {
     constructor(containerId) {
         this.containerId = containerId;
-        this.listings = []; // Mock data
-        this.listModal = new ListTreeModal((id, price) => this.handleList(id, price));
+        this.grid = new MarketplaceGrid('market-listings-container');
     }
 
     async render() {
         const container = document.getElementById(this.containerId);
         if (!container) return;
 
-        // Mock listings
-        this.listings = [
-            { id: 101, price: '0.05', seller: '0x123...abc', treeData: { species: 0, generationSeed: 123, growthStage: 2 } },
-            { id: 102, price: '0.12', seller: '0x456...def', treeData: { species: 2, generationSeed: 456, growthStage: 3 } },
-            { id: 103, price: '0.08', seller: '0x789...ghi', treeData: { species: 1, generationSeed: 789, growthStage: 1 } }
-        ];
-
         container.innerHTML = `
-      <div class="marketplace-page">
-        <div class="marketplace-header">
+      <div class="market-container">
+        <div class="market-header">
           <div>
-            <h1 class="marketplace-title">Marketplace</h1>
-            <p style="color: var(--text-secondary)">Buy and sell unique trees from the community</p>
+            <h1 style="margin:0; font-size:2rem; background:linear-gradient(45deg, #10b981, #3b82f6); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">
+              NFT Marketplace
+            </h1>
+            <p style="color:#94a3b8; margin-top:0.5rem">Buy, sell, and trade unique digital trees.</p>
+          </div>
+          <button class="add-btn" onclick="window.openCreateListing()">
+            + Create Listing
+          </button>
+        </div>
+
+        <div class="market-filters">
+          <div class="filter-group">
+            <span style="color:#94a3b8">Sort by:</span>
+            <select class="filter-select" id="market-sort">
+              <option value="newest">Newest</option>
+              <option value="price_asc">Price: Low to High</option>
+              <option value="price_desc">Price: High to Low</option>
+            </select>
           </div>
           
-          <div class="marketplace-stats">
-            <div class="market-stat">
-              <span class="market-stat-label">Floor Price</span>
-              <span class="market-stat-value">0.05 ETH</span>
-            </div>
-            <div class="market-stat">
-              <span class="market-stat-label">Volume</span>
-              <span class="market-stat-value">12.5 ETH</span>
-            </div>
-            <button class="buy-btn" id="sell-tree-btn" style="width: auto; padding: 0.5rem 1.5rem;">
-              Sell Tree
-            </button>
+          <div class="filter-group">
+            <span style="color:#94a3b8">Species:</span>
+            <select class="filter-select" id="market-species">
+              <option value="">All Species</option>
+              <option value="Oak">Oak</option>
+              <option value="Pine">Pine</option>
+              <option value="Maple">Maple</option>
+              <option value="Birch">Birch</option>
+            </select>
           </div>
         </div>
 
-        <div id="listings-grid" class="listings-grid">
-          <!-- Listings injected here -->
-        </div>
+        <div id="market-listings-container"></div>
       </div>
     `;
 
-        this.renderListings();
+        this.grid.render();
         this.attachListeners();
     }
 
-    renderListings() {
-        const grid = document.getElementById('listings-grid');
-        if (!grid) return;
-
-        grid.innerHTML = this.listings.map(listing => {
-            const component = new MarketplaceListing(listing, (item) => this.handleBuy(item));
-            return component.render();
-        }).join('');
-
-        // Attach listeners
-        this.listings.forEach(listing => {
-            const component = new MarketplaceListing(listing, (item) => this.handleBuy(item));
-            component.attachListeners(grid);
-        });
-    }
-
     attachListeners() {
-        const sellBtn = document.getElementById('sell-tree-btn');
-        if (sellBtn) {
-            sellBtn.addEventListener('click', () => {
-                const account = walletState.getAccount();
-                if (!account.isConnected) {
-                    alert('Please connect your wallet first');
-                    return;
+        document.getElementById('market-sort').addEventListener('change', (e) => {
+            this.grid.updateFilters({ sort: e.target.value });
+        });
+
+        document.getElementById('market-species').addEventListener('change', (e) => {
+            this.grid.updateFilters({ species: e.target.value });
+        });
+
+        // Global buy handler
+        window.buyListing = async (listingId) => {
+            if (confirm('Confirm purchase? This will deduct ETH from your wallet.')) {
+                try {
+                    // Mock buyer address
+                    await marketplaceService.buyListing(listingId, '0xUserWallet');
+                    alert('Purchase successful! 🌳');
+                    this.grid.render(); // Refresh grid
+                } catch (e) {
+                    alert(e.message);
                 }
-                // Mock user trees
-                const mockTrees = [
-                    { id: 1, species: 'Oak' },
-                    { id: 2, species: 'Pine' }
-                ];
-                this.listModal.open(mockTrees);
-            });
-        }
-    }
+            }
+        };
 
-    async handleBuy(listing) {
-        const account = walletState.getAccount();
-        if (!account.isConnected) {
-            alert('Please connect your wallet to buy');
-            return;
-        }
-
-        if (!confirm(`Buy Tree #${listing.id} for ${listing.price} ETH?`)) return;
-
-        try {
-            // await contractService.buyTree(listing.id, listing.price);
-            alert('Purchase successful! (Mock)');
-            // Remove listing
-            this.listings = this.listings.filter(l => l.id !== listing.id);
-            this.renderListings();
-        } catch (error) {
-            alert('Purchase failed: ' + error.message);
-        }
-    }
-
-    async handleList(treeId, price) {
-        try {
-            // await contractService.listTree(treeId, price);
-            alert(`Tree #${treeId} listed for ${price} ETH! (Mock)`);
-            // Add to listings (mock)
-            this.listings.unshift({
-                id: treeId,
-                price: price,
-                seller: walletState.getAccount().address,
-                treeData: { species: 0, generationSeed: Math.random(), growthStage: 1 }
-            });
-            this.renderListings();
-        } catch (error) {
-            alert('Listing failed: ' + error.message);
-        }
+        // Global create handler (placeholder)
+        window.openCreateListing = () => {
+            alert('Select a tree from "My Forest" to list it for sale.');
+            // Logic to open modal would go here
+        };
     }
 }
