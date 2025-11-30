@@ -247,11 +247,11 @@ npm run preview
 
 ### Deployed Contracts
 
-#### Sepolia Testnet
-- **ChainTree NFT**: `0x...` (Coming soon)
-- **TreeToken**: `0x...` (Coming soon)
-- **RewardSystem**: `0x...` (Coming soon)
-- **Achievements**: `0x...` (Coming soon)
+#### Base Sepolia Testnet
+- **ChainTree NFT**: `0xADbe79538107df6cC8cE28C8faf0DB7397f3CD89`
+- **TreeToken**: `0x5a95d4A11b975e4d0E518a38b388302c433dC5cE`
+- **RewardSystem**: `0x280298D01194142B42463A9A69fB4e91490BC581`
+- **Achievements**: `0xfEBDD786A1Ba3CF8345FEbbFeEd2017429080F6b`
 
 *Addresses will be updated after deployment*
 
