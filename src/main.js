@@ -1,5 +1,7 @@
 import { WalletConnect } from './components/WalletConnect.js'
 import { InstallPrompt } from './components/InstallPrompt.js';
+import { errorBoundary } from './utils/errorBoundary.js';
+import { performanceMonitor } from './utils/performanceMonitor.js';
 import './styles/main.css'
 import './styles/layout.css'
 import './styles/mobile.css'
@@ -24,6 +26,11 @@ import './styles/governance.css'
 import './config/walletConfig.js'
 
 console.log('🌳 ChainTrees - Initializing...')
+
+// Register error handler
+errorBoundary.onError((error) => {
+  performanceMonitor.trackError(error.error || new Error(error.message), error.type);
+});
 
 class ChainTreesApp {
   constructor() {
