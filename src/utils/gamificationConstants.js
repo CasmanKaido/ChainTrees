@@ -44,3 +44,10 @@ export const DAILY_REWARDS = [
     75, // Day 6
     100 // Day 7 (Big Reward)
 ];
+
+export const STREAK_BONUSES = {
+    3: 1.1, // 10% XP boost
+    7: 1.25, // 25% XP boost
+    14: 1.5, // 50% XP boost
+    30: 2.0  // 2x XP boost
+};
