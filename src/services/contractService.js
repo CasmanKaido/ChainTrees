@@ -152,6 +152,125 @@ export class ContractService {
             throw error
         }
     }
+
+    // --- Staking & Rewards ---
+
+    async stakeTree(tokenId) {
+        try {
+            const rewardAddress = this.getAddress('RewardSystem')
+            const treeAddress = this.getAddress('ChainTree')
+
+            // 1. Approve transfer first
+            console.log(`Approving transfer for tree ${tokenId}`)
+            const approveHash = await writeContract(wagmiConfig, {
+                address: treeAddress,
+                abi: ABIS.ChainTree,
+                functionName: 'approve',
+                args: [rewardAddress, tokenId]
+            })
+            await this.waitForTransaction(approveHash)
+
+            // 2. Stake
+            console.log(`Staking tree ${tokenId}`)
+            const hash = await writeContract(wagmiConfig, {
+                address: rewardAddress,
+                abi: ABIS.RewardSystem,
+                functionName: 'stake',
+                args: [tokenId]
+            })
+
+            return hash
+        } catch (error) {
+            console.error('Error staking tree:', error)
+            throw error
+        }
+    }
+
+    async unstakeTree(tokenId) {
+        try {
+            const address = this.getAddress('RewardSystem')
+            const hash = await writeContract(wagmiConfig, {
+                address,
+                abi: ABIS.RewardSystem,
+                functionName: 'unstake',
+                args: [tokenId]
+            })
+            return hash
+        } catch (error) {
+            console.error('Error unstaking tree:', error)
+            throw error
+        }
+    }
+
+    async claimReward(tokenId) {
+        try {
+            const address = this.getAddress('RewardSystem')
+            const hash = await writeContract(wagmiConfig, {
+                address,
+                abi: ABIS.RewardSystem,
+                functionName: 'claimReward',
+                args: [tokenId]
+            })
+            return hash
+        } catch (error) {
+            console.error('Error claiming reward:', error)
+            throw error
+        }
+    }
+
+    async getStakedTrees(address) {
+        try {
+            const rewardAddress = this.getAddress('RewardSystem')
+
+            // Get staked token IDs
+            const tokenIds = await readContract(wagmiConfig, {
+                address: rewardAddress,
+                abi: ABIS.RewardSystem,
+                functionName: 'getStakedTokens',
+                args: [address]
+            })
+
+            // Fetch data for each staked tree
+            const trees = await Promise.all(
+                tokenIds.map(async (id) => {
+                    const data = await this.getTreeData(id)
+                    const reward = await readContract(wagmiConfig, {
+                        address: rewardAddress,
+                        abi: ABIS.RewardSystem,
+                        functionName: 'calculateReward',
+                        args: [id]
+                    })
+
+                    return {
+                        id: Number(id),
+                        pendingReward: Number(reward),
+                        ...data
+                    }
+                })
+            )
+
+            return trees
+        } catch (error) {
+            console.error('Error fetching staked trees:', error)
+            return []
+        }
+    }
+
+    async getRewardBalance(address) {
+        try {
+            const tokenAddress = this.getAddress('TreeToken')
+            const balance = await readContract(wagmiConfig, {
+                address: tokenAddress,
+                abi: ABIS.TreeToken,
+                functionName: 'balanceOf',
+                args: [address]
+            })
+            return Number(balance)
+        } catch (error) {
+            console.error('Error fetching token balance:', error)
+            return 0
+        }
+    }
 }
 
 export const contractService = new ContractService()
