@@ -7,6 +7,7 @@ import { MetadataPage } from './pages/MetadataPage.js'
 import { GalleryPage } from './pages/GalleryPage.js'
 import { ImpactDashboard } from './pages/ImpactDashboard.js'
 import { StakingDashboard } from './pages/StakingDashboard.js'
+import { MarketplacePage } from './pages/MarketplacePage.js'
 import { WalletConnect } from './components/WalletConnect.js'
 import './styles/main.css'
 import './styles/layout.css'
@@ -53,6 +54,7 @@ class ChainTreesApp {
               <button class="nav-btn" data-page="gallery">Gallery</button>
               <button class="nav-btn" data-page="impact">Impact</button>
               <button class="nav-btn" data-page="staking">Staking</button>
+              <button class="nav-btn" data-page="marketplace">Market</button>
             </nav>
             <div id="wallet-connect-container"></div>
           </div>
@@ -117,6 +119,9 @@ class ChainTreesApp {
       this.currentPage.render()
     } else if (pageName === 'staking') {
       this.currentPage = new StakingDashboard('main-content')
+      this.currentPage.render()
+    } else if (pageName === 'marketplace') {
+      this.currentPage = new MarketplacePage('main-content')
       this.currentPage.render()
     }
   }
