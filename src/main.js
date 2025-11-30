@@ -76,23 +76,6 @@ class ChainTreesApp {
       if (pageName === 'mint') {
         const { MintPage } = await import('./pages/MintPage.js')
         PageClass = MintPage
-      } else if (pageName === 'marketplace') {
-        const { MarketplacePage } = await import('./pages/MarketplacePage.js')
-        PageClass = MarketplacePage
-      } else if (pageName === 'profile') {
-        const { PublicProfilePage } = await import('./pages/PublicProfilePage.js')
-        PageClass = PublicProfilePage
-        // Special case: render with address if provided, else current user
-        // For now just render generic
-      } else {
-        // fallback – just show a placeholder
-        mainContent.innerHTML = `< p > Page "${pageName}" not available in this test build.</p > `
-        return
-      }
-      this.currentPage = new PageClass('main-content')
-      await this.currentPage.render()
-    } catch (e) {
-      console.error(e)
     }
   }
 }
