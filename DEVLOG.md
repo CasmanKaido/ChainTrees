@@ -16,56 +16,39 @@
 ...
 
 ## Commit 7: Tree Minting Interface ✅
+...
+
+## Commit 8: Procedural Tree SVG Generator ✅
 
 **Date**: November 28, 2025  
 **Branch**: `main`
 
 ### Changes Made
 
-#### Frontend Architecture
-- ✅ `src/services/contractService.js` - Blockchain interaction layer
-  - Handles `mintTree` transactions
-  - Manages contract addresses and ABIs
-  - Transaction receipt waiting
+#### Generators
+- ✅ `src/generators/treeGenerator.js` - Procedural SVG logic
+  - Deterministic random number generation based on seed
+  - Unique visual traits for 8 tree species
+  - Dynamic growth stages (Sapling → Ancient)
+  - Color palettes for trunk and leaves
+  - Shadow and filter effects
 
-#### UI Components
-- ✅ `src/pages/MintPage.js` - Main minting interface
-  - Grid display of 8 tree species
-  - Interactive mint cards with hover effects
-  - Transaction status modal (Pending, Success, Error)
-  
-- ✅ `src/styles/mint.css` - Minting specific styles
-  - Responsive grid layout
-  - Card animations
-  - Modal styling
-
-- ✅ `src/styles/layout.css` - Global layout styles
-  - Sticky header with blur effect
-  - Responsive footer
-
-#### Application Updates
-- ✅ `src/main.js` - Updated routing logic
-  - Renders full app layout (Header, Main, Footer)
-  - Loads MintPage by default
-  - Integrates WalletConnect in header
+#### UI Updates
+- ✅ `src/pages/MintPage.js` - Integrated generator
+  - Replaced static icons with dynamic SVG previews
+  - Trees now look different based on their ID
 
 ### Features Implemented
 
-1. **Minting Experience**
-   - User can browse tree species
-   - View carbon offset stats per tree
-   - One-click minting flow
-   - Real-time transaction feedback
-
-2. **Transaction Management**
-   - "Pending" state while waiting for wallet signature
-   - "Confirming" state while waiting for block inclusion
-   - "Success" state with next steps
-   - Error handling with user-friendly messages
+1. **Procedural Generation**
+   - Every tree is unique but deterministic
+   - Visual traits match the species (e.g., Pine has needles, Oak has round leaves)
+   - Growth stages visually represented (size, complexity)
 
 ### Next Steps
 
-**Proceed to Commit 8**: Procedural Tree SVG Generator
-- Create SVG generation logic based on seed
-- Implement dynamic tree rendering
-- Add visual variety for species
+**Proceed to Commit 9**: User Dashboard & Tree Gallery
+- Create Dashboard Page
+- Fetch user's minted trees
+- Display trees in a gallery grid
+- Show detailed stats for each tree

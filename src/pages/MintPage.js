@@ -1,5 +1,6 @@
 import { contractService } from '../services/contractService.js'
 import { walletState } from '../utils/walletState.js'
+import { treeGenerator } from '../generators/treeGenerator.js'
 
 export class MintPage {
     constructor(containerId) {
@@ -40,13 +41,13 @@ export class MintPage {
     }
 
     renderMintCard(tree) {
+        // Generate a preview SVG using the tree ID as a seed
+        const svgPreview = treeGenerator.generateSVG(tree.id, tree.id * 123, 3)
+
         return `
       <div class="mint-card" data-id="${tree.id}">
         <div class="tree-preview">
-          <svg class="tree-icon" viewBox="0 0 100 100">
-            <circle cx="50" cy="40" r="30" fill="var(--primary)" opacity="0.8"/>
-            <rect x="45" y="60" width="10" height="30" fill="#8B4513" rx="2"/>
-          </svg>
+          ${svgPreview}
         </div>
         <div class="mint-content">
           <h3 class="tree-name">${tree.name}</h3>
