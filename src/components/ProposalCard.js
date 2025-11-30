@@ -11,16 +11,42 @@ export class ProposalCard {
 
     const timeLeft = new Date(this.proposal.endTime) - new Date();
     const daysLeft = Math.ceil(timeLeft / (1000 * 60 * 60 * 24));
-    const isClosed = timeLeft <= 0 || this.proposal.status !== 'ACTIVE';
+
+    let statusClass = 'status-active';
+    let statusText = 'Active';
+
+    switch (this.proposal.status) {
+      case 'PASSED':
+        statusClass = 'status-passed';
+        statusText = 'Passed';
+        break;
+      case 'REJECTED':
+        statusClass = 'status-rejected';
+        statusText = 'Rejected';
+        break;
+      case 'EXECUTED':
+        statusClass = 'status-executed';
+        statusText = 'Executed';
+        break;
+      case 'ACTIVE':
+        if (timeLeft <= 0) {
+          statusClass = 'status-closed';
+          statusText = 'Ended';
+        }
+        break;
+      default:
+        statusClass = 'status-closed';
+        statusText = 'Closed';
+    }
 
     return `
       <div class="proposal-card" id="prop-${this.proposal.id}">
         <div class="proposal-header">
-          <span class="proposal-status ${isClosed ? 'status-closed' : 'status-active'}">
-            ${isClosed ? 'Closed' : 'Active'}
+          <span class="proposal-status ${statusClass}">
+            ${statusText}
           </span>
           <span style="color:#94a3b8; font-size:0.85rem">
-            ${isClosed ? 'Ended' : `Ends in ${daysLeft} days`}
+            ${this.proposal.status === 'ACTIVE' ? `Ends in ${daysLeft} days` : `Ended ${new Date(this.proposal.endTime).toLocaleDateString()}`}
           </span>
         </div>
 
@@ -37,13 +63,21 @@ export class ProposalCard {
           <span style="color:#ef4444">Against: ${this.proposal.againstVotes.toLocaleString()}</span>
         </div>
 
-        ${!isClosed ? `
+        ${this.proposal.status === 'ACTIVE' && timeLeft > 0 ? `
           <div style="display:flex; gap:1rem; margin-top:1.5rem">
             <button class="vote-btn vote-for" data-id="${this.proposal.id}" data-choice="FOR">
               Vote For
             </button>
             <button class="vote-btn vote-against" data-id="${this.proposal.id}" data-choice="AGAINST">
               Vote Against
+            </button>
+          </div>
+        ` : ''}
+
+        ${this.proposal.status === 'PASSED' ? `
+          <div style="margin-top:1.5rem">
+            <button class="vote-btn" style="background:#8b5cf6; color:white; width:100%" onclick="window.executeProposal('${this.proposal.id}')">
+              Execute Proposal ⚡
             </button>
           </div>
         ` : ''}
