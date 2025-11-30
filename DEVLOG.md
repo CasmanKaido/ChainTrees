@@ -160,34 +160,79 @@ ChainTrees/
    - Disconnect handling
    - Missing Project ID validation
 
-### Testing
+---
 
-To test the wallet connection:
-```bash
-# Make sure .env has VITE_WALLETCONNECT_PROJECT_ID set
-bun run dev
+## Commit 4: Smart Contract Development - Tree NFT ✅
 
-# Open http://localhost:3000
-# Click "Connect Wallet"
-# Select your wallet and connect
-# Try switching networks
-# Test disconnect
-```
+**Date**: November 28, 2025  
+**Branch**: `main`
 
-### Next Steps
+### Changes Made
 
-**Proceed to Commit 3**: Design System & Core UI Components
-- Navigation component
-- Footer component
-- Loading states
-- Error boundaries
-- Dark mode toggle
-- Additional UI components
+#### Smart Contracts
+- ✅ `contracts/ChainTree.sol` - ERC-721 NFT Contract
+  - Tree species system (10 species)
+  - Growth stages (Sapling → Ancient)
+  - Carbon offset tracking
+  - Watering mechanism
+  - Procedural seed generation
+
+#### Testing & Deployment
+- ✅ `contracts/test/ChainTree.test.js` - Comprehensive tests
+- ✅ `contracts/scripts/deploy.js` - Deployment script
+- ✅ `hardhat.config.cjs` - Multi-chain configuration
 
 ---
 
-**Status**: ✅ Complete  
-**Files Created**: 4 new files  
-**Files Modified**: 2  
-**Lines of Code**: ~600  
-**Next Commit**: Design System & Core UI Components
+## Commit 5: Smart Contract - Token & Rewards System ✅
+
+**Date**: November 28, 2025  
+**Branch**: `main`
+
+### Changes Made
+
+#### Smart Contracts
+- ✅ `contracts/TreeToken.sol` - ERC-20 Token
+  - Burnable
+  - Access control for minters
+  - Initial supply to owner
+
+- ✅ `contracts/RewardSystem.sol` - Staking System
+  - Stake Tree NFTs to earn TREE tokens
+  - Reward calculation based on carbon offset
+  - Claiming mechanism
+  - Unstaking functionality
+
+- ✅ `contracts/Achievements.sol` - ERC-1155 Badges
+  - Badge system for milestones
+  - Authorized minter control
+
+#### Testing & Deployment
+- ✅ `contracts/test/TokenSystem.test.js` - Integration tests
+- ✅ `contracts/scripts/deployToken.js` - Deployment script
+  - Deploys all contracts
+  - Sets up permissions
+  - Exports ABIs
+  - Updates deployment info
+
+### Features Implemented
+
+1. **Token Economy**
+   - TREE token as ecosystem currency
+   - Earned by staking trees (Proof of Impact)
+
+2. **Staking Mechanism**
+   - Users lock NFTs to earn rewards
+   - Rewards proportional to environmental impact
+   - Encourages long-term holding
+
+3. **Gamification**
+   - Achievement badges for milestones
+   - "First Tree", "Carbon Neutral", etc.
+
+### Next Steps
+
+**Proceed to Commit 6**: Contract Deployment & Verification
+- Deploy to testnets
+- Verify on block explorers
+- Generate ABIs for frontend
