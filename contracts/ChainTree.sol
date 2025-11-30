@@ -4,7 +4,6 @@ pragma solidity ^0.8.20;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
 
 /**
  * @title ChainTree
@@ -12,9 +11,7 @@ import "@openzeppelin/contracts/utils/Counters.sol";
  * Each tree NFT represents a planted tree with metadata and carbon offset tracking
  */
 contract ChainTree is ERC721, ERC721URIStorage, Ownable {
-    using Counters for Counters.Counter;
-    
-    Counters.Counter private _tokenIdCounter;
+    uint256 private _tokenIdCounter;
     
     // Tree species enum
     enum TreeSpecies {
@@ -96,8 +93,8 @@ contract ChainTree is ERC721, ERC721URIStorage, Ownable {
     ) public payable returns (uint256) {
         require(msg.value >= mintPrice, "Insufficient payment");
         
-        uint256 tokenId = _tokenIdCounter.current();
-        _tokenIdCounter.increment();
+        uint256 tokenId = _tokenIdCounter;
+        _tokenIdCounter++;
         
         // Calculate initial carbon offset based on species
         uint256 carbonOffset = calculateInitialCarbonOffset(species);
@@ -275,7 +272,7 @@ contract ChainTree is ERC721, ERC721URIStorage, Ownable {
         uint256[] memory result = new uint256[](balance);
         uint256 counter = 0;
         
-        for (uint256 i = 0; i < _tokenIdCounter.current(); i++) {
+        for (uint256 i = 0; i < _tokenIdCounter; i++) {
             if (_ownerOf(i) == owner) {
                 result[counter] = i;
                 counter++;
@@ -306,7 +303,7 @@ contract ChainTree is ERC721, ERC721URIStorage, Ownable {
      * @dev Get total number of trees minted
      */
     function totalSupply() public view returns (uint256) {
-        return _tokenIdCounter.current();
+        return _tokenIdCounter;
     }
     
     // Required overrides
