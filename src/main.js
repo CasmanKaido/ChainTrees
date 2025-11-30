@@ -1,5 +1,19 @@
+/**
+ * ChainTrees - Main Application Entry Point
+ * 
+ * This is the core application file that initializes all systems and manages
+ * the application lifecycle.
+ * 
+ * @version 1.0.0
+ * @author ChainTrees Team
+ * @license MIT
+ */
+
+// Core Components
 import { WalletConnect } from './components/WalletConnect.js'
 import { InstallPrompt } from './components/InstallPrompt.js';
+
+// Utility Systems
 import { errorBoundary } from './utils/errorBoundary.js';
 import { performanceMonitor } from './utils/performanceMonitor.js';
 import { analyticsTracker } from './utils/analyticsTracker.js';
@@ -7,6 +21,8 @@ import { notificationSystem } from './utils/notificationSystem.js';
 import { themeManager } from './utils/themeManager.js';
 import { keyboardShortcuts } from './utils/keyboardShortcuts.js';
 import { accessibilityManager } from './utils/accessibilityManager.js';
+
+// Styles
 import './styles/main.css'
 import './styles/layout.css'
 import './styles/mobile.css'
@@ -30,7 +46,7 @@ import './styles/offers.css'
 import './styles/governance.css'
 import './config/walletConfig.js'
 
-console.log('🌳 ChainTrees - Initializing...')
+console.log('🌳 ChainTrees v1.0.0 - Initializing...')
 
 // Register error handler
 errorBoundary.onError((error) => {
@@ -42,13 +58,21 @@ window.themeManager = themeManager;
 window.notificationSystem = notificationSystem;
 window.analyticsTracker = analyticsTracker;
 
+/**
+ * Main Application Class
+ * Manages the application state, routing, and lifecycle
+ */
 class ChainTreesApp {
   constructor() {
     this.walletConnect = null
     this.currentPage = null
+    this.version = '1.0.0'
     this.init()
   }
 
+  /**
+   * Initialize the application
+   */
   init() {
     console.log('✅ ChainTrees initialized')
     this.renderLayout()
@@ -58,8 +82,14 @@ class ChainTreesApp {
 
     // Make app globally available for landing page CTAs
     window.app = this;
+
+    // Track app initialization
+    analyticsTracker.trackPageView('app_init');
   }
 
+  /**
+   * Render the main application layout
+   */
   renderLayout() {
     const app = document.getElementById('app')
     if (app) {
@@ -91,17 +121,23 @@ class ChainTreesApp {
         <main id="main-content"></main>
         
         <footer class="app-footer">
-          <p>© 2025 ChainTrees • Built for impact</p>
+          <p>© 2025 ChainTrees • Built with 🌱 for a greener future</p>
         </footer>
       `
     }
   }
 
+  /**
+   * Initialize wallet connection
+   */
   initializeWallet() {
     this.walletConnect = new WalletConnect('wallet-connect-container')
     this.walletConnect.init()
   }
 
+  /**
+   * Setup navigation event listeners
+   */
   setupNavigation() {
     const navBtns = document.querySelectorAll('.nav-btn')
     navBtns.forEach(btn => {
@@ -113,12 +149,23 @@ class ChainTreesApp {
     })
   }
 
+  /**
+   * Load a page dynamically
+   * @param {string} pageName - The name of the page to load
+   */
   async loadPage(pageName) {
     const mainContent = document.getElementById('main-content')
     mainContent.innerHTML = `<div class="loading-container"><div class="loading-spinner"></div><p>Loading ${pageName}...</p></div>`
+
+    // Track page view
+    analyticsTracker.trackPageView(pageName);
+    performanceMonitor.trackPageLoad(pageName);
+
     try {
       if (this.currentPage && this.currentPage.destroy) this.currentPage.destroy()
       let PageClass
+
+      // Dynamic page imports
       if (pageName === 'landing') {
         const { LandingPage } = await import('./pages/LandingPage.js')
         PageClass = LandingPage
@@ -135,6 +182,7 @@ class ChainTreesApp {
         mainContent.innerHTML = `<p>Page "${pageName}" not available in this build.</p>`
         return
       }
+
       this.currentPage = new PageClass('main-content')
       await this.currentPage.render()
     } catch (e) {
@@ -144,6 +192,7 @@ class ChainTreesApp {
   }
 }
 
+// Service Worker Registration
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js')
@@ -152,11 +201,15 @@ if ('serviceWorker' in navigator) {
   })
 }
 
+// Initialize PWA install prompt
 const installPrompt = new InstallPrompt()
 installPrompt.init()
 
+// Initialize application
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => new ChainTreesApp())
 } else {
   new ChainTreesApp()
 }
+
+console.log('🌳 ChainTrees v1.0.0 - Ready!')
