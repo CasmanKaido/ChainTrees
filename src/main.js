@@ -60,38 +60,12 @@ class ChainTreesApp {
               <button class="nav-btn" data-page="settings">⚙️</button>
             </nav>
             <div id="wallet-connect-container"></div>
-          </div>
-        </header>
-        
-        <main id="main-content"></main>
-        
-        <footer class="app-footer">
-          <p>© 2025 ChainTrees • Built for impact</p>
-        </footer>
-      `
-    }
-  }
-
-  initializeWallet() {
-    this.walletConnect = new WalletConnect('wallet-connect-container')
-    this.walletConnect.init()
-  }
-
-  setupNavigation() {
-    const navBtns = document.querySelectorAll('.nav-btn')
-    navBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        navBtns.forEach(b => b.classList.remove('active'))
-        btn.classList.add('active')
-        this.loadPage(btn.dataset.page)
-      })
-    })
   }
 
   // Minimal loadPage – static import of MintPage only
   async loadPage(pageName) {
     const mainContent = document.getElementById('main-content')
-    mainContent.innerHTML = `<div class="loading-container"><div class="loading-spinner"></div><p>Loading ${pageName}...</p></div>`
+    mainContent.innerHTML = `< div class="loading-container" ><div class="loading-spinner"></div><p>Loading ${pageName}...</p></div > `
     try {
       if (this.currentPage && this.currentPage.destroy) this.currentPage.destroy()
       let PageClass
@@ -100,7 +74,7 @@ class ChainTreesApp {
         PageClass = MintPage
       } else {
         // fallback – just show a placeholder
-        mainContent.innerHTML = `<p>Page "${pageName}" not available in this test build.</p>`
+        mainContent.innerHTML = `< p > Page "${pageName}" not available in this test build.</p > `
         return
       }
       this.currentPage = new PageClass('main-content')
