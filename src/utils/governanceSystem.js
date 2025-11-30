@@ -58,22 +58,6 @@ export class GovernanceSystem {
         if (proposal.voters[voter]) throw new Error('Already voted');
 
         proposal.voters[voter] = choice;
-
-        if (choice === 'FOR') proposal.forVotes += weight;
-        else if (choice === 'AGAINST') proposal.againstVotes += weight;
-        else if (choice === 'ABSTAIN') proposal.abstainVotes += weight;
-
-        this.save();
-        return proposal;
-    }
-
-    getProposals(filter = 'ALL') {
-        if (filter === 'ACTIVE') {
-            return this.proposals.filter(p => p.status === 'ACTIVE' && new Date(p.endTime) > new Date());
-        }
-        if (filter === 'CLOSED') {
-            return this.proposals.filter(p => p.status !== 'ACTIVE' || new Date(p.endTime) <= new Date());
-        }
         return this.proposals;
     }
 
