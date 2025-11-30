@@ -1,63 +1,48 @@
 {
     "name": "chaintrees",
     "version": "1.0.0",
+    "description": "NFT Tree Planting Platform - Blockchain for environmental impact",
     "type": "module",
-    "description": "Plant trees on-chain and track your environmental impact",
-    "main": "src/main.js",
     "scripts": {
         "dev": "vite",
         "build": "vite build",
         "preview": "vite preview",
-        "test": "vitest run",
-        "test:coverage": "vitest --coverage",
-        "test:ui": "vitest --ui",
-        "test:contracts": "cd contracts && npx hardhat test",
-        "compile": "cd contracts && npx hardhat compile",
-        "deploy:all": "cd contracts && node node_modules/hardhat/internal/cli/cli.js run scripts/deployAll.cjs",
-        "deploy:sepolia": "cd contracts && node node_modules/hardhat/internal/cli/cli.js run scripts/deployAll.cjs --network sepolia",
-        "deploy:mumbai": "cd contracts && node node_modules/hardhat/internal/cli/cli.js run scripts/deployAll.cjs --network mumbai",
-        "deploy:base-sepolia": "cd contracts && node node_modules/hardhat/internal/cli/cli.js run scripts/deployAll.cjs --network baseSepolia",
-        "deploy:mainnet": "cd contracts && node node_modules/hardhat/internal/cli/cli.js run scripts/deployAll.cjs --network mainnet",
-        "deploy:polygon": "cd contracts && node node_modules/hardhat/internal/cli/cli.js run scripts/deployAll.cjs --network polygon",
-        "deploy:base": "cd contracts && node node_modules/hardhat/internal/cli/cli.js run scripts/deployAll.cjs --network base",
-        "verify:sepolia": "cd contracts && npx hardhat verify --network sepolia",
-        "verify:mumbai": "cd contracts && npx hardhat verify --network mumbai",
-        "verify:mainnet": "cd contracts && npx hardhat verify --network mainnet",
-        "verify:polygon": "cd contracts && npx hardhat verify --network polygon",
-        "verify:base": "cd contracts && npx hardhat verify --network base",
-        "lint": "eslint src/**/*.js",
-        "format": "prettier --write \"src/**/*.{js,css,html}\""
+        "lint": "eslint src --ext .js",
+        "format": "prettier --write \"src/**/*.{js,css}\"",
+        "test": "vitest",
+        "deploy": "npm run build && vercel --prod"
     },
     "keywords": [
-        "web3",
         "nft",
+        "blockchain",
+        "web3",
         "environment",
         "carbon-offset",
-        "walletconnect",
-        "reown",
-        "blockchain"
+        "dao",
+        "ethereum",
+        "walletconnect"
     ],
     "author": "ChainTrees Team",
     "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/CasmanKaido/ChainTrees.git"
+    },
+    "bugs": {
+        "url": "https://github.com/CasmanKaido/ChainTrees/issues"
+    },
+    "homepage": "https://github.com/CasmanKaido/ChainTrees#readme",
     "dependencies": {
-        "@reown/appkit": "^1.0.0",
-        "@reown/appkit-adapter-wagmi": "^1.0.0",
-        "wagmi": "^2.0.0",
-        "viem": "^2.0.0",
-        "@tanstack/react-query": "^5.0.0",
-        "chart.js": "^4.4.0"
+        "@walletconnect/web3-provider": "^1.8.0",
+        "vite": "^5.0.0"
     },
     "devDependencies": {
-        "@nomicfoundation/hardhat-toolbox": "^4.0.0",
-        "@openzeppelin/contracts": "^5.0.0",
-        "@playwright/test": "^1.40.0",
-        "@vitest/ui": "^1.0.0",
-        "dotenv": "^17.2.3",
         "eslint": "^8.55.0",
-        "hardhat": "^2.19.0",
-        "ipfs-http-client": "^60.0.0",
-        "prettier": "^3.1.0",
-        "vite": "^5.0.0",
-        "vitest": "^1.0.0"
+        "prettier": "^3.1.1",
+        "vitest": "^1.0.4"
+    },
+    "engines": {
+        "node": ">=18.0.0",
+        "npm": ">=9.0.0"
     }
 }
