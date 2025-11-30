@@ -2,6 +2,7 @@ import { MintPage } from './pages/MintPage.js'
 import { DashboardPage } from './pages/DashboardPage.js'
 import { LeaderboardPage } from './pages/LeaderboardPage.js'
 import { RewardsPage } from './pages/RewardsPage.js'
+import { AchievementsPage } from './pages/AchievementsPage.js'
 import { WalletConnect } from './components/WalletConnect.js'
 import './styles/main.css'
 import './styles/layout.css'
@@ -10,6 +11,7 @@ import './styles/mint.css'
 import './styles/dashboard.css'
 import './styles/leaderboard.css'
 import './styles/rewards.css'
+import './styles/achievements.css'
 import './config/walletConfig.js'
 
 console.log('🌳 ChainTrees - Initializing...')
@@ -40,6 +42,7 @@ class ChainTreesApp {
               <button class="nav-btn active" data-page="mint">Plant</button>
               <button class="nav-btn" data-page="dashboard">My Forest</button>
               <button class="nav-btn" data-page="rewards">Rewards</button>
+              <button class="nav-btn" data-page="achievements">Badges</button>
               <button class="nav-btn" data-page="leaderboard">Leaderboard</button>
             </nav>
             <div id="wallet-connect-container"></div>
@@ -90,6 +93,9 @@ class ChainTreesApp {
       this.currentPage.render()
     } else if (pageName === 'rewards') {
       this.currentPage = new RewardsPage('main-content')
+      this.currentPage.render()
+    } else if (pageName === 'achievements') {
+      this.currentPage = new AchievementsPage('main-content')
       this.currentPage.render()
     }
   }

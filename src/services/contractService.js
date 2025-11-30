@@ -271,6 +271,54 @@ export class ContractService {
             return 0
         }
     }
+
+    // --- Achievements ---
+
+    async getAchievements(address) {
+        try {
+            const achievementAddress = this.getAddress('Achievements')
+            const badgeIds = [1, 2, 3, 4, 5] // IDs defined in contract
+
+            // Batch fetch balances
+            const balances = await readContract(wagmiConfig, {
+                address: achievementAddress,
+                abi: ABIS.Achievements,
+                functionName: 'balanceOfBatch',
+                args: [Array(badgeIds.length).fill(address), badgeIds]
+            })
+
+            return badgeIds.map((id, index) => ({
+                id,
+                balance: Number(balances[index]),
+                isUnlocked: Number(balances[index]) > 0
+            }))
+        } catch (error) {
+            console.error('Error fetching achievements:', error)
+            return []
+        }
+    }
+
+    async mintBadge(id) {
+        try {
+            const address = this.getAddress('Achievements')
+            console.log(`Minting badge ${id}`)
+
+            // Note: In a real app, minting might be restricted to the owner or via a relayer
+            // For this demo, we assume the contract allows public minting or we are the owner
+            // If restricted, this call would fail without proper role
+            const hash = await writeContract(wagmiConfig, {
+                address,
+                abi: ABIS.Achievements,
+                functionName: 'mint',
+                args: [walletState.getAccount().address, id, 1, '0x']
+            })
+
+            return hash
+        } catch (error) {
+            console.error('Error minting badge:', error)
+            throw error
+        }
+    }
 }
 
 export const contractService = new ContractService()
