@@ -9,6 +9,7 @@ import { ImpactDashboard } from './pages/ImpactDashboard.js'
 import { StakingDashboard } from './pages/StakingDashboard.js'
 import { MarketplacePage } from './pages/MarketplacePage.js'
 import { GovernancePage } from './pages/GovernancePage.js'
+import { EducationPage } from './pages/EducationPage.js'
 import { WalletConnect } from './components/WalletConnect.js'
 import './styles/main.css'
 import './styles/layout.css'
@@ -57,6 +58,7 @@ class ChainTreesApp {
               <button class="nav-btn" data-page="staking">Staking</button>
               <button class="nav-btn" data-page="marketplace">Market</button>
               <button class="nav-btn" data-page="governance">DAO</button>
+              <button class="nav-btn" data-page="education">Learn</button>
             </nav>
             <div id="wallet-connect-container"></div>
           </div>
@@ -127,6 +129,9 @@ class ChainTreesApp {
       this.currentPage.render()
     } else if (pageName === 'governance') {
       this.currentPage = new GovernancePage('main-content')
+      this.currentPage.render()
+    } else if (pageName === 'education') {
+      this.currentPage = new EducationPage('main-content')
       this.currentPage.render()
     }
   }
