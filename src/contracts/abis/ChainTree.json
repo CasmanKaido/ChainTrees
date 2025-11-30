@@ -1,0 +1,14 @@
+[
+    "function mintTree(uint8 species, string memory tokenURI) public payable returns (uint256)",
+    "function waterTree(uint256 tokenId) public",
+    "function getTreeData(uint256 tokenId) public view returns (tuple(uint8 species, uint256 plantedAt, uint256 carbonOffset, uint256 lastWatered, uint256 waterCount, uint8 growthStage, string season, uint256 generationSeed))",
+    "function getTreesByOwner(address owner) public view returns (uint256[])",
+    "function totalCarbonOffset() public view returns (uint256)",
+    "function mintPrice() public view returns (uint256)",
+    "function setMintPrice(uint256 newPrice) public",
+    "function ownerOf(uint256 tokenId) view returns (address)",
+    "function tokenURI(uint256 tokenId) view returns (string)",
+    "event TreeMinted(address indexed owner, uint256 indexed tokenId, uint8 species, uint256 carbonOffset)",
+    "event TreeWatered(uint256 indexed tokenId, address indexed waterer, uint256 waterCount)",
+    "event TreeGrown(uint256 indexed tokenId, uint8 newStage)"
+]

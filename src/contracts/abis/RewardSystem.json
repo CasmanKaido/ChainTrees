@@ -1,0 +1,12 @@
+[
+    "function stake(uint256 tokenId) public",
+    "function unstake(uint256 tokenId) public",
+    "function claimReward(uint256 tokenId) public",
+    "function calculateReward(uint256 tokenId) public view returns (uint256)",
+    "function getStakedTokens(address user) public view returns (uint256[])",
+    "function stakes(uint256 tokenId) public view returns (tuple(address owner, uint256 timestamp, uint256 carbonOffsetSnapshot))",
+    "function rewardRate() public view returns (uint256)",
+    "event Staked(address indexed owner, uint256 indexed tokenId)",
+    "event Unstaked(address indexed owner, uint256 indexed tokenId, uint256 reward)",
+    "event RewardClaimed(address indexed owner, uint256 indexed tokenId, uint256 reward)"
+]
