@@ -11,13 +11,9 @@ export default defineConfig({
         rollupOptions: {
             output: {
                 manualChunks: {
-                    'vendor': ['@reown/appkit', 'wagmi', 'viem'],
-                    'charts': ['chart.js']
+                    'vendor': ['wagmi', 'viem']
                 }
             }
         }
-    },
-    optimizeDeps: {
-        include: ['@reown/appkit', 'wagmi', 'viem']
     }
 })
