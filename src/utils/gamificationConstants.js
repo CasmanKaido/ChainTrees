@@ -34,3 +34,13 @@ export const LEVEL_TITLES = {
     9: 'Nature Spirit',
     10: 'Gaia\'s Champion'
 };
+
+export const DAILY_REWARDS = [
+    10, // Day 1
+    20, // Day 2
+    30, // Day 3
+    40, // Day 4
+    50, // Day 5
+    75, // Day 6
+    100 // Day 7 (Big Reward)
+];
