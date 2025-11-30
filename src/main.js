@@ -2,6 +2,11 @@ import { WalletConnect } from './components/WalletConnect.js'
 import { InstallPrompt } from './components/InstallPrompt.js';
 import { errorBoundary } from './utils/errorBoundary.js';
 import { performanceMonitor } from './utils/performanceMonitor.js';
+import { analyticsTracker } from './utils/analyticsTracker.js';
+import { notificationSystem } from './utils/notificationSystem.js';
+import { themeManager } from './utils/themeManager.js';
+import { keyboardShortcuts } from './utils/keyboardShortcuts.js';
+import { accessibilityManager } from './utils/accessibilityManager.js';
 import './styles/main.css'
 import './styles/layout.css'
 import './styles/mobile.css'
@@ -31,6 +36,11 @@ console.log('🌳 ChainTrees - Initializing...')
 errorBoundary.onError((error) => {
   performanceMonitor.trackError(error.error || new Error(error.message), error.type);
 });
+
+// Make utilities globally available
+window.themeManager = themeManager;
+window.notificationSystem = notificationSystem;
+window.analyticsTracker = analyticsTracker;
 
 class ChainTreesApp {
   constructor() {
