@@ -64,18 +64,58 @@ class ChainTreesApp {
               <button class="nav-btn" data-page="settings">⚙️</button>
             </nav>
             <div id="wallet-connect-container"></div>
+          </div>
+        </header>
+        
+        <main id="main-content"></main>
+        
+        <footer class="app-footer">
+          <p>© 2025 ChainTrees • Built for impact</p>
+        </footer>
+      `
+    }
   }
 
-  // Minimal loadPage – static import of MintPage only
+  initializeWallet() {
+    this.walletConnect = new WalletConnect('wallet-connect-container')
+    this.walletConnect.init()
+  }
+
+  setupNavigation() {
+    const navBtns = document.querySelectorAll('.nav-btn')
+    navBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        navBtns.forEach(b => b.classList.remove('active'))
+        btn.classList.add('active')
+        this.loadPage(btn.dataset.page)
+      })
+    })
+  }
+
   async loadPage(pageName) {
     const mainContent = document.getElementById('main-content')
-    mainContent.innerHTML = `< div class="loading-container" ><div class="loading-spinner"></div><p>Loading ${pageName}...</p></div > `
+    mainContent.innerHTML = `<div class="loading-container"><div class="loading-spinner"></div><p>Loading ${pageName}...</p></div>`
     try {
       if (this.currentPage && this.currentPage.destroy) this.currentPage.destroy()
       let PageClass
       if (pageName === 'mint') {
         const { MintPage } = await import('./pages/MintPage.js')
         PageClass = MintPage
+      } else if (pageName === 'marketplace') {
+        const { MarketplacePage } = await import('./pages/MarketplacePage.js')
+        PageClass = MarketplacePage
+      } else if (pageName === 'governance') {
+        const { GovernancePage } = await import('./pages/GovernancePage.js')
+        PageClass = GovernancePage
+      } else {
+        mainContent.innerHTML = `<p>Page "${pageName}" not available in this build.</p>`
+        return
+      }
+      this.currentPage = new PageClass('main-content')
+      await this.currentPage.render()
+    } catch (e) {
+      console.error(e)
+      mainContent.innerHTML = `<div class="error-container"><h2>Error Loading Page</h2><p>${e.message}</p></div>`
     }
   }
 }
