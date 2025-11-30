@@ -22,6 +22,9 @@
 ...
 
 ## Commit 9: User Dashboard & Tree Gallery ✅
+...
+
+## Commit 10: Leaderboard & Global Statistics ✅
 
 **Date**: November 28, 2025  
 **Branch**: `main`
@@ -29,44 +32,41 @@
 ### Changes Made
 
 #### Frontend Logic
-- ✅ `src/services/contractService.js` - Added `getUserTrees` and `waterTree`
-  - Fetches all trees owned by the connected wallet
-  - Retrieves detailed data for each tree (species, stage, water count)
-  - Implements watering transaction logic
+- ✅ `src/services/contractService.js` - Added `getGlobalStats`
+  - Fetches total trees planted and total carbon offset from the contract
+  - Implements efficient Promise.all for parallel data fetching
 
 #### UI Components
-- ✅ `src/pages/DashboardPage.js` - User Dashboard
-  - **Stats Overview**: Total trees and total CO2 offset
-  - **Gallery Grid**: Responsive grid of user's trees
-  - **Tree Cards**: Visual representation using SVG generator
-  - **Interaction**: "Water Tree" button with loading state
-  - **Empty State**: Friendly message for new users
+- ✅ `src/pages/LeaderboardPage.js` - Leaderboard Interface
+  - **Global Stats**: Cards showing platform-wide impact
+  - **Ranking Table**: Top planters list (Simulated for now, ready for subgraph)
+  - **User Highlighting**: Highlights the current user's rank
+  - **Badges**: Display user achievements
 
-- ✅ `src/styles/dashboard.css` - Dashboard styling
-  - Stats cards
-  - Gallery layout
-  - Tree card details
-  - Empty state illustrations
+- ✅ `src/styles/leaderboard.css` - Leaderboard Styling
+  - Gold/Silver/Bronze styling for top ranks
+  - Responsive table layout
+  - Animated stats cards
 
-#### Navigation
-- ✅ `src/main.js` - Added navigation system
-  - Tab-based navigation between "Plant" and "My Forest"
-  - Dynamic page loading without refresh
+#### Application Updates
+- ✅ `src/main.js` - Full Navigation
+  - Integrated Leaderboard into main navigation
+  - Smooth transitions between Mint, Dashboard, and Leaderboard
 
 ### Features Implemented
 
-1. **My Forest Dashboard**
-   - View all minted trees in one place
-   - See real-time growth stats
-   - Track environmental impact (CO2)
+1. **Global Impact Tracking**
+   - Users can see the collective effort of the community
+   - Real-time updates from the blockchain
 
-2. **Tree Interaction**
-   - **Watering**: Users can water their trees to help them grow
-   - **Visual Feedback**: Trees are procedurally generated based on their unique DNA
+2. **Social Competition**
+   - Leaderboard gamifies the experience
+   - Encourages users to plant more trees to climb the ranks
 
 ### Next Steps
 
-**Proceed to Commit 10**: Leaderboard & Global Statistics
-- Create Leaderboard Page
-- Track top planters
-- Show global platform statistics (Total Trees, Total CO2)
+**Proceed to Commit 11**: Staking & Rewards Interface
+- Create Rewards Page
+- Implement Staking UI for Tree NFTs
+- Show earned TREE tokens
+- Claim rewards functionality

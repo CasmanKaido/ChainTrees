@@ -77,6 +77,33 @@ export class ContractService {
         }
     }
 
+    async getGlobalStats() {
+        try {
+            const address = this.getAddress('ChainTree')
+
+            const [totalSupply, totalCarbon] = await Promise.all([
+                readContract(wagmiConfig, {
+                    address,
+                    abi: ABIS.ChainTree,
+                    functionName: 'totalSupply'
+                }),
+                readContract(wagmiConfig, {
+                    address,
+                    abi: ABIS.ChainTree,
+                    functionName: 'totalCarbonOffset'
+                })
+            ])
+
+            return {
+                totalTrees: Number(totalSupply),
+                totalCarbon: Number(totalCarbon)
+            }
+        } catch (error) {
+            console.error('Error fetching global stats:', error)
+            return { totalTrees: 0, totalCarbon: 0 }
+        }
+    }
+
     async getUserTrees(address) {
         try {
             const contractAddress = this.getAddress('ChainTree')
