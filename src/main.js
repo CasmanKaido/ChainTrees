@@ -12,6 +12,7 @@ import './styles/rewards.css'
 import './styles/achievements.css'
 import './styles/metadata.css'
 import './styles/gamification.css'
+import './styles/daily-rewards.css'
 import './config/walletConfig.js'
 
 console.log('🌳 ChainTrees - Initializing...')
