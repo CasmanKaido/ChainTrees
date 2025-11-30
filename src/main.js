@@ -5,6 +5,7 @@ import { RewardsPage } from './pages/RewardsPage.js'
 import { AchievementsPage } from './pages/AchievementsPage.js'
 import { MetadataPage } from './pages/MetadataPage.js'
 import { GalleryPage } from './pages/GalleryPage.js'
+import { ImpactDashboard } from './pages/ImpactDashboard.js'
 import { WalletConnect } from './components/WalletConnect.js'
 import './styles/main.css'
 import './styles/layout.css'
@@ -49,6 +50,7 @@ class ChainTreesApp {
               <button class="nav-btn" data-page="metadata">IPFS</button>
               <button class="nav-btn" data-page="leaderboard">Leaderboard</button>
               <button class="nav-btn" data-page="gallery">Gallery</button>
+              <button class="nav-btn" data-page="impact">Impact</button>
             </nav>
             <div id="wallet-connect-container"></div>
           </div>
@@ -107,6 +109,9 @@ class ChainTreesApp {
       this.currentPage.render()
     } else if (pageName === 'gallery') {
       this.currentPage = new GalleryPage('main-content')
+      this.currentPage.render()
+    } else if (pageName === 'impact') {
+      this.currentPage = new ImpactDashboard('main-content')
       this.currentPage.render()
     }
   }
