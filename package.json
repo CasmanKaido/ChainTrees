@@ -33,13 +33,13 @@
     },
     "homepage": "https://github.com/CasmanKaido/ChainTrees#readme",
     "dependencies": {
-        "@reown/appkit": "^1.0.0",
-        "@reown/appkit-adapter-wagmi": "^1.0.0",
-        "@tanstack/react-query": "^5.0.0",
+        "@reown/appkit": "^1.8.14",
+        "@reown/appkit-adapter-wagmi": "^1.8.14",
+        "@tanstack/react-query": "^5.90.11",
         "@walletconnect/web3-provider": "^1.8.0",
-        "viem": "^2.0.0",
+        "viem": "^2.40.3",
         "vite": "^5.0.0",
-        "wagmi": "^2.0.0"
+        "wagmi": "^2.19.5"
     },
     "devDependencies": {
         "eslint": "^8.55.0",
