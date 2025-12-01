@@ -1,19 +1,19 @@
-import { LeaderboardTable } from '../components/LeaderboardTable.js';
-import { contractService } from '../services/contractService.js';
-import { walletState } from '../utils/walletState.js';
-import '../styles/leaderboard.css';
+import { LeaderboardTable } from '../components/LeaderboardTable.js'
+import { contractService } from '../services/contractService.js'
+import { walletState } from '../utils/walletState.js'
+import '../styles/leaderboard.css'
 
 export class LeaderboardPage {
   constructor(containerId) {
-    this.containerId = containerId;
-    this.stats = { totalTrees: 0, totalCarbon: 0, activePlanters: 0 };
-    this.currentMetric = 'trees';
-    this.currentTimeframe = 'all';
+    this.containerId = containerId
+    this.stats = { totalTrees: 0, totalCarbon: 0, activePlanters: 0 }
+    this.currentMetric = 'trees'
+    this.currentTimeframe = 'all'
   }
 
   async render() {
-    const container = document.getElementById(this.containerId);
-    if (!container) return;
+    const container = document.getElementById(this.containerId)
+    if (!container) return
 
     container.innerHTML = `
       <div class="leaderboard-page">
@@ -57,33 +57,37 @@ export class LeaderboardPage {
           </div>
         </div>
       </div>
-    `;
+    `
 
-    this.attachListeners();
-    await this.fetchData();
+    this.attachListeners()
+    await this.fetchData()
   }
 
   attachListeners() {
     // Metric filters
     document.querySelectorAll('.metric-filters .filter-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        document.querySelectorAll('.metric-filters .filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        this.currentMetric = btn.dataset.metric;
-        this.updateTable();
-      });
-    });
+        document
+          .querySelectorAll('.metric-filters .filter-btn')
+          .forEach(b => b.classList.remove('active'))
+        btn.classList.add('active')
+        this.currentMetric = btn.dataset.metric
+        this.updateTable()
+      })
+    })
 
     // Time filters
     document.querySelectorAll('.time-filters .filter-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        document.querySelectorAll('.time-filters .filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        this.currentTimeframe = btn.dataset.time;
+        document
+          .querySelectorAll('.time-filters .filter-btn')
+          .forEach(b => b.classList.remove('active'))
+        btn.classList.add('active')
+        this.currentTimeframe = btn.dataset.time
         // In a real app, we'd fetch different data here
-        this.updateTable();
-      });
-    });
+        this.updateTable()
+      })
+    })
   }
 
   async fetchData() {
@@ -95,26 +99,27 @@ export class LeaderboardPage {
         totalTrees: 1234,
         totalCarbon: 45200,
         activePlanters: 156
-      };
+      }
 
-      this.updateStats();
+      this.updateStats()
 
       // Mock leaderboard data
-      this.leaderboardData = this.generateMockData(20);
+      this.leaderboardData = this.generateMockData(20)
 
       // Initialize table
-      this.table = new LeaderboardTable('leaderboard-table-container', this.leaderboardData);
-      this.table.render();
-
+      this.table = new LeaderboardTable('leaderboard-table-container', this.leaderboardData)
+      this.table.render()
     } catch (error) {
-      console.error('Error fetching leaderboard data:', error);
+      console.error('Error fetching leaderboard data:', error)
     }
   }
 
   updateStats() {
-    document.getElementById('total-trees').textContent = this.stats.totalTrees.toLocaleString();
-    document.getElementById('total-carbon').textContent = (this.stats.totalCarbon / 1000).toFixed(1) + 't';
-    document.getElementById('active-planters').textContent = this.stats.activePlanters.toLocaleString();
+    document.getElementById('total-trees').textContent = this.stats.totalTrees.toLocaleString()
+    document.getElementById('total-carbon').textContent =
+      (this.stats.totalCarbon / 1000).toFixed(1) + 't'
+    document.getElementById('active-planters').textContent =
+      this.stats.activePlanters.toLocaleString()
   }
 
   updateTable() {
@@ -122,8 +127,8 @@ export class LeaderboardPage {
     // For now, the table component handles sorting
     if (this.table) {
       // We could update the sort field of the table programmatically
-      this.table.sortField = this.currentMetric === 'water' ? 'waterCount' : this.currentMetric;
-      this.table.render();
+      this.table.sortField = this.currentMetric === 'water' ? 'waterCount' : this.currentMetric
+      this.table.render()
     }
   }
 
@@ -135,6 +140,6 @@ export class LeaderboardPage {
       waterCount: Math.floor(Math.random() * 500),
       badges: Math.random() > 0.5 ? ['Forest Keeper', 'Green Thumb'] : [],
       isUser: i === 5 // Mock current user
-    }));
+    }))
   }
 }

@@ -1,17 +1,17 @@
-import { CarbonChart } from '../components/CarbonChart.js';
-import { ImpactCalculator } from '../components/ImpactCalculator.js';
-import '../styles/impact-dashboard.css';
+import { CarbonChart } from '../components/CarbonChart.js'
+import { ImpactCalculator } from '../components/ImpactCalculator.js'
+import '../styles/impact-dashboard.css'
 
 export class ImpactDashboard {
-    constructor(containerId) {
-        this.containerId = containerId;
-    }
+  constructor(containerId) {
+    this.containerId = containerId
+  }
 
-    render() {
-        const container = document.getElementById(this.containerId);
-        if (!container) return;
+  render() {
+    const container = document.getElementById(this.containerId)
+    if (!container) return
 
-        container.innerHTML = `
+    container.innerHTML = `
       <div class="impact-dashboard">
         <div class="dashboard-header">
           <h1>Environmental Impact</h1>
@@ -65,61 +65,64 @@ export class ImpactDashboard {
           </div>
         </div>
       </div>
-    `;
+    `
 
-        this.initComponents();
-    }
+    this.initComponents()
+  }
 
-    initComponents() {
-        // Initialize Calculator
-        const calculator = new ImpactCalculator('impact-calculator', 45200); // 45.2 tons
-        calculator.render();
+  initComponents() {
+    // Initialize Calculator
+    const calculator = new ImpactCalculator('impact-calculator', 45200) // 45.2 tons
+    calculator.render()
 
-        // Initialize Charts
-        this.renderOffsetChart();
-        this.renderSpeciesChart();
-    }
+    // Initialize Charts
+    this.renderOffsetChart()
+    this.renderSpeciesChart()
+  }
 
-    renderOffsetChart() {
-        const ctx = document.getElementById('offset-chart');
-        if (!ctx) return;
+  renderOffsetChart() {
+    const ctx = document.getElementById('offset-chart')
+    if (!ctx) return
 
-        new CarbonChart('offset-chart', 'line', {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-            datasets: [{
-                label: 'Carbon Offset (kg)',
-                data: [1200, 3500, 8000, 15000, 28000, 45200],
-                borderColor: '#4ade80',
-                backgroundColor: 'rgba(74, 222, 128, 0.1)',
-                fill: true,
-                tension: 0.4
-            }]
-        }).render();
-    }
+    new CarbonChart('offset-chart', 'line', {
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+      datasets: [
+        {
+          label: 'Carbon Offset (kg)',
+          data: [1200, 3500, 8000, 15000, 28000, 45200],
+          borderColor: '#4ade80',
+          backgroundColor: 'rgba(74, 222, 128, 0.1)',
+          fill: true,
+          tension: 0.4
+        }
+      ]
+    }).render()
+  }
 
-    renderSpeciesChart() {
-        const ctx = document.getElementById('species-chart');
-        if (!ctx) return;
+  renderSpeciesChart() {
+    const ctx = document.getElementById('species-chart')
+    if (!ctx) return
 
-        new CarbonChart('species-chart', 'doughnut', {
-            labels: ['Oak', 'Maple', 'Pine', 'Birch', 'Other'],
-            datasets: [{
-                data: [30, 20, 15, 10, 25],
-                backgroundColor: [
-                    '#22c55e',
-                    '#ef4444',
-                    '#15803d',
-                    '#facc15',
-                    '#3b82f6'
-                ],
-                borderWidth: 0
-            }]
-        }, {
-            plugins: {
-                legend: {
-                    position: 'right'
-                }
-            }
-        }).render();
-    }
+    new CarbonChart(
+      'species-chart',
+      'doughnut',
+      {
+        labels: ['Oak', 'Maple', 'Pine', 'Birch', 'Other'],
+        datasets: [
+          {
+            data: [30, 20, 15, 10, 25],
+            backgroundColor: ['#22c55e', '#ef4444', '#15803d', '#facc15', '#3b82f6'],
+            borderWidth: 0
+          }
+        ]
+      },
+      {
+        plugins: {
+          legend: {
+            position: 'right'
+          }
+        }
+      }
+    ).render()
+  }
 }

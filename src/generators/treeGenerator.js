@@ -14,7 +14,7 @@ export class TreeGenerator {
         4: ['#9ACD32', '#6B8E23', '#556B2F'], // Willow - Yellow Green
         5: ['#FFB7C5', '#FF69B4', '#FF1493'], // Cherry - Pink
         6: ['#8B0000', '#A52A2A', '#B22222'], // Redwood - Reddish Brown
-        7: ['#006400', '#004d00', '#003300']  // Sequoia - Deep Green
+        7: ['#006400', '#004d00', '#003300'] // Sequoia - Deep Green
       }
     }
   }
@@ -42,8 +42,8 @@ export class TreeGenerator {
     const scale = stageScales[Math.min(stage, 3)]
 
     // Trunk properties - grow with stage
-    const baseWidth = 8 + (rand() * 4)
-    const baseHeight = 35 + (rand() * 15)
+    const baseWidth = 8 + rand() * 4
+    const baseHeight = 35 + rand() * 15
     const trunkWidth = baseWidth * (0.5 + stage * 0.25) // Thicker trunk as it grows
     const trunkHeight = baseHeight * (0.6 + stage * 0.2) // Taller trunk as it grows
     const trunkColor = this.colors.trunk[Math.floor(rand() * this.colors.trunk.length)]
@@ -69,11 +69,11 @@ export class TreeGenerator {
       if (stage >= 2) {
         const branchCount = stage === 2 ? 2 : 4
         for (let b = 0; b < branchCount; b++) {
-          const branchY = 90 - trunkHeight * (0.3 + (b * 0.2))
+          const branchY = 90 - trunkHeight * (0.3 + b * 0.2)
           const branchAngle = (b % 2 === 0 ? -1 : 1) * (30 + rand() * 20)
           const branchLength = 15 + rand() * 10
-          const branchEndX = 50 + Math.sin(branchAngle * Math.PI / 180) * branchLength
-          const branchEndY = branchY - Math.cos(branchAngle * Math.PI / 180) * branchLength
+          const branchEndX = 50 + Math.sin((branchAngle * Math.PI) / 180) * branchLength
+          const branchEndY = branchY - Math.cos((branchAngle * Math.PI) / 180) * branchLength
 
           svgContent += `<line x1="50" y1="${branchY}" x2="${branchEndX}" y2="${branchEndY}" 
                         stroke="${trunkColor}" stroke-width="${trunkWidth * 0.4}" stroke-linecap="round"/>`
@@ -86,18 +86,20 @@ export class TreeGenerator {
     const canopyRadius = 25 * scale
 
     for (let i = 0; i < leafCount; i++) {
-      const angle = (rand() * Math.PI * 2)
-      const distance = (rand() * canopyRadius)
+      const angle = rand() * Math.PI * 2
+      const distance = rand() * canopyRadius
       const cx = 50 + Math.cos(angle) * distance
-      const cy = canopyY + Math.sin(angle) * distance * 0.7 - (stage * 3) // Lift canopy as it grows
+      const cy = canopyY + Math.sin(angle) * distance * 0.7 - stage * 3 // Lift canopy as it grows
       const r = (4 + rand() * 6) * scale
       const color = leafColors[Math.floor(rand() * leafColors.length)]
-      const opacity = 0.7 + (rand() * 0.2)
+      const opacity = 0.7 + rand() * 0.2
 
-      if (species === 2) { // Pine - Triangles
+      if (species === 2) {
+        // Pine - Triangles
         svgContent += `<polygon points="${cx},${cy - r} ${cx - r},${cy + r} ${cx + r},${cy + r}" 
                     fill="${color}" opacity="${opacity}"/>`
-      } else { // Others - Circles
+      } else {
+        // Others - Circles
         svgContent += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${color}" opacity="${opacity}"/>`
       }
     }

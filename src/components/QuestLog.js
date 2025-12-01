@@ -1,16 +1,16 @@
-import { questManager } from '../utils/questManager.js';
+import { questManager } from '../utils/questManager.js'
 
 export class QuestLog {
-    constructor(containerId) {
-        this.containerId = containerId;
-        this.currentTab = 'daily';
-    }
+  constructor(containerId) {
+    this.containerId = containerId
+    this.currentTab = 'daily'
+  }
 
-    render() {
-        const container = document.getElementById(this.containerId);
-        if (!container) return;
+  render() {
+    const container = document.getElementById(this.containerId)
+    if (!container) return
 
-        container.innerHTML = `
+    container.innerHTML = `
       <div class="quest-log-container">
         <div class="quest-header">
           <div class="quest-title">
@@ -26,28 +26,29 @@ export class QuestLog {
           <!-- Quests injected here -->
         </div>
       </div>
-    `;
+    `
 
-        this.renderQuests();
-        this.attachListeners();
+    this.renderQuests()
+    this.attachListeners()
+  }
+
+  renderQuests() {
+    const list = document.getElementById('quest-list-content')
+    if (!list) return
+
+    const quests = questManager.getQuests(this.currentTab)
+
+    if (quests.length === 0) {
+      list.innerHTML = `<div style="text-align:center; color:#64748b; padding:2rem;">No active quests</div>`
+      return
     }
 
-    renderQuests() {
-        const list = document.getElementById('quest-list-content');
-        if (!list) return;
+    list.innerHTML = quests
+      .map(quest => {
+        const percent = Math.min(100, Math.floor((quest.progress / quest.target) * 100))
+        const isClaimable = quest.completed && !quest.claimed
 
-        const quests = questManager.getQuests(this.currentTab);
-
-        if (quests.length === 0) {
-            list.innerHTML = `<div style="text-align:center; color:#64748b; padding:2rem;">No active quests</div>`;
-            return;
-        }
-
-        list.innerHTML = quests.map(quest => {
-            const percent = Math.min(100, Math.floor((quest.progress / quest.target) * 100));
-            const isClaimable = quest.completed && !quest.claimed;
-
-            return `
+        return `
         <div class="quest-item ${quest.completed ? 'completed' : ''}">
           <div class="quest-icon">
             ${quest.completed ? '✅' : '⚔️'}
@@ -65,38 +66,40 @@ export class QuestLog {
             <div class="quest-progress-text">${quest.progress} / ${quest.target}</div>
           </div>
           <div class="quest-action">
-            ${isClaimable
-                    ? `<button class="claim-quest-btn" onclick="window.claimQuest('${quest.id}')">Claim</button>`
-                    : quest.claimed
-                        ? `<button class="claim-quest-btn" disabled>Claimed</button>`
-                        : `<button class="claim-quest-btn" disabled>${percent}%</button>`
-                }
+            ${
+              isClaimable
+                ? `<button class="claim-quest-btn" onclick="window.claimQuest('${quest.id}')">Claim</button>`
+                : quest.claimed
+                  ? `<button class="claim-quest-btn" disabled>Claimed</button>`
+                  : `<button class="claim-quest-btn" disabled>${percent}%</button>`
+            }
           </div>
         </div>
-      `;
-        }).join('');
-    }
+      `
+      })
+      .join('')
+  }
 
-    attachListeners() {
-        // Tab switching
-        const tabs = document.querySelectorAll('.quest-tab');
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                this.currentTab = tab.dataset.tab;
-                this.render();
-            });
-        });
+  attachListeners() {
+    // Tab switching
+    const tabs = document.querySelectorAll('.quest-tab')
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        this.currentTab = tab.dataset.tab
+        this.render()
+      })
+    })
 
-        // Global claim handler
-        window.claimQuest = (questId) => {
-            try {
-                const reward = questManager.claimReward(questId);
-                alert(`Claimed: ${reward.xp} XP and ${reward.tokens || 0} Tokens!`);
-                this.renderQuests();
-                // Trigger global XP update event here if needed
-            } catch (e) {
-                console.error(e);
-            }
-        };
+    // Global claim handler
+    window.claimQuest = questId => {
+      try {
+        const reward = questManager.claimReward(questId)
+        alert(`Claimed: ${reward.xp} XP and ${reward.tokens || 0} Tokens!`)
+        this.renderQuests()
+        // Trigger global XP update event here if needed
+      } catch (e) {
+        console.error(e)
+      }
     }
+  }
 }

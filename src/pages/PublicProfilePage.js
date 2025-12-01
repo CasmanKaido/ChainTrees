@@ -1,19 +1,19 @@
-import { levelingSystem } from '../utils/levelingSystem.js';
-import { friendSystem } from '../utils/friendSystem.js';
-import { UserTransactions } from '../components/UserTransactions.js';
-import '../styles/profile.css';
+import { levelingSystem } from '../utils/levelingSystem.js'
+import { friendSystem } from '../utils/friendSystem.js'
+import { UserTransactions } from '../components/UserTransactions.js'
+import '../styles/profile.css'
 
 export class PublicProfilePage {
   constructor(containerId) {
-    this.containerId = containerId;
-    this.currentAddress = null;
-    this.transactions = new UserTransactions('profile-transactions');
+    this.containerId = containerId
+    this.currentAddress = null
+    this.transactions = new UserTransactions('profile-transactions')
   }
 
   async render(address) {
-    this.currentAddress = address;
-    const container = document.getElementById(this.containerId);
-    if (!container) return;
+    this.currentAddress = address
+    const container = document.getElementById(this.containerId)
+    if (!container) return
 
     // Mock data for now - in real app, fetch from contract/backend
     const userData = {
@@ -22,11 +22,11 @@ export class PublicProfilePage {
       trees: 42,
       carbonOffset: 850,
       joinDate: '2023-09-15'
-    };
+    }
 
-    const level = levelingSystem.getLevel(userData.xp);
-    const title = levelingSystem.getTitle(level);
-    const isFriend = friendSystem.isFriend(address);
+    const level = levelingSystem.getLevel(userData.xp)
+    const title = levelingSystem.getTitle(level)
+    const isFriend = friendSystem.isFriend(address)
 
     container.innerHTML = `
       <div class="profile-container">
@@ -57,10 +57,11 @@ export class PublicProfilePage {
             </div>
           </div>
           <div class="profile-actions">
-            ${!isFriend
-        ? `<button class="add-btn" onclick="window.addFriend('${address}')">Add Friend</button>`
-        : `<button class="add-btn" style="background:#475569" disabled>Friends</button>`
-      }
+            ${
+              !isFriend
+                ? `<button class="add-btn" onclick="window.addFriend('${address}')">Add Friend</button>`
+                : `<button class="add-btn" style="background:#475569" disabled>Friends</button>`
+            }
           </div>
         </div>
 
@@ -72,38 +73,45 @@ export class PublicProfilePage {
 
         <div id="profile-content-forest" class="forest-grid">
           <!-- Mock Trees -->
-          ${Array(8).fill(0).map((_, i) => `
+          ${Array(8)
+            .fill(0)
+            .map(
+              (_, i) => `
             <div class="forest-item">
               <div class="forest-img">🌲</div>
               <div style="font-weight:600; font-size:0.9rem">Tree #${1000 + i}</div>
               <div style="font-size:0.8rem; color:#94a3b8">Level ${Math.floor(Math.random() * 5) + 1}</div>
             </div>
-          `).join('')}
+          `
+            )
+            .join('')}
         </div>
 
         <div id="profile-content-activity" style="display:none">
           <div id="profile-transactions"></div>
         </div>
       </div>
-    `;
+    `
 
-    this.transactions.render(address);
+    this.transactions.render(address)
 
-    window.addFriend = (addr) => {
+    window.addFriend = addr => {
       try {
-        friendSystem.addFriend(addr);
-        this.render(addr); // Re-render to update button
+        friendSystem.addFriend(addr)
+        this.render(addr) // Re-render to update button
       } catch (e) {
-        alert(e.message);
+        alert(e.message)
       }
-    };
+    }
 
     window.switchProfileTab = (tab, event) => {
-      document.getElementById('profile-content-forest').style.display = tab === 'forest' ? 'grid' : 'none';
-      document.getElementById('profile-content-activity').style.display = tab === 'activity' ? 'block' : 'none';
+      document.getElementById('profile-content-forest').style.display =
+        tab === 'forest' ? 'grid' : 'none'
+      document.getElementById('profile-content-activity').style.display =
+        tab === 'activity' ? 'block' : 'none'
 
-      document.querySelectorAll('.profile-tab').forEach(t => t.classList.remove('active'));
-      event.target.classList.add('active');
-    };
+      document.querySelectorAll('.profile-tab').forEach(t => t.classList.remove('active'))
+      event.target.classList.add('active')
+    }
   }
 }

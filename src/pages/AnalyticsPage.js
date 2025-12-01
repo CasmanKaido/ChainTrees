@@ -1,26 +1,26 @@
-import { AnalyticsChart } from '../components/AnalyticsChart.js';
-import { DateRangePicker } from '../components/DateRangePicker.js';
-import { walletState } from '../utils/walletState.js';
-import '../styles/analytics.css';
+import { AnalyticsChart } from '../components/AnalyticsChart.js'
+import { DateRangePicker } from '../components/DateRangePicker.js'
+import { walletState } from '../utils/walletState.js'
+import '../styles/analytics.css'
 
 export class AnalyticsPage {
-    constructor(containerId) {
-        this.containerId = containerId;
-        this.datePicker = new DateRangePicker((range) => this.handleRangeChange(range));
-        this.charts = {};
+  constructor(containerId) {
+    this.containerId = containerId
+    this.datePicker = new DateRangePicker(range => this.handleRangeChange(range))
+    this.charts = {}
+  }
+
+  render() {
+    const container = document.getElementById(this.containerId)
+    if (!container) return
+
+    const account = walletState.getAccount()
+    if (!account.isConnected) {
+      this.renderConnectWallet(container)
+      return
     }
 
-    render() {
-        const container = document.getElementById(this.containerId);
-        if (!container) return;
-
-        const account = walletState.getAccount();
-        if (!account.isConnected) {
-            this.renderConnectWallet(container);
-            return;
-        }
-
-        container.innerHTML = `
+    container.innerHTML = `
       <div class="analytics-page">
         <div class="analytics-header">
           <div>
@@ -96,20 +96,20 @@ export class AnalyticsPage {
           </div>
         </div>
       </div>
-    `;
+    `
 
-        // Render Date Picker
-        const dateWrapper = document.getElementById('date-picker-wrapper');
-        dateWrapper.innerHTML = this.datePicker.render();
-        this.datePicker.attachListeners(dateWrapper);
+    // Render Date Picker
+    const dateWrapper = document.getElementById('date-picker-wrapper')
+    dateWrapper.innerHTML = this.datePicker.render()
+    this.datePicker.attachListeners(dateWrapper)
 
-        // Initialize Charts
-        this.initCharts();
-        this.attachListeners();
-    }
+    // Initialize Charts
+    this.initCharts()
+    this.attachListeners()
+  }
 
-    renderConnectWallet(container) {
-        container.innerHTML = `
+  renderConnectWallet(container) {
+    container.innerHTML = `
       <div class="analytics-page">
         <div class="empty-state" style="text-align: center; padding: 4rem;">
           <span style="font-size: 4rem;">📊</span>
@@ -117,81 +117,85 @@ export class AnalyticsPage {
           <p>Connect your wallet to view your analytics.</p>
         </div>
       </div>
-    `;
-    }
+    `
+  }
 
-    initCharts() {
-        // Carbon Chart
-        this.charts.carbon = new AnalyticsChart('carbon-chart', {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                datasets: [{
-                    label: 'Carbon Offset (kg)',
-                    data: [100, 250, 400, 600, 850, 1200],
-                    borderColor: '#0ea5e9',
-                    backgroundColor: 'rgba(14, 165, 233, 0.1)',
-                    fill: true,
-                    tension: 0.4
-                }]
-            }
-        });
-        this.charts.carbon.render();
+  initCharts() {
+    // Carbon Chart
+    this.charts.carbon = new AnalyticsChart('carbon-chart', {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        datasets: [
+          {
+            label: 'Carbon Offset (kg)',
+            data: [100, 250, 400, 600, 850, 1200],
+            borderColor: '#0ea5e9',
+            backgroundColor: 'rgba(14, 165, 233, 0.1)',
+            fill: true,
+            tension: 0.4
+          }
+        ]
+      }
+    })
+    this.charts.carbon.render()
 
-        // Rewards Chart
-        this.charts.rewards = new AnalyticsChart('rewards-chart', {
-            type: 'bar',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                datasets: [
-                    {
-                        label: 'Staking',
-                        data: [50, 60, 75, 80, 95, 110],
-                        backgroundColor: '#10b981',
-                        borderRadius: 4
-                    },
-                    {
-                        label: 'Quizzes',
-                        data: [20, 30, 25, 40, 35, 50],
-                        backgroundColor: '#8b5cf6',
-                        borderRadius: 4
-                    }
-                ]
-            },
-            options: {
-                scales: {
-                    x: { stacked: true },
-                    y: { stacked: true }
-                }
-            }
-        });
-        this.charts.rewards.render();
-    }
-
-    handleRangeChange(range) {
-        console.log(`Date range changed to: ${range}`);
-        // Mock data update
-        const multiplier = range === '7d' ? 0.2 : range === '90d' ? 2 : 1;
-
-        this.charts.carbon.update({
-            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-            datasets: [{
-                label: 'Carbon Offset (kg)',
-                data: [100, 200, 300, 400].map(v => v * multiplier),
-                borderColor: '#0ea5e9',
-                backgroundColor: 'rgba(14, 165, 233, 0.1)',
-                fill: true,
-                tension: 0.4
-            }]
-        });
-    }
-
-    attachListeners() {
-        const exportBtn = document.getElementById('export-report-btn');
-        if (exportBtn) {
-            exportBtn.addEventListener('click', () => {
-                alert('Generating report... (Mock download started)');
-            });
+    // Rewards Chart
+    this.charts.rewards = new AnalyticsChart('rewards-chart', {
+      type: 'bar',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        datasets: [
+          {
+            label: 'Staking',
+            data: [50, 60, 75, 80, 95, 110],
+            backgroundColor: '#10b981',
+            borderRadius: 4
+          },
+          {
+            label: 'Quizzes',
+            data: [20, 30, 25, 40, 35, 50],
+            backgroundColor: '#8b5cf6',
+            borderRadius: 4
+          }
+        ]
+      },
+      options: {
+        scales: {
+          x: { stacked: true },
+          y: { stacked: true }
         }
+      }
+    })
+    this.charts.rewards.render()
+  }
+
+  handleRangeChange(range) {
+    console.log(`Date range changed to: ${range}`)
+    // Mock data update
+    const multiplier = range === '7d' ? 0.2 : range === '90d' ? 2 : 1
+
+    this.charts.carbon.update({
+      labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+      datasets: [
+        {
+          label: 'Carbon Offset (kg)',
+          data: [100, 200, 300, 400].map(v => v * multiplier),
+          borderColor: '#0ea5e9',
+          backgroundColor: 'rgba(14, 165, 233, 0.1)',
+          fill: true,
+          tension: 0.4
+        }
+      ]
+    })
+  }
+
+  attachListeners() {
+    const exportBtn = document.getElementById('export-report-btn')
+    if (exportBtn) {
+      exportBtn.addEventListener('click', () => {
+        alert('Generating report... (Mock download started)')
+      })
     }
+  }
 }

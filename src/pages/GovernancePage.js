@@ -1,35 +1,35 @@
-import { ProposalCard } from '../components/ProposalCard.js';
-import { CreateProposalModal } from '../components/CreateProposalModal.js';
-import { DelegateModal } from '../components/DelegateModal.js';
-import { governanceSystem } from '../utils/governanceSystem.js';
-import { tokenSystem } from '../utils/tokenSystem.js';
-import { treasurySystem } from '../utils/treasurySystem.js';
-import { walletState } from '../utils/walletState.js';
-import '../styles/governance.css';
+import { ProposalCard } from '../components/ProposalCard.js'
+import { CreateProposalModal } from '../components/CreateProposalModal.js'
+import { DelegateModal } from '../components/DelegateModal.js'
+import { governanceSystem } from '../utils/governanceSystem.js'
+import { tokenSystem } from '../utils/tokenSystem.js'
+import { treasurySystem } from '../utils/treasurySystem.js'
+import { walletState } from '../utils/walletState.js'
+import '../styles/governance.css'
 
 export class GovernancePage {
   constructor(containerId) {
-    this.containerId = containerId;
-    this.modal = new CreateProposalModal();
-    this.delegateModal = new DelegateModal();
+    this.containerId = containerId
+    this.modal = new CreateProposalModal()
+    this.delegateModal = new DelegateModal()
     // Expose refresh for modal
-    window.refreshGovernance = () => this.render();
-    window.executeProposal = (id) => this.handleExecute(id);
+    window.refreshGovernance = () => this.render()
+    window.executeProposal = id => this.handleExecute(id)
   }
 
   async render() {
-    const container = document.getElementById(this.containerId);
-    if (!container) return;
+    const container = document.getElementById(this.containerId)
+    if (!container) return
 
     // Generate mock proposals if empty
     if (governanceSystem.getProposals().length === 0) {
-      this.generateMockProposals();
+      this.generateMockProposals()
     }
 
-    const proposals = governanceSystem.getProposals();
-    const userAddress = '0xUserWallet'; // Mock for now
-    const votingPower = tokenSystem.getVotes(userAddress);
-    const treasuryBalance = treasurySystem.getBalance();
+    const proposals = governanceSystem.getProposals()
+    const userAddress = '0xUserWallet' // Mock for now
+    const votingPower = tokenSystem.getVotes(userAddress)
+    const treasuryBalance = treasurySystem.getBalance()
 
     container.innerHTML = `
       <div class="governance-container">
@@ -73,70 +73,72 @@ export class GovernancePage {
         <h2 style="margin:2rem 0 1rem; color:#e2e8f0">Proposals</h2>
         <div id="proposals-list"></div>
       </div>
-    `;
+    `
 
-    this.renderProposals(proposals);
-    this.attachListeners();
+    this.renderProposals(proposals)
+    this.attachListeners()
   }
 
   renderProposals(proposals) {
-    const list = document.getElementById('proposals-list');
-    if (!list) return;
+    const list = document.getElementById('proposals-list')
+    if (!list) return
 
-    list.innerHTML = proposals.map(prop => {
-      const component = new ProposalCard(prop, (id, choice) => this.handleVote(id, choice));
-      return component.render();
-    }).join('');
+    list.innerHTML = proposals
+      .map(prop => {
+        const component = new ProposalCard(prop, (id, choice) => this.handleVote(id, choice))
+        return component.render()
+      })
+      .join('')
 
     proposals.forEach(prop => {
-      const component = new ProposalCard(prop, (id, choice) => this.handleVote(id, choice));
-      component.attachListeners(list);
-    });
+      const component = new ProposalCard(prop, (id, choice) => this.handleVote(id, choice))
+      component.attachListeners(list)
+    })
   }
 
   attachListeners() {
-    const btn = document.getElementById('new-prop-btn');
+    const btn = document.getElementById('new-prop-btn')
     if (btn) {
       btn.addEventListener('click', () => {
-        this.modal.open();
-      });
+        this.modal.open()
+      })
     }
 
-    const delegateBtn = document.getElementById('delegate-btn');
+    const delegateBtn = document.getElementById('delegate-btn')
     if (delegateBtn) {
       delegateBtn.addEventListener('click', () => {
-        this.delegateModal.open('0xUserWallet'); // Mock for now
-      });
+        this.delegateModal.open('0xUserWallet') // Mock for now
+      })
     }
   }
 
   async handleVote(id, choice) {
-    const account = { address: '0xUserWallet' }; // Mock for now
-    const votingPower = tokenSystem.getVotes(account.address);
+    const account = { address: '0xUserWallet' } // Mock for now
+    const votingPower = tokenSystem.getVotes(account.address)
 
     if (votingPower === 0) {
-      alert('You have no voting power. You may have delegated your votes.');
-      return;
+      alert('You have no voting power. You may have delegated your votes.')
+      return
     }
 
-    if (!confirm(`Vote ${choice} on proposal with ${votingPower} VP?`)) return;
+    if (!confirm(`Vote ${choice} on proposal with ${votingPower} VP?`)) return
 
     try {
-      governanceSystem.vote(id, account.address, choice, votingPower);
-      alert('Vote cast successfully! 🗳️');
-      this.render(); // Refresh
+      governanceSystem.vote(id, account.address, choice, votingPower)
+      alert('Vote cast successfully! 🗳️')
+      this.render() // Refresh
     } catch (error) {
-      alert('Voting failed: ' + error.message);
+      alert('Voting failed: ' + error.message)
     }
   }
 
   async handleExecute(id) {
     try {
-      governanceSystem.executeProposal(id);
-      alert('Proposal executed successfully! ⚡');
-      this.render();
+      governanceSystem.executeProposal(id)
+      alert('Proposal executed successfully! ⚡')
+      this.render()
     } catch (error) {
-      alert('Execution failed: ' + error.message);
+      alert('Execution failed: ' + error.message)
     }
   }
 
@@ -146,12 +148,12 @@ export class GovernancePage {
       'Proposal to increase the base staking APY from 5% to 8% to attract more long-term holders.',
       '0xDaoMember1',
       7
-    );
+    )
     governanceSystem.createProposal(
       'Add Redwood Species',
       'Introduce the Redwood tree species as a Legendary rarity item.',
       '0xDaoMember2',
       3
-    );
+    )
   }
 }

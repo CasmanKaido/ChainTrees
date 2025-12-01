@@ -1,135 +1,134 @@
 /* Mobile Optimizations */
 @media (max-width: 768px) {
+  /* Layout Adjustments */
+  .app-container {
+    padding-bottom: 80px;
+    /* Space for bottom nav if we add one */
+  }
 
-    /* Layout Adjustments */
-    .app-container {
-        padding-bottom: 80px;
-        /* Space for bottom nav if we add one */
-    }
+  .top-bar {
+    padding: 1rem;
+    flex-direction: column;
+    gap: 1rem;
+  }
 
-    .top-bar {
-        padding: 1rem;
-        flex-direction: column;
-        gap: 1rem;
-    }
+  .nav-menu {
+    overflow-x: auto;
+    width: 100%;
+    padding-bottom: 0.5rem;
+    justify-content: flex-start;
+  }
 
-    .nav-menu {
-        overflow-x: auto;
-        width: 100%;
-        padding-bottom: 0.5rem;
-        justify-content: flex-start;
-    }
+  .nav-btn {
+    white-space: nowrap;
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
 
-    .nav-btn {
-        white-space: nowrap;
-        padding: 0.6rem 1rem;
-        font-size: 0.9rem;
-    }
+  /* Typography */
+  h1 {
+    font-size: 2rem !important;
+  }
 
-    /* Typography */
-    h1 {
-        font-size: 2rem !important;
-    }
+  h2 {
+    font-size: 1.5rem !important;
+  }
 
-    h2 {
-        font-size: 1.5rem !important;
-    }
+  /* Component Adjustments */
+  .tree-card,
+  .proposal-card,
+  .article-card,
+  .listing-card {
+    margin-bottom: 1rem;
+  }
 
-    /* Component Adjustments */
-    .tree-card,
-    .proposal-card,
-    .article-card,
-    .listing-card {
-        margin-bottom: 1rem;
-    }
+  /* Modal Full Screen on Mobile */
+  .modal-content {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    border-radius: 0 !important;
+    display: flex;
+    flex-direction: column;
+  }
 
-    /* Modal Full Screen on Mobile */
-    .modal-content {
-        width: 100% !important;
-        height: 100% !important;
-        max-width: none !important;
-        border-radius: 0 !important;
-        display: flex;
-        flex-direction: column;
-    }
+  .modal-content > * {
+    flex-shrink: 0;
+  }
 
-    .modal-content>* {
-        flex-shrink: 0;
-    }
+  .modal-content .quiz-options,
+  .modal-content .form-group {
+    flex: 1;
+    overflow-y: auto;
+  }
 
-    .modal-content .quiz-options,
-    .modal-content .form-group {
-        flex: 1;
-        overflow-y: auto;
-    }
-
-    /* Touch Targets */
-    button,
-    .nav-btn,
-    .quiz-option {
-        min-height: 44px;
-        /* Apple HIG minimum */
-    }
+  /* Touch Targets */
+  button,
+  .nav-btn,
+  .quiz-option {
+    min-height: 44px;
+    /* Apple HIG minimum */
+  }
 }
 
 /* Install Prompt */
 .install-prompt {
-    position: fixed;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%) translateY(100px);
-    background: #1e293b;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 1rem 2rem;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 2000;
-    width: 90%;
-    max-width: 400px;
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: #1e293b;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 2000;
+  width: 90%;
+  max-width: 400px;
 }
 
 .install-prompt.show {
-    transform: translateX(-50%) translateY(0);
+  transform: translateX(-50%) translateY(0);
 }
 
 .install-text {
-    flex: 1;
+  flex: 1;
 }
 
 .install-title {
-    font-weight: bold;
-    margin-bottom: 0.2rem;
+  font-weight: bold;
+  margin-bottom: 0.2rem;
 }
 
 .install-desc {
-    font-size: 0.8rem;
-    color: var(--text-secondary);
+  font-size: 0.8rem;
+  color: var(--text-secondary);
 }
 
 .install-actions {
-    display: flex;
-    gap: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
 }
 
 .install-btn {
-    background: #10b981;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
+  background: #10b981;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .close-install-btn {
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: white;
-    padding: 0.5rem;
-    border-radius: 6px;
-    cursor: pointer;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
 }

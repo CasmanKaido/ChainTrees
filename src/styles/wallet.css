@@ -1,171 +1,171 @@
 /* Wallet Connect Component Styles */
 
 .wallet-connect {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
 }
 
 /* Connect Button */
 .wallet-connect-button {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
-    padding: var(--space-sm) var(--space-lg);
-    background: var(--gradient-primary);
-    color: white;
-    border: none;
-    border-radius: var(--radius-md);
-    font-family: var(--font-primary);
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-lg);
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: var(--font-primary);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-sm);
 }
 
 .wallet-connect-button:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 .wallet-connect-button:active {
-    transform: translateY(0);
+  transform: translateY(0);
 }
 
 .wallet-icon {
-    width: 20px;
-    height: 20px;
+  width: 20px;
+  height: 20px;
 }
 
 /* Connected State */
 .wallet-connected {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
 }
 
 .wallet-info {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
-    padding: var(--space-xs) var(--space-md);
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-xs) var(--space-md);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
 }
 
 .chain-badge {
-    padding: 4px 12px;
-    background: var(--gradient-primary);
-    color: white;
-    border-radius: var(--radius-sm);
-    font-size: 0.875rem;
-    font-weight: 600;
+  padding: 4px 12px;
+  background: var(--gradient-primary);
+  color: white;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-weight: 600;
 }
 
 .wallet-address {
-    font-family: 'Courier New', monospace;
-    font-size: 0.875rem;
-    color: var(--text-secondary);
+  font-family: 'Courier New', monospace;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
 }
 
 .wallet-button {
-    padding: var(--space-xs) var(--space-sm);
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    color: var(--text);
-    cursor: pointer;
-    transition: all 0.2s ease;
+  padding: var(--space-xs) var(--space-sm);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .wallet-button:hover {
-    background: var(--surface-light);
-    border-color: var(--accent);
+  background: var(--surface-light);
+  border-color: var(--accent);
 }
 
 .wallet-icon-small {
-    width: 18px;
-    height: 18px;
+  width: 18px;
+  height: 18px;
 }
 
 .disconnect-button {
-    padding: var(--space-xs) var(--space-sm);
-    background: transparent;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    color: var(--text-secondary);
-    cursor: pointer;
-    transition: all 0.2s ease;
+  padding: var(--space-xs) var(--space-sm);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .disconnect-button:hover {
-    background: rgba(239, 68, 68, 0.1);
-    border-color: rgba(239, 68, 68, 0.5);
-    color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.5);
+  color: #ef4444;
 }
 
 .disconnect-icon {
-    width: 18px;
-    height: 18px;
+  width: 18px;
+  height: 18px;
 }
 
 /* Notifications */
 .notification {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    padding: var(--space-md) var(--space-lg);
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-lg);
-    font-size: 0.875rem;
-    font-weight: 500;
-    z-index: 10000;
-    opacity: 0;
-    transform: translateX(100px);
-    transition: all 0.3s ease;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: var(--space-md) var(--space-lg);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  font-size: 0.875rem;
+  font-weight: 500;
+  z-index: 10000;
+  opacity: 0;
+  transform: translateX(100px);
+  transition: all 0.3s ease;
 }
 
 .notification.show {
-    opacity: 1;
-    transform: translateX(0);
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .notification-success {
-    border-left: 4px solid var(--accent);
-    color: var(--accent);
+  border-left: 4px solid var(--accent);
+  color: var(--accent);
 }
 
 .notification-error {
-    border-left: 4px solid #ef4444;
-    color: #ef4444;
+  border-left: 4px solid #ef4444;
+  color: #ef4444;
 }
 
 .notification-info {
-    border-left: 4px solid #3b82f6;
-    color: #3b82f6;
+  border-left: 4px solid #3b82f6;
+  color: #3b82f6;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-    .wallet-info {
-        padding: var(--space-xs) var(--space-sm);
-    }
+  .wallet-info {
+    padding: var(--space-xs) var(--space-sm);
+  }
 
-    .chain-badge {
-        font-size: 0.75rem;
-        padding: 2px 8px;
-    }
+  .chain-badge {
+    font-size: 0.75rem;
+    padding: 2px 8px;
+  }
 
-    .wallet-address {
-        font-size: 0.75rem;
-    }
+  .wallet-address {
+    font-size: 0.75rem;
+  }
 
-    .wallet-connect-button {
-        padding: var(--space-sm) var(--space-md);
-        font-size: 0.875rem;
-    }
+  .wallet-connect-button {
+    padding: var(--space-sm) var(--space-md);
+    font-size: 0.875rem;
+  }
 }

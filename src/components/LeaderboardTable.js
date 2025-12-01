@@ -1,25 +1,25 @@
-import { UserProfile } from './UserProfile.js';
+import { UserProfile } from './UserProfile.js'
 
 export class LeaderboardTable {
-    constructor(containerId, data) {
-        this.containerId = containerId;
-        this.data = data;
-        this.sortField = 'trees';
-        this.sortDirection = 'desc';
-    }
+  constructor(containerId, data) {
+    this.containerId = containerId
+    this.data = data
+    this.sortField = 'trees'
+    this.sortDirection = 'desc'
+  }
 
-    render() {
-        const container = document.getElementById(this.containerId);
-        if (!container) return;
+  render() {
+    const container = document.getElementById(this.containerId)
+    if (!container) return
 
-        // Sort data
-        const sortedData = [...this.data].sort((a, b) => {
-            const valA = a[this.sortField];
-            const valB = b[this.sortField];
-            return this.sortDirection === 'desc' ? valB - valA : valA - valB;
-        });
+    // Sort data
+    const sortedData = [...this.data].sort((a, b) => {
+      const valA = a[this.sortField]
+      const valB = b[this.sortField]
+      return this.sortDirection === 'desc' ? valB - valA : valA - valB
+    })
 
-        container.innerHTML = `
+    container.innerHTML = `
       <table class="leaderboard-table">
         <thead>
           <tr>
@@ -34,23 +34,23 @@ export class LeaderboardTable {
           ${sortedData.map((user, index) => this.renderRow(user, index)).join('')}
         </tbody>
       </table>
-    `;
+    `
 
-        this.attachListeners();
-    }
+    this.attachListeners()
+  }
 
-    getSortIcon(field) {
-        if (this.sortField !== field) return '↕️';
-        return this.sortDirection === 'desc' ? '⬇️' : '⬆️';
-    }
+  getSortIcon(field) {
+    if (this.sortField !== field) return '↕️'
+    return this.sortDirection === 'desc' ? '⬇️' : '⬆️'
+  }
 
-    renderRow(user, index) {
-        const rank = index + 1;
-        const rankClass = rank <= 3 ? `rank-${rank}` : '';
-        const rankDisplay = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : rank;
-        const isUser = user.isUser ? 'highlight-row' : '';
+  renderRow(user, index) {
+    const rank = index + 1
+    const rankClass = rank <= 3 ? `rank-${rank}` : ''
+    const rankDisplay = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : rank
+    const isUser = user.isUser ? 'highlight-row' : ''
 
-        return `
+    return `
       <tr class="${isUser}" data-address="${user.address}">
         <td class="rank-cell ${rankClass}">${rankDisplay}</td>
         <td>
@@ -64,40 +64,40 @@ export class LeaderboardTable {
         <td>${(user.carbon / 1000).toFixed(1)}kg</td>
         <td>${user.waterCount || 0}</td>
       </tr>
-    `;
-    }
+    `
+  }
 
-    attachListeners() {
-        // Sort headers
-        document.querySelectorAll('.sortable').forEach(th => {
-            th.addEventListener('click', () => {
-                const field = th.dataset.sort;
-                if (this.sortField === field) {
-                    this.sortDirection = this.sortDirection === 'desc' ? 'asc' : 'desc';
-                } else {
-                    this.sortField = field;
-                    this.sortDirection = 'desc';
-                }
-                this.render();
-            });
-        });
+  attachListeners() {
+    // Sort headers
+    document.querySelectorAll('.sortable').forEach(th => {
+      th.addEventListener('click', () => {
+        const field = th.dataset.sort
+        if (this.sortField === field) {
+          this.sortDirection = this.sortDirection === 'desc' ? 'asc' : 'desc'
+        } else {
+          this.sortField = field
+          this.sortDirection = 'desc'
+        }
+        this.render()
+      })
+    })
 
-        // Row clicks
-        document.querySelectorAll('tbody tr').forEach(tr => {
-            tr.addEventListener('click', () => {
-                const address = tr.dataset.address;
-                const user = this.data.find(u => u.address === address);
-                if (user) {
-                    // Add rank to user object for display
-                    const rank = this.data.indexOf(user) + 1;
-                    new UserProfile().render({ ...user, rank });
-                }
-            });
-        });
-    }
+    // Row clicks
+    document.querySelectorAll('tbody tr').forEach(tr => {
+      tr.addEventListener('click', () => {
+        const address = tr.dataset.address
+        const user = this.data.find(u => u.address === address)
+        if (user) {
+          // Add rank to user object for display
+          const rank = this.data.indexOf(user) + 1
+          new UserProfile().render({ ...user, rank })
+        }
+      })
+    })
+  }
 
-    updateData(newData) {
-        this.data = newData;
-        this.render();
-    }
+  updateData(newData) {
+    this.data = newData
+    this.render()
+  }
 }

@@ -1,19 +1,19 @@
-import { TreeVisualization } from './TreeVisualization.js';
-import '../styles/tree-visualization.css';
+import { TreeVisualization } from './TreeVisualization.js'
+import '../styles/tree-visualization.css'
 
 export class TreeDetailModal {
-    constructor() {
-        this.modal = null;
-    }
+  constructor() {
+    this.modal = null
+  }
 
-    render(treeData) {
-        // Remove existing modal if any
-        const existing = document.querySelector('.tree-detail-modal');
-        if (existing) existing.remove();
+  render(treeData) {
+    // Remove existing modal if any
+    const existing = document.querySelector('.tree-detail-modal')
+    if (existing) existing.remove()
 
-        const modal = document.createElement('div');
-        modal.className = 'tree-detail-modal open';
-        modal.innerHTML = `
+    const modal = document.createElement('div')
+    modal.className = 'tree-detail-modal open'
+    modal.innerHTML = `
       <div class="modal-content">
         <div class="modal-header">
           <h2>${treeData.species} #${treeData.id}</h2>
@@ -49,32 +49,32 @@ export class TreeDetailModal {
           </div>
         </div>
       </div>
-    `;
+    `
 
-        document.body.appendChild(modal);
-        this.modal = modal;
+    document.body.appendChild(modal)
+    this.modal = modal
 
-        // Initialize visualization
-        const viz = new TreeVisualization('modal-tree-viz', treeData);
-        viz.render();
+    // Initialize visualization
+    const viz = new TreeVisualization('modal-tree-viz', treeData)
+    viz.render()
 
-        // Close handlers
-        modal.querySelector('.modal-close').addEventListener('click', () => this.close());
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) this.close();
-        });
+    // Close handlers
+    modal.querySelector('.modal-close').addEventListener('click', () => this.close())
+    modal.addEventListener('click', e => {
+      if (e.target === modal) this.close()
+    })
 
-        // Water handler
-        modal.querySelector('#modal-water-btn').addEventListener('click', () => {
-            viz.waterTree();
-            // TODO: Call contract
-        });
+    // Water handler
+    modal.querySelector('#modal-water-btn').addEventListener('click', () => {
+      viz.waterTree()
+      // TODO: Call contract
+    })
+  }
+
+  close() {
+    if (this.modal) {
+      this.modal.classList.remove('open')
+      setTimeout(() => this.modal.remove(), 300)
     }
-
-    close() {
-        if (this.modal) {
-            this.modal.classList.remove('open');
-            setTimeout(() => this.modal.remove(), 300);
-        }
-    }
+  }
 }

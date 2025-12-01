@@ -1,117 +1,117 @@
 /* Gifting Modal Styles */
 .gift-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.85);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
 }
 
 .gift-modal.active {
-    opacity: 1;
-    pointer-events: all;
+  opacity: 1;
+  pointer-events: all;
 }
 
 .gift-content {
-    background: #1e293b;
-    padding: 2rem;
-    border-radius: 16px;
-    max-width: 450px;
-    width: 90%;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-    text-align: center;
+  background: #1e293b;
+  padding: 2rem;
+  border-radius: 16px;
+  max-width: 450px;
+  width: 90%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  text-align: center;
 }
 
 .gift-preview {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 1.5rem;
-    border-radius: 12px;
-    margin: 1.5rem 0;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin: 1.5rem 0;
 }
 
 .gift-icon {
-    font-size: 4rem;
-    margin-bottom: 1rem;
-    display: block;
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  display: block;
 }
 
 .gift-tree-name {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: #e2e8f0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #e2e8f0;
 }
 
 .gift-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  text-align: left;
 }
 
 .gift-label {
-    font-size: 0.9rem;
-    color: #94a3b8;
-    margin-bottom: 0.25rem;
+  font-size: 0.9rem;
+  color: #94a3b8;
+  margin-bottom: 0.25rem;
 }
 
 .gift-input {
-    background: rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 0.75rem;
-    border-radius: 8px;
-    color: white;
-    width: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.75rem;
+  border-radius: 8px;
+  color: white;
+  width: 100%;
 }
 
 .gift-select {
-    background: rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 0.75rem;
-    border-radius: 8px;
-    color: white;
-    width: 100%;
-    cursor: pointer;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.75rem;
+  border-radius: 8px;
+  color: white;
+  width: 100%;
+  cursor: pointer;
 }
 
 .gift-message {
-    background: rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 0.75rem;
-    border-radius: 8px;
-    color: white;
-    width: 100%;
-    resize: vertical;
-    min-height: 80px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.75rem;
+  border-radius: 8px;
+  color: white;
+  width: 100%;
+  resize: vertical;
+  min-height: 80px;
 }
 
 .send-gift-btn {
-    background: linear-gradient(45deg, #ec4899, #8b5cf6);
-    color: white;
-    border: none;
-    padding: 1rem;
-    border-radius: 8px;
-    font-weight: 700;
-    font-size: 1.1rem;
-    cursor: pointer;
-    margin-top: 1rem;
-    transition: transform 0.2s;
+  background: linear-gradient(45deg, #ec4899, #8b5cf6);
+  color: white;
+  border: none;
+  padding: 1rem;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: transform 0.2s;
 }
 
 .send-gift-btn:hover {
-    transform: translateY(-2px);
+  transform: translateY(-2px);
 }
 
 .send-gift-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
 }

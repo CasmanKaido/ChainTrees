@@ -6,53 +6,53 @@ import { walletState } from '../utils/walletState.js'
  * Handles wallet connection UI and state
  */
 export class WalletConnect {
-    constructor(containerId = 'wallet-connect-container') {
-        this.containerId = containerId
-        this.container = null
-        this.connectButton = null
-        this.walletInfo = null
-        this.isInitialized = false
+  constructor(containerId = 'wallet-connect-container') {
+    this.containerId = containerId
+    this.container = null
+    this.connectButton = null
+    this.walletInfo = null
+    this.isInitialized = false
+  }
+
+  /**
+   * Initialize the wallet connect component
+   */
+  init() {
+    if (this.isInitialized) return
+
+    this.container = document.getElementById(this.containerId)
+    if (!this.container) {
+      console.error(`Container with id "${this.containerId}" not found`)
+      return
     }
 
-    /**
-     * Initialize the wallet connect component
-     */
-    init() {
-        if (this.isInitialized) return
+    this.render()
+    this.setupListeners()
+    this.isInitialized = true
 
-        this.container = document.getElementById(this.containerId)
-        if (!this.container) {
-            console.error(`Container with id "${this.containerId}" not found`)
-            return
-        }
+    console.log('✅ WalletConnect component initialized')
+  }
 
-        this.render()
-        this.setupListeners()
-        this.isInitialized = true
+  /**
+   * Render the component
+   */
+  render() {
+    const account = walletState.getAccount()
 
-        console.log('✅ WalletConnect component initialized')
-    }
-
-    /**
-     * Render the component
-     */
-    render() {
-        const account = walletState.getAccount()
-
-        this.container.innerHTML = `
+    this.container.innerHTML = `
       <div class="wallet-connect">
         ${account.isConnected ? this.renderConnected(account) : this.renderDisconnected()}
       </div>
     `
 
-        this.attachEventListeners()
-    }
+    this.attachEventListeners()
+  }
 
-    /**
-     * Render disconnected state
-     */
-    renderDisconnected() {
-        return `
+  /**
+   * Render disconnected state
+   */
+  renderDisconnected() {
+    return `
       <button class="wallet-connect-button" id="connect-wallet-btn">
         <svg class="wallet-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"></path>
@@ -62,16 +62,16 @@ export class WalletConnect {
         <span>Connect Wallet</span>
       </button>
     `
-    }
+  }
 
-    /**
-     * Render connected state
-     */
-    renderConnected(account) {
-        const chainName = walletState.getChainName(account.chainId)
-        const formattedAddress = walletState.formatAddress(account.address)
+  /**
+   * Render connected state
+   */
+  renderConnected(account) {
+    const chainName = walletState.getChainName(account.chainId)
+    const formattedAddress = walletState.formatAddress(account.address)
 
-        return `
+    return `
       <div class="wallet-connected">
         <div class="wallet-info">
           <div class="chain-badge">${chainName}</div>
@@ -93,108 +93,108 @@ export class WalletConnect {
         </button>
       </div>
     `
+  }
+
+  /**
+   * Attach event listeners to buttons
+   */
+  attachEventListeners() {
+    const connectBtn = document.getElementById('connect-wallet-btn')
+    const disconnectBtn = document.getElementById('disconnect-btn')
+    const menuBtn = document.getElementById('wallet-menu-btn')
+
+    if (connectBtn) {
+      connectBtn.addEventListener('click', () => this.openModal())
     }
 
-    /**
-     * Attach event listeners to buttons
-     */
-    attachEventListeners() {
-        const connectBtn = document.getElementById('connect-wallet-btn')
-        const disconnectBtn = document.getElementById('disconnect-btn')
-        const menuBtn = document.getElementById('wallet-menu-btn')
-
-        if (connectBtn) {
-            connectBtn.addEventListener('click', () => this.openModal())
-        }
-
-        if (disconnectBtn) {
-            disconnectBtn.addEventListener('click', () => this.disconnect())
-        }
-
-        if (menuBtn) {
-            menuBtn.addEventListener('click', () => this.openModal())
-        }
+    if (disconnectBtn) {
+      disconnectBtn.addEventListener('click', () => this.disconnect())
     }
 
-    /**
-     * Open WalletConnect modal
-     */
-    openModal() {
-        modal.open()
+    if (menuBtn) {
+      menuBtn.addEventListener('click', () => this.openModal())
     }
+  }
 
-    /**
-     * Disconnect wallet
-     */
-    async disconnect() {
-        try {
-            await walletState.disconnect()
-            this.render()
-            this.showNotification('Wallet disconnected', 'success')
-        } catch (error) {
-            console.error('Error disconnecting:', error)
-            this.showNotification('Failed to disconnect wallet', 'error')
-        }
+  /**
+   * Open WalletConnect modal
+   */
+  openModal() {
+    modal.open()
+  }
+
+  /**
+   * Disconnect wallet
+   */
+  async disconnect() {
+    try {
+      await walletState.disconnect()
+      this.render()
+      this.showNotification('Wallet disconnected', 'success')
+    } catch (error) {
+      console.error('Error disconnecting:', error)
+      this.showNotification('Failed to disconnect wallet', 'error')
     }
+  }
 
-    /**
-     * Setup wallet state listeners
-     */
-    setupListeners() {
-        walletState.watchAccount((account) => {
-            console.log('Account changed:', account)
-            this.render()
+  /**
+   * Setup wallet state listeners
+   */
+  setupListeners() {
+    walletState.watchAccount(account => {
+      console.log('Account changed:', account)
+      this.render()
 
-            if (account.isConnected) {
-                this.showNotification(
-                    `Connected to ${walletState.getChainName(account.chainId)}`,
-                    'success'
-                )
-                this.loadBalance(account.address)
-            }
-        })
+      if (account.isConnected) {
+        this.showNotification(
+          `Connected to ${walletState.getChainName(account.chainId)}`,
+          'success'
+        )
+        this.loadBalance(account.address)
+      }
+    })
+  }
+
+  /**
+   * Load and display wallet balance
+   */
+  async loadBalance(address) {
+    try {
+      const balance = await walletState.getBalance(address)
+      console.log('Balance:', balance.formatted, balance.symbol)
+
+      // You can update UI with balance here if needed
+      // For now, just log it
+    } catch (error) {
+      console.error('Error loading balance:', error)
     }
+  }
 
-    /**
-     * Load and display wallet balance
-     */
-    async loadBalance(address) {
-        try {
-            const balance = await walletState.getBalance(address)
-            console.log('Balance:', balance.formatted, balance.symbol)
+  /**
+   * Show notification
+   */
+  showNotification(message, type = 'info') {
+    const notification = document.createElement('div')
+    notification.className = `notification notification-${type}`
+    notification.textContent = message
 
-            // You can update UI with balance here if needed
-            // For now, just log it
-        } catch (error) {
-            console.error('Error loading balance:', error)
-        }
-    }
+    document.body.appendChild(notification)
 
-    /**
-     * Show notification
-     */
-    showNotification(message, type = 'info') {
-        const notification = document.createElement('div')
-        notification.className = `notification notification-${type}`
-        notification.textContent = message
+    // Trigger animation
+    setTimeout(() => notification.classList.add('show'), 10)
 
-        document.body.appendChild(notification)
+    // Remove after 3 seconds
+    setTimeout(() => {
+      notification.classList.remove('show')
+      setTimeout(() => notification.remove(), 300)
+    }, 3000)
+  }
 
-        // Trigger animation
-        setTimeout(() => notification.classList.add('show'), 10)
-
-        // Remove after 3 seconds
-        setTimeout(() => {
-            notification.classList.remove('show')
-            setTimeout(() => notification.remove(), 300)
-        }, 3000)
-    }
-
-    /**
-     * Cleanup
-     */
-    destroy() {
-        walletState.destroy()
-        this.isInitialized = false
-    }
+  /**
+   * Cleanup
+   */
+  destroy() {
+    walletState.destroy()
+    this.isInitialized = false
+  }
 }

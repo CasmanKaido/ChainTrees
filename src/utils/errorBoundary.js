@@ -1,76 +1,76 @@
 export class ErrorBoundary {
-    constructor() {
-        this.errorHandlers = [];
-        this.setupGlobalHandlers();
+  constructor() {
+    this.errorHandlers = []
+    this.setupGlobalHandlers()
+  }
+
+  /**
+   * Setup global error handlers
+   */
+  setupGlobalHandlers() {
+    // Catch synchronous errors
+    window.addEventListener('error', event => {
+      this.handleError({
+        type: 'runtime',
+        message: event.message,
+        filename: event.filename,
+        lineno: event.lineno,
+        colno: event.colno,
+        error: event.error
+      })
+    })
+
+    // Catch promise rejections
+    window.addEventListener('unhandledrejection', event => {
+      this.handleError({
+        type: 'promise',
+        message: event.reason?.message || String(event.reason),
+        error: event.reason
+      })
+    })
+  }
+
+  /**
+   * Handle error
+   */
+  handleError(errorInfo) {
+    console.error('Error caught:', errorInfo)
+
+    // Call registered handlers
+    this.errorHandlers.forEach(handler => {
+      try {
+        handler(errorInfo)
+      } catch (e) {
+        console.error('Error in error handler:', e)
+      }
+    })
+
+    // Show user-friendly error message
+    this.showErrorUI(errorInfo)
+  }
+
+  /**
+   * Register error handler
+   */
+  onError(handler) {
+    this.errorHandlers.push(handler)
+  }
+
+  /**
+   * Show error UI
+   */
+  showErrorUI(errorInfo) {
+    // Check if error modal already exists
+    let modal = document.getElementById('error-boundary-modal')
+
+    if (!modal) {
+      modal = document.createElement('div')
+      modal.id = 'error-boundary-modal'
+      modal.className = 'error-modal'
+      document.body.appendChild(modal)
     }
 
-    /**
-     * Setup global error handlers
-     */
-    setupGlobalHandlers() {
-        // Catch synchronous errors
-        window.addEventListener('error', (event) => {
-            this.handleError({
-                type: 'runtime',
-                message: event.message,
-                filename: event.filename,
-                lineno: event.lineno,
-                colno: event.colno,
-                error: event.error
-            });
-        });
-
-        // Catch promise rejections
-        window.addEventListener('unhandledrejection', (event) => {
-            this.handleError({
-                type: 'promise',
-                message: event.reason?.message || String(event.reason),
-                error: event.reason
-            });
-        });
-    }
-
-    /**
-     * Handle error
-     */
-    handleError(errorInfo) {
-        console.error('Error caught:', errorInfo);
-
-        // Call registered handlers
-        this.errorHandlers.forEach(handler => {
-            try {
-                handler(errorInfo);
-            } catch (e) {
-                console.error('Error in error handler:', e);
-            }
-        });
-
-        // Show user-friendly error message
-        this.showErrorUI(errorInfo);
-    }
-
-    /**
-     * Register error handler
-     */
-    onError(handler) {
-        this.errorHandlers.push(handler);
-    }
-
-    /**
-     * Show error UI
-     */
-    showErrorUI(errorInfo) {
-        // Check if error modal already exists
-        let modal = document.getElementById('error-boundary-modal');
-
-        if (!modal) {
-            modal = document.createElement('div');
-            modal.id = 'error-boundary-modal';
-            modal.className = 'error-modal';
-            document.body.appendChild(modal);
-        }
-
-        modal.innerHTML = `
+    modal.innerHTML = `
       <div class="error-modal-content">
         <div class="error-icon">⚠️</div>
         <h2>Oops! Something went wrong</h2>
@@ -83,22 +83,26 @@ export class ErrorBoundary {
             Dismiss
           </button>
         </div>
-        ${process.env.NODE_ENV === 'development' ? `
+        ${
+          process.env.NODE_ENV === 'development'
+            ? `
           <details class="error-details">
             <summary>Technical Details</summary>
             <pre>${JSON.stringify(errorInfo, null, 2)}</pre>
           </details>
-        ` : ''}
+        `
+            : ''
+        }
       </div>
-    `;
+    `
 
-        modal.classList.add('active');
+    modal.classList.add('active')
 
-        // Add styles if not already present
-        if (!document.getElementById('error-boundary-styles')) {
-            const style = document.createElement('style');
-            style.id = 'error-boundary-styles';
-            style.textContent = `
+    // Add styles if not already present
+    if (!document.getElementById('error-boundary-styles')) {
+      const style = document.createElement('style')
+      style.id = 'error-boundary-styles'
+      style.textContent = `
         .error-modal {
           display: none;
           position: fixed;
@@ -167,36 +171,36 @@ export class ErrorBoundary {
           overflow-x: auto;
           font-size: 0.85rem;
         }
-      `;
-            document.head.appendChild(style);
-        }
+      `
+      document.head.appendChild(style)
     }
+  }
 
-    /**
-     * Sanitize error message
-     */
-    sanitizeMessage(message) {
-        if (!message) return 'An unexpected error occurred';
-        // Remove sensitive info, stack traces, etc.
-        return message.split('\n')[0].substring(0, 200);
-    }
+  /**
+   * Sanitize error message
+   */
+  sanitizeMessage(message) {
+    if (!message) return 'An unexpected error occurred'
+    // Remove sensitive info, stack traces, etc.
+    return message.split('\n')[0].substring(0, 200)
+  }
 
-    /**
-     * Wrap async function with error handling
-     */
-    async wrap(fn, context = 'async operation') {
-        try {
-            return await fn();
-        } catch (error) {
-            this.handleError({
-                type: 'wrapped',
-                message: error.message,
-                context,
-                error
-            });
-            throw error;
-        }
+  /**
+   * Wrap async function with error handling
+   */
+  async wrap(fn, context = 'async operation') {
+    try {
+      return await fn()
+    } catch (error) {
+      this.handleError({
+        type: 'wrapped',
+        message: error.message,
+        context,
+        error
+      })
+      throw error
     }
+  }
 }
 
-export const errorBoundary = new ErrorBoundary();
+export const errorBoundary = new ErrorBoundary()

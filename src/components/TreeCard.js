@@ -1,19 +1,19 @@
 export class TreeCard {
-    constructor(treeData) {
-        this.treeData = treeData;
-    }
+  constructor(treeData) {
+    this.treeData = treeData
+  }
 
-    render() {
-        const { id, species, stage, carbonOffset, waterCount, image } = this.treeData;
+  render() {
+    const { id, species, stage, carbonOffset, waterCount, image } = this.treeData
 
-        // Determine badge color based on stage
-        let badgeColor = '#4ade80'; // Default green
-        if (stage === 'Sapling') badgeColor = '#facc15';
-        if (stage === 'Young') badgeColor = '#4ade80';
-        if (stage === 'Mature') badgeColor = '#3b82f6';
-        if (stage === 'Ancient') badgeColor = '#a855f7';
+    // Determine badge color based on stage
+    let badgeColor = '#4ade80' // Default green
+    if (stage === 'Sapling') badgeColor = '#facc15'
+    if (stage === 'Young') badgeColor = '#4ade80'
+    if (stage === 'Mature') badgeColor = '#3b82f6'
+    if (stage === 'Ancient') badgeColor = '#a855f7'
 
-        return `
+    return `
       <div class="tree-card" data-id="${id}">
         <div class="tree-image-container">
           <img src="${image || '/placeholder-tree.svg'}" alt="${species} Tree" class="tree-image">
@@ -38,6 +38,6 @@ export class TreeCard {
           </div>
         </div>
       </div>
-    `;
-    }
+    `
+  }
 }

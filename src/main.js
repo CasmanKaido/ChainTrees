@@ -1,9 +1,9 @@
 /**
  * ChainTrees - Main Application Entry Point
- * 
+ *
  * This is the core application file that initializes all systems and manages
  * the application lifecycle.
- * 
+ *
  * @version 1.0.0
  * @author ChainTrees Team
  * @license MIT
@@ -11,16 +11,16 @@
 
 // Core Components
 import { WalletConnect } from './components/WalletConnect.js'
-import { InstallPrompt } from './components/InstallPrompt.js';
+import { InstallPrompt } from './components/InstallPrompt.js'
 
 // Utility Systems
-import { errorBoundary } from './utils/errorBoundary.js';
-import { performanceMonitor } from './utils/performanceMonitor.js';
-import { analyticsTracker } from './utils/analyticsTracker.js';
-import { notificationSystem } from './utils/notificationSystem.js';
-import { themeManager } from './utils/themeManager.js';
-import { keyboardShortcuts } from './utils/keyboardShortcuts.js';
-import { accessibilityManager } from './utils/accessibilityManager.js';
+import { errorBoundary } from './utils/errorBoundary.js'
+import { performanceMonitor } from './utils/performanceMonitor.js'
+import { analyticsTracker } from './utils/analyticsTracker.js'
+import { notificationSystem } from './utils/notificationSystem.js'
+import { themeManager } from './utils/themeManager.js'
+import { keyboardShortcuts } from './utils/keyboardShortcuts.js'
+import { accessibilityManager } from './utils/accessibilityManager.js'
 
 // Styles
 import './styles/main.css'
@@ -49,14 +49,14 @@ import './config/walletConfig.js'
 console.log('🌳 ChainTrees v1.0.0 - Initializing...')
 
 // Register error handler
-errorBoundary.onError((error) => {
-  performanceMonitor.trackError(error.error || new Error(error.message), error.type);
-});
+errorBoundary.onError(error => {
+  performanceMonitor.trackError(error.error || new Error(error.message), error.type)
+})
 
 // Make utilities globally available
-window.themeManager = themeManager;
-window.notificationSystem = notificationSystem;
-window.analyticsTracker = analyticsTracker;
+window.themeManager = themeManager
+window.notificationSystem = notificationSystem
+window.analyticsTracker = analyticsTracker
 
 /**
  * Main Application Class
@@ -81,10 +81,10 @@ class ChainTreesApp {
     this.loadPage('landing') // Start with landing page
 
     // Make app globally available for landing page CTAs
-    window.app = this;
+    window.app = this
 
     // Track app initialization
-    analyticsTracker.trackPageView('app_init');
+    analyticsTracker.trackPageView('app_init')
   }
 
   /**
@@ -158,8 +158,8 @@ class ChainTreesApp {
     mainContent.innerHTML = `<div class="loading-container"><div class="loading-spinner"></div><p>Loading ${pageName}...</p></div>`
 
     // Track page view
-    analyticsTracker.trackPageView(pageName);
-    performanceMonitor.trackPageLoad(pageName);
+    analyticsTracker.trackPageView(pageName)
+    performanceMonitor.trackPageLoad(pageName)
 
     try {
       if (this.currentPage && this.currentPage.destroy) this.currentPage.destroy()
@@ -195,7 +195,8 @@ class ChainTreesApp {
 // Service Worker Registration
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
+    navigator.serviceWorker
+      .register('/sw.js')
       .then(r => console.log('SW registered:', r))
       .catch(err => console.log('SW registration failed:', err))
   })

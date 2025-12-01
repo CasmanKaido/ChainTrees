@@ -1,17 +1,21 @@
-import { treeGenerator } from '../generators/treeGenerator.js';
+import { treeGenerator } from '../generators/treeGenerator.js'
 
 export class MarketplaceListing {
-    constructor(listing, onBuy) {
-        this.listing = listing;
-        this.onBuy = onBuy;
-    }
+  constructor(listing, onBuy) {
+    this.listing = listing
+    this.onBuy = onBuy
+  }
 
-    render() {
-        const { id, price, seller, treeData } = this.listing;
-        const svg = treeGenerator.generateSVG(treeData.species, treeData.generationSeed, treeData.growthStage);
-        const speciesName = ['Oak', 'Maple', 'Pine', 'Birch'][treeData.species] || 'Unknown';
+  render() {
+    const { id, price, seller, treeData } = this.listing
+    const svg = treeGenerator.generateSVG(
+      treeData.species,
+      treeData.generationSeed,
+      treeData.growthStage
+    )
+    const speciesName = ['Oak', 'Maple', 'Pine', 'Birch'][treeData.species] || 'Unknown'
 
-        return `
+    return `
       <div class="listing-card">
         <div class="listing-image">
           <div style="width: 120px; height: 120px;">
@@ -35,13 +39,13 @@ export class MarketplaceListing {
           </button>
         </div>
       </div>
-    `;
-    }
+    `
+  }
 
-    attachListeners(container) {
-        const btn = container.querySelector(`.buy-btn[data-id="${this.listing.id}"]`);
-        if (btn) {
-            btn.addEventListener('click', () => this.onBuy(this.listing));
-        }
+  attachListeners(container) {
+    const btn = container.querySelector(`.buy-btn[data-id="${this.listing.id}"]`)
+    if (btn) {
+      btn.addEventListener('click', () => this.onBuy(this.listing))
     }
+  }
 }

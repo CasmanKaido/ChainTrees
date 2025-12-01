@@ -1,63 +1,63 @@
 export class TutorialSystem {
-    constructor() {
-        this.tutorials = new Map();
-        this.currentTutorial = null;
-        this.currentStep = 0;
-        this.completed = this.loadCompleted();
-        this.overlay = null;
+  constructor() {
+    this.tutorials = new Map()
+    this.currentTutorial = null
+    this.currentStep = 0
+    this.completed = this.loadCompleted()
+    this.overlay = null
+  }
+
+  loadCompleted() {
+    const stored = localStorage.getItem('tutorials_completed')
+    return stored ? JSON.parse(stored) : []
+  }
+
+  saveCompleted() {
+    localStorage.setItem('tutorials_completed', JSON.stringify(this.completed))
+  }
+
+  /**
+   * Register tutorial
+   */
+  register(id, steps) {
+    this.tutorials.set(id, {
+      id,
+      steps,
+      completed: this.completed.includes(id)
+    })
+  }
+
+  /**
+   * Start tutorial
+   */
+  start(id) {
+    const tutorial = this.tutorials.get(id)
+    if (!tutorial) {
+      console.warn(`Tutorial ${id} not found`)
+      return
     }
 
-    loadCompleted() {
-        const stored = localStorage.getItem('tutorials_completed');
-        return stored ? JSON.parse(stored) : [];
+    if (tutorial.completed) {
+      if (!confirm("You've already completed this tutorial. Start again?")) {
+        return
+      }
     }
 
-    saveCompleted() {
-        localStorage.setItem('tutorials_completed', JSON.stringify(this.completed));
-    }
+    this.currentTutorial = id
+    this.currentStep = 0
+    this.createOverlay()
+    this.showStep(0)
+  }
 
-    /**
-     * Register tutorial
-     */
-    register(id, steps) {
-        this.tutorials.set(id, {
-            id,
-            steps,
-            completed: this.completed.includes(id)
-        });
-    }
+  /**
+   * Create overlay
+   */
+  createOverlay() {
+    if (this.overlay) return
 
-    /**
-     * Start tutorial
-     */
-    start(id) {
-        const tutorial = this.tutorials.get(id);
-        if (!tutorial) {
-            console.warn(`Tutorial ${id} not found`);
-            return;
-        }
-
-        if (tutorial.completed) {
-            if (!confirm('You\'ve already completed this tutorial. Start again?')) {
-                return;
-            }
-        }
-
-        this.currentTutorial = id;
-        this.currentStep = 0;
-        this.createOverlay();
-        this.showStep(0);
-    }
-
-    /**
-     * Create overlay
-     */
-    createOverlay() {
-        if (this.overlay) return;
-
-        this.overlay = document.createElement('div');
-        this.overlay.className = 'tutorial-overlay';
-        this.overlay.innerHTML = `
+    this.overlay = document.createElement('div')
+    this.overlay.className = 'tutorial-overlay'
+    this.overlay.innerHTML = `
       <div class="tutorial-spotlight"></div>
       <div class="tutorial-tooltip">
         <div class="tutorial-content">
@@ -74,10 +74,10 @@ export class TutorialSystem {
           </div>
         </div>
       </div>
-    `;
+    `
 
-        const style = document.createElement('style');
-        style.textContent = `
+    const style = document.createElement('style')
+    style.textContent = `
       .tutorial-overlay {
         position: fixed;
         top: 0;
@@ -173,189 +173,192 @@ export class TutorialSystem {
         from { opacity: 0; transform: translateY(10px); }
         to { opacity: 1; transform: translateY(0); }
       }
-    `;
+    `
 
-        document.head.appendChild(style);
-        document.body.appendChild(this.overlay);
+    document.head.appendChild(style)
+    document.body.appendChild(this.overlay)
 
-        // Event listeners
-        this.overlay.querySelector('.tutorial-close').addEventListener('click', () => this.end());
-        this.overlay.querySelector('.tutorial-prev').addEventListener('click', () => this.previousStep());
-        this.overlay.querySelector('.tutorial-next').addEventListener('click', () => this.nextStep());
-        this.overlay.querySelector('.tutorial-finish').addEventListener('click', () => this.complete());
+    // Event listeners
+    this.overlay.querySelector('.tutorial-close').addEventListener('click', () => this.end())
+    this.overlay
+      .querySelector('.tutorial-prev')
+      .addEventListener('click', () => this.previousStep())
+    this.overlay.querySelector('.tutorial-next').addEventListener('click', () => this.nextStep())
+    this.overlay.querySelector('.tutorial-finish').addEventListener('click', () => this.complete())
+  }
+
+  /**
+   * Show step
+   */
+  showStep(stepIndex) {
+    const tutorial = this.tutorials.get(this.currentTutorial)
+    if (!tutorial || !tutorial.steps[stepIndex]) return
+
+    const step = tutorial.steps[stepIndex]
+    this.currentStep = stepIndex
+
+    // Update tooltip content
+    const tooltip = this.overlay.querySelector('.tutorial-tooltip')
+    tooltip.querySelector('.tutorial-step-indicator').textContent =
+      `Step ${stepIndex + 1} of ${tutorial.steps.length}`
+    tooltip.querySelector('.tutorial-title').textContent = step.title
+    tooltip.querySelector('.tutorial-description').textContent = step.description
+
+    // Update buttons
+    const prevBtn = tooltip.querySelector('.tutorial-prev')
+    const nextBtn = tooltip.querySelector('.tutorial-next')
+    const finishBtn = tooltip.querySelector('.tutorial-finish')
+
+    prevBtn.disabled = stepIndex === 0
+    nextBtn.style.display = stepIndex < tutorial.steps.length - 1 ? 'block' : 'none'
+    finishBtn.style.display = stepIndex === tutorial.steps.length - 1 ? 'block' : 'none'
+
+    // Position spotlight and tooltip
+    if (step.element) {
+      const element = document.querySelector(step.element)
+      if (element) {
+        this.highlightElement(element, step.position || 'bottom')
+      }
     }
 
-    /**
-     * Show step
-     */
-    showStep(stepIndex) {
-        const tutorial = this.tutorials.get(this.currentTutorial);
-        if (!tutorial || !tutorial.steps[stepIndex]) return;
+    // Execute step action
+    if (step.action) {
+      step.action()
+    }
+  }
 
-        const step = tutorial.steps[stepIndex];
-        this.currentStep = stepIndex;
+  /**
+   * Highlight element
+   */
+  highlightElement(element, tooltipPosition) {
+    const rect = element.getBoundingClientRect()
+    const spotlight = this.overlay.querySelector('.tutorial-spotlight')
+    const tooltip = this.overlay.querySelector('.tutorial-tooltip')
 
-        // Update tooltip content
-        const tooltip = this.overlay.querySelector('.tutorial-tooltip');
-        tooltip.querySelector('.tutorial-step-indicator').textContent =
-            `Step ${stepIndex + 1} of ${tutorial.steps.length}`;
-        tooltip.querySelector('.tutorial-title').textContent = step.title;
-        tooltip.querySelector('.tutorial-description').textContent = step.description;
+    // Position spotlight
+    spotlight.style.top = `${rect.top - 4}px`
+    spotlight.style.left = `${rect.left - 4}px`
+    spotlight.style.width = `${rect.width + 8}px`
+    spotlight.style.height = `${rect.height + 8}px`
 
-        // Update buttons
-        const prevBtn = tooltip.querySelector('.tutorial-prev');
-        const nextBtn = tooltip.querySelector('.tutorial-next');
-        const finishBtn = tooltip.querySelector('.tutorial-finish');
+    // Position tooltip
+    const tooltipRect = tooltip.getBoundingClientRect()
+    let top, left
 
-        prevBtn.disabled = stepIndex === 0;
-        nextBtn.style.display = stepIndex < tutorial.steps.length - 1 ? 'block' : 'none';
-        finishBtn.style.display = stepIndex === tutorial.steps.length - 1 ? 'block' : 'none';
-
-        // Position spotlight and tooltip
-        if (step.element) {
-            const element = document.querySelector(step.element);
-            if (element) {
-                this.highlightElement(element, step.position || 'bottom');
-            }
-        }
-
-        // Execute step action
-        if (step.action) {
-            step.action();
-        }
+    switch (tooltipPosition) {
+      case 'top':
+        top = rect.top - tooltipRect.height - 20
+        left = rect.left + (rect.width - tooltipRect.width) / 2
+        break
+      case 'bottom':
+        top = rect.bottom + 20
+        left = rect.left + (rect.width - tooltipRect.width) / 2
+        break
+      case 'left':
+        top = rect.top + (rect.height - tooltipRect.height) / 2
+        left = rect.left - tooltipRect.width - 20
+        break
+      case 'right':
+        top = rect.top + (rect.height - tooltipRect.height) / 2
+        left = rect.right + 20
+        break
+      default:
+        top = rect.bottom + 20
+        left = rect.left
     }
 
-    /**
-     * Highlight element
-     */
-    highlightElement(element, tooltipPosition) {
-        const rect = element.getBoundingClientRect();
-        const spotlight = this.overlay.querySelector('.tutorial-spotlight');
-        const tooltip = this.overlay.querySelector('.tutorial-tooltip');
+    tooltip.style.top = `${Math.max(10, top)}px`
+    tooltip.style.left = `${Math.max(10, Math.min(window.innerWidth - tooltipRect.width - 10, left))}px`
+  }
 
-        // Position spotlight
-        spotlight.style.top = `${rect.top - 4}px`;
-        spotlight.style.left = `${rect.left - 4}px`;
-        spotlight.style.width = `${rect.width + 8}px`;
-        spotlight.style.height = `${rect.height + 8}px`;
+  /**
+   * Next step
+   */
+  nextStep() {
+    const tutorial = this.tutorials.get(this.currentTutorial)
+    if (this.currentStep < tutorial.steps.length - 1) {
+      this.showStep(this.currentStep + 1)
+    }
+  }
 
-        // Position tooltip
-        const tooltipRect = tooltip.getBoundingClientRect();
-        let top, left;
+  /**
+   * Previous step
+   */
+  previousStep() {
+    if (this.currentStep > 0) {
+      this.showStep(this.currentStep - 1)
+    }
+  }
 
-        switch (tooltipPosition) {
-            case 'top':
-                top = rect.top - tooltipRect.height - 20;
-                left = rect.left + (rect.width - tooltipRect.width) / 2;
-                break;
-            case 'bottom':
-                top = rect.bottom + 20;
-                left = rect.left + (rect.width - tooltipRect.width) / 2;
-                break;
-            case 'left':
-                top = rect.top + (rect.height - tooltipRect.height) / 2;
-                left = rect.left - tooltipRect.width - 20;
-                break;
-            case 'right':
-                top = rect.top + (rect.height - tooltipRect.height) / 2;
-                left = rect.right + 20;
-                break;
-            default:
-                top = rect.bottom + 20;
-                left = rect.left;
-        }
-
-        tooltip.style.top = `${Math.max(10, top)}px`;
-        tooltip.style.left = `${Math.max(10, Math.min(window.innerWidth - tooltipRect.width - 10, left))}px`;
+  /**
+   * Complete tutorial
+   */
+  complete() {
+    if (!this.completed.includes(this.currentTutorial)) {
+      this.completed.push(this.currentTutorial)
+      this.saveCompleted()
     }
 
-    /**
-     * Next step
-     */
-    nextStep() {
-        const tutorial = this.tutorials.get(this.currentTutorial);
-        if (this.currentStep < tutorial.steps.length - 1) {
-            this.showStep(this.currentStep + 1);
-        }
+    const tutorial = this.tutorials.get(this.currentTutorial)
+    tutorial.completed = true
+
+    this.end()
+  }
+
+  /**
+   * End tutorial
+   */
+  end() {
+    if (this.overlay) {
+      this.overlay.remove()
+      this.overlay = null
     }
+    this.currentTutorial = null
+    this.currentStep = 0
+  }
 
-    /**
-     * Previous step
-     */
-    previousStep() {
-        if (this.currentStep > 0) {
-            this.showStep(this.currentStep - 1);
-        }
+  /**
+   * Reset tutorial
+   */
+  reset(id) {
+    this.completed = this.completed.filter(t => t !== id)
+    this.saveCompleted()
+
+    const tutorial = this.tutorials.get(id)
+    if (tutorial) {
+      tutorial.completed = false
     }
+  }
 
-    /**
-     * Complete tutorial
-     */
-    complete() {
-        if (!this.completed.includes(this.currentTutorial)) {
-            this.completed.push(this.currentTutorial);
-            this.saveCompleted();
-        }
-
-        const tutorial = this.tutorials.get(this.currentTutorial);
-        tutorial.completed = true;
-
-        this.end();
-    }
-
-    /**
-     * End tutorial
-     */
-    end() {
-        if (this.overlay) {
-            this.overlay.remove();
-            this.overlay = null;
-        }
-        this.currentTutorial = null;
-        this.currentStep = 0;
-    }
-
-    /**
-     * Reset tutorial
-     */
-    reset(id) {
-        this.completed = this.completed.filter(t => t !== id);
-        this.saveCompleted();
-
-        const tutorial = this.tutorials.get(id);
-        if (tutorial) {
-            tutorial.completed = false;
-        }
-    }
-
-    /**
-     * Check if tutorial is completed
-     */
-    isCompleted(id) {
-        return this.completed.includes(id);
-    }
+  /**
+   * Check if tutorial is completed
+   */
+  isCompleted(id) {
+    return this.completed.includes(id)
+  }
 }
 
-export const tutorialSystem = new TutorialSystem();
+export const tutorialSystem = new TutorialSystem()
 
 // Register default tutorials
 tutorialSystem.register('first-plant', [
-    {
-        title: 'Welcome to ChainTrees!',
-        description: 'Let\'s plant your first tree NFT. Click here to get started.',
-        element: '.nav-btn[data-page="mint"]',
-        position: 'bottom'
-    },
-    {
-        title: 'Choose Your Tree',
-        description: 'Select a tree species and rarity. Each combination creates a unique NFT!',
-        element: '#tree-species-select',
-        position: 'bottom'
-    },
-    {
-        title: 'Mint Your Tree',
-        description: 'Click the mint button to create your tree NFT. You\'ll need to confirm the transaction in your wallet.',
-        element: '.mint-btn',
-        position: 'top'
-    }
-]);
+  {
+    title: 'Welcome to ChainTrees!',
+    description: "Let's plant your first tree NFT. Click here to get started.",
+    element: '.nav-btn[data-page="mint"]',
+    position: 'bottom'
+  },
+  {
+    title: 'Choose Your Tree',
+    description: 'Select a tree species and rarity. Each combination creates a unique NFT!',
+    element: '#tree-species-select',
+    position: 'bottom'
+  },
+  {
+    title: 'Mint Your Tree',
+    description:
+      "Click the mint button to create your tree NFT. You'll need to confirm the transaction in your wallet.",
+    element: '.mint-btn',
+    position: 'top'
+  }
+])

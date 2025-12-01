@@ -1,23 +1,23 @@
-import { StakeInterface } from '../components/StakeInterface.js';
-import { walletState } from '../utils/walletState.js';
-import '../styles/staking.css';
+import { StakeInterface } from '../components/StakeInterface.js'
+import { walletState } from '../utils/walletState.js'
+import '../styles/staking.css'
 
 export class StakingDashboard {
-    constructor(containerId) {
-        this.containerId = containerId;
+  constructor(containerId) {
+    this.containerId = containerId
+  }
+
+  render() {
+    const container = document.getElementById(this.containerId)
+    if (!container) return
+
+    const account = walletState.getAccount()
+    if (!account.isConnected) {
+      this.renderConnectWallet(container)
+      return
     }
 
-    render() {
-        const container = document.getElementById(this.containerId);
-        if (!container) return;
-
-        const account = walletState.getAccount();
-        if (!account.isConnected) {
-            this.renderConnectWallet(container);
-            return;
-        }
-
-        container.innerHTML = `
+    container.innerHTML = `
       <div class="staking-page">
         <div class="staking-header">
           <h1 class="staking-title">Staking Dashboard</h1>
@@ -59,14 +59,16 @@ export class StakingDashboard {
           </div>
         </div>
       </div>
-    `;
+    `
 
-        const stakeInterface = new StakeInterface('stake-interface-container', (data) => this.handleStake(data));
-        stakeInterface.render();
-    }
+    const stakeInterface = new StakeInterface('stake-interface-container', data =>
+      this.handleStake(data)
+    )
+    stakeInterface.render()
+  }
 
-    renderConnectWallet(container) {
-        container.innerHTML = `
+  renderConnectWallet(container) {
+    container.innerHTML = `
       <div class="staking-page">
         <div class="empty-state" style="text-align: center; padding: 4rem;">
           <span style="font-size: 4rem;">💰</span>
@@ -74,18 +76,19 @@ export class StakingDashboard {
           <p>Connect your wallet to access the staking dashboard.</p>
         </div>
       </div>
-    `;
-    }
+    `
+  }
 
-    async handleStake(data) {
-        if (!confirm(`Are you sure you want to stake ${data.amount} TREE for ${data.lockPeriod} days?`)) return;
+  async handleStake(data) {
+    if (!confirm(`Are you sure you want to stake ${data.amount} TREE for ${data.lockPeriod} days?`))
+      return
 
-        try {
-            // await contractService.stake(data.amount, data.lockPeriod);
-            alert('Staking successful! (Mock)');
-            this.render(); // Refresh
-        } catch (error) {
-            alert('Staking failed: ' + error.message);
-        }
+    try {
+      // await contractService.stake(data.amount, data.lockPeriod);
+      alert('Staking successful! (Mock)')
+      this.render() // Refresh
+    } catch (error) {
+      alert('Staking failed: ' + error.message)
     }
+  }
 }

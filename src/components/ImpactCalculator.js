@@ -1,16 +1,16 @@
 export class ImpactCalculator {
-    constructor(containerId, totalCarbonKg) {
-        this.containerId = containerId;
-        this.totalCarbonKg = totalCarbonKg;
-    }
+  constructor(containerId, totalCarbonKg) {
+    this.containerId = containerId
+    this.totalCarbonKg = totalCarbonKg
+  }
 
-    render() {
-        const container = document.getElementById(this.containerId);
-        if (!container) return;
+  render() {
+    const container = document.getElementById(this.containerId)
+    if (!container) return
 
-        const comparisons = this.calculateComparisons();
+    const comparisons = this.calculateComparisons()
 
-        container.innerHTML = `
+    container.innerHTML = `
       <div class="calculator-grid">
         <div class="impact-visualizer">
           <div class="impact-circle">
@@ -44,25 +44,25 @@ export class ImpactCalculator {
           </div>
         </div>
       </div>
-    `;
-    }
+    `
+  }
 
-    calculateComparisons() {
-        // Conversion factors
-        // Car: ~0.404 kg CO2 per mile
-        // Flight (NY-London): ~986 kg CO2
-        // Smartphone charge: ~0.008 kg CO2
-        // Arctic ice: ~3kg CO2 melts 1kg ice (approx)
+  calculateComparisons() {
+    // Conversion factors
+    // Car: ~0.404 kg CO2 per mile
+    // Flight (NY-London): ~986 kg CO2
+    // Smartphone charge: ~0.008 kg CO2
+    // Arctic ice: ~3kg CO2 melts 1kg ice (approx)
 
-        return {
-            carMiles: Math.round(this.totalCarbonKg / 0.404),
-            flights: (this.totalCarbonKg / 986).toFixed(1),
-            smartphones: Math.round(this.totalCarbonKg / 0.008),
-            ice: (this.totalCarbonKg / 3).toFixed(1)
-        };
+    return {
+      carMiles: Math.round(this.totalCarbonKg / 0.404),
+      flights: (this.totalCarbonKg / 986).toFixed(1),
+      smartphones: Math.round(this.totalCarbonKg / 0.008),
+      ice: (this.totalCarbonKg / 3).toFixed(1)
     }
+  }
 
-    formatNumber(num) {
-        return new Intl.NumberFormat().format(num);
-    }
+  formatNumber(num) {
+    return new Intl.NumberFormat().format(num)
+  }
 }

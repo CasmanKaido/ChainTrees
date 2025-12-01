@@ -1,102 +1,102 @@
 /* Daily Rewards Styles */
 .daily-reward-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
 }
 
 .daily-reward-modal.active {
-    opacity: 1;
-    pointer-events: all;
+  opacity: 1;
+  pointer-events: all;
 }
 
 .daily-reward-content {
-    background: #1e293b;
-    padding: 2rem;
-    border-radius: 20px;
-    max-width: 600px;
-    width: 90%;
-    text-align: center;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  background: #1e293b;
+  padding: 2rem;
+  border-radius: 20px;
+  max-width: 600px;
+  width: 90%;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
 .daily-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
-    margin: 2rem 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin: 2rem 0;
 }
 
 .daily-day {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 1rem;
-    border-radius: 12px;
-    position: relative;
-    opacity: 0.7;
-    border: 2px solid transparent;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1rem;
+  border-radius: 12px;
+  position: relative;
+  opacity: 0.7;
+  border: 2px solid transparent;
 }
 
 .daily-day.active {
-    opacity: 1;
-    background: rgba(16, 185, 129, 0.1);
-    border-color: #10b981;
-    transform: scale(1.05);
+  opacity: 1;
+  background: rgba(16, 185, 129, 0.1);
+  border-color: #10b981;
+  transform: scale(1.05);
 }
 
 .daily-day.claimed {
-    opacity: 0.5;
-    background: rgba(16, 185, 129, 0.05);
+  opacity: 0.5;
+  background: rgba(16, 185, 129, 0.05);
 }
 
 .daily-day.big-reward {
-    grid-column: span 4;
-    background: linear-gradient(45deg, rgba(251, 191, 36, 0.1), rgba(217, 119, 6, 0.1));
-    border-color: rgba(251, 191, 36, 0.5);
+  grid-column: span 4;
+  background: linear-gradient(45deg, rgba(251, 191, 36, 0.1), rgba(217, 119, 6, 0.1));
+  border-color: rgba(251, 191, 36, 0.5);
 }
 
 .day-number {
-    font-size: 0.8rem;
-    color: #94a3b8;
-    margin-bottom: 0.5rem;
+  font-size: 0.8rem;
+  color: #94a3b8;
+  margin-bottom: 0.5rem;
 }
 
 .day-reward {
-    font-weight: bold;
-    color: #fbbf24;
-    font-size: 1.1rem;
+  font-weight: bold;
+  color: #fbbf24;
+  font-size: 1.1rem;
 }
 
 .claim-daily-btn {
-    background: #10b981;
-    color: white;
-    border: none;
-    padding: 1rem 3rem;
-    border-radius: 50px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.2s;
+  background: #10b981;
+  color: white;
+  border: none;
+  padding: 1rem 3rem;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
 .claim-daily-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
 }
 
 .claim-daily-btn:disabled {
-    background: #475569;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
+  background: #475569;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }

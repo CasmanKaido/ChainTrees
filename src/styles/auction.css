@@ -1,87 +1,87 @@
 /* Auction Styles */
 .auction-card {
-    background: linear-gradient(135deg, #1e293b, #334155);
-    border: 2px solid #fbbf24;
-    border-radius: 16px;
-    overflow: hidden;
-    position: relative;
-    box-shadow: 0 0 20px rgba(251, 191, 36, 0.1);
+  background: linear-gradient(135deg, #1e293b, #334155);
+  border: 2px solid #fbbf24;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 0 20px rgba(251, 191, 36, 0.1);
 }
 
 .auction-timer {
-    background: #fbbf24;
-    color: #1e293b;
-    font-weight: 800;
-    padding: 0.5rem;
-    text-align: center;
-    font-family: monospace;
-    font-size: 1.1rem;
+  background: #fbbf24;
+  color: #1e293b;
+  font-weight: 800;
+  padding: 0.5rem;
+  text-align: center;
+  font-family: monospace;
+  font-size: 1.1rem;
 }
 
 .auction-bid-area {
-    padding: 1rem;
-    background: rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .current-bid-label {
-    font-size: 0.8rem;
-    color: #94a3b8;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+  font-size: 0.8rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .current-bid-value {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: #fbbf24;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fbbf24;
 }
 
 .bid-input-group {
-    display: flex;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
 }
 
 .bid-input {
-    flex: 1;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 0.5rem;
-    border-radius: 6px;
-    color: white;
-    font-family: monospace;
+  flex: 1;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.5rem;
+  border-radius: 6px;
+  color: white;
+  font-family: monospace;
 }
 
 .place-bid-btn {
-    background: #fbbf24;
-    color: #1e293b;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background 0.2s;
+  background: #fbbf24;
+  color: #1e293b;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
 }
 
 .place-bid-btn:hover {
-    background: #f59e0b;
+  background: #f59e0b;
 }
 
 .bid-history {
-    max-height: 100px;
-    overflow-y: auto;
-    font-size: 0.8rem;
-    margin-top: 0.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding-top: 0.5rem;
+  max-height: 100px;
+  overflow-y: auto;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 0.5rem;
 }
 
 .bid-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.25rem 0;
-    color: #cbd5e1;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.25rem 0;
+  color: #cbd5e1;
 }

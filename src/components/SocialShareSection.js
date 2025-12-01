@@ -1,22 +1,22 @@
-import { ShareButton } from './ShareButton.js';
-import { referralSystem } from '../utils/referralSystem.js';
-import '../styles/social.css';
+import { ShareButton } from './ShareButton.js'
+import { referralSystem } from '../utils/referralSystem.js'
+import '../styles/social.css'
 
 export class SocialShareSection {
-    constructor(containerId, userAddress) {
-        this.containerId = containerId;
-        this.userAddress = userAddress;
-        this.referralCode = referralSystem.generateCode(userAddress);
-    }
+  constructor(containerId, userAddress) {
+    this.containerId = containerId
+    this.userAddress = userAddress
+    this.referralCode = referralSystem.generateCode(userAddress)
+  }
 
-    render() {
-        const container = document.getElementById(this.containerId);
-        if (!container) return;
+  render() {
+    const container = document.getElementById(this.containerId)
+    if (!container) return
 
-        const referralLink = referralSystem.getReferralLink(this.referralCode);
-        const shareText = `I just planted trees on ChainTrees! Use my code ${this.referralCode} to get a bonus starter pack! 🌳`;
+    const referralLink = referralSystem.getReferralLink(this.referralCode)
+    const shareText = `I just planted trees on ChainTrees! Use my code ${this.referralCode} to get a bonus starter pack! 🌳`
 
-        container.innerHTML = `
+    container.innerHTML = `
       <div class="social-section">
         <div class="social-header">
           <h2>Grow Together 🤝</h2>
@@ -40,27 +40,27 @@ export class SocialShareSection {
           ${new ShareButton({ platform: 'whatsapp', text: shareText, url: referralLink }).render()}
         </div>
       </div>
-    `;
+    `
 
-        this.attachListeners(referralLink);
+    this.attachListeners(referralLink)
+  }
+
+  attachListeners(link) {
+    const copyBtn = document.getElementById('copy-ref-btn')
+    if (copyBtn) {
+      copyBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText(link)
+
+        // Visual feedback
+        const originalIcon = copyBtn.innerHTML
+        copyBtn.innerHTML = '<i class="fas fa-check"></i>'
+        copyBtn.style.color = '#4ade80'
+
+        setTimeout(() => {
+          copyBtn.innerHTML = originalIcon
+          copyBtn.style.color = ''
+        }, 2000)
+      })
     }
-
-    attachListeners(link) {
-        const copyBtn = document.getElementById('copy-ref-btn');
-        if (copyBtn) {
-            copyBtn.addEventListener('click', () => {
-                navigator.clipboard.writeText(link);
-
-                // Visual feedback
-                const originalIcon = copyBtn.innerHTML;
-                copyBtn.innerHTML = '<i class="fas fa-check"></i>';
-                copyBtn.style.color = '#4ade80';
-
-                setTimeout(() => {
-                    copyBtn.innerHTML = originalIcon;
-                    copyBtn.style.color = '';
-                }, 2000);
-            });
-        }
-    }
+  }
 }

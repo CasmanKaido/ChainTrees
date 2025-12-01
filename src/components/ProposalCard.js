@@ -1,42 +1,43 @@
 export class ProposalCard {
   constructor(proposal, onVote) {
-    this.proposal = proposal;
-    this.onVote = onVote;
+    this.proposal = proposal
+    this.onVote = onVote
   }
 
   render() {
-    const totalVotes = this.proposal.forVotes + this.proposal.againstVotes + this.proposal.abstainVotes;
-    const forPercent = totalVotes > 0 ? (this.proposal.forVotes / totalVotes) * 100 : 0;
-    const againstPercent = totalVotes > 0 ? (this.proposal.againstVotes / totalVotes) * 100 : 0;
+    const totalVotes =
+      this.proposal.forVotes + this.proposal.againstVotes + this.proposal.abstainVotes
+    const forPercent = totalVotes > 0 ? (this.proposal.forVotes / totalVotes) * 100 : 0
+    const againstPercent = totalVotes > 0 ? (this.proposal.againstVotes / totalVotes) * 100 : 0
 
-    const timeLeft = new Date(this.proposal.endTime) - new Date();
-    const daysLeft = Math.ceil(timeLeft / (1000 * 60 * 60 * 24));
+    const timeLeft = new Date(this.proposal.endTime) - new Date()
+    const daysLeft = Math.ceil(timeLeft / (1000 * 60 * 60 * 24))
 
-    let statusClass = 'status-active';
-    let statusText = 'Active';
+    let statusClass = 'status-active'
+    let statusText = 'Active'
 
     switch (this.proposal.status) {
       case 'PASSED':
-        statusClass = 'status-passed';
-        statusText = 'Passed';
-        break;
+        statusClass = 'status-passed'
+        statusText = 'Passed'
+        break
       case 'REJECTED':
-        statusClass = 'status-rejected';
-        statusText = 'Rejected';
-        break;
+        statusClass = 'status-rejected'
+        statusText = 'Rejected'
+        break
       case 'EXECUTED':
-        statusClass = 'status-executed';
-        statusText = 'Executed';
-        break;
+        statusClass = 'status-executed'
+        statusText = 'Executed'
+        break
       case 'ACTIVE':
         if (timeLeft <= 0) {
-          statusClass = 'status-closed';
-          statusText = 'Ended';
+          statusClass = 'status-closed'
+          statusText = 'Ended'
         }
-        break;
+        break
       default:
-        statusClass = 'status-closed';
-        statusText = 'Closed';
+        statusClass = 'status-closed'
+        statusText = 'Closed'
     }
 
     return `
@@ -63,7 +64,9 @@ export class ProposalCard {
           <span style="color:#ef4444">Against: ${this.proposal.againstVotes.toLocaleString()}</span>
         </div>
 
-        ${this.proposal.status === 'ACTIVE' && timeLeft > 0 ? `
+        ${
+          this.proposal.status === 'ACTIVE' && timeLeft > 0
+            ? `
           <div style="display:flex; gap:1rem; margin-top:1.5rem">
             <button class="vote-btn vote-for" data-id="${this.proposal.id}" data-choice="FOR">
               Vote For
@@ -72,31 +75,37 @@ export class ProposalCard {
               Vote Against
             </button>
           </div>
-        ` : ''}
+        `
+            : ''
+        }
 
-        ${this.proposal.status === 'PASSED' ? `
+        ${
+          this.proposal.status === 'PASSED'
+            ? `
           <div style="margin-top:1.5rem">
             <button class="vote-btn" style="background:#8b5cf6; color:white; width:100%" onclick="window.executeProposal('${this.proposal.id}')">
               Execute Proposal ⚡
             </button>
           </div>
-        ` : ''}
+        `
+            : ''
+        }
       </div>
-    `;
+    `
   }
 
   attachListeners(container) {
-    const card = container.querySelector(`#prop-${this.proposal.id}`);
-    if (!card) return;
+    const card = container.querySelector(`#prop-${this.proposal.id}`)
+    if (!card) return
 
-    const forBtn = card.querySelector('.vote-for');
-    const againstBtn = card.querySelector('.vote-against');
+    const forBtn = card.querySelector('.vote-for')
+    const againstBtn = card.querySelector('.vote-against')
 
     if (forBtn) {
-      forBtn.addEventListener('click', () => this.onVote(this.proposal.id, 'FOR'));
+      forBtn.addEventListener('click', () => this.onVote(this.proposal.id, 'FOR'))
     }
     if (againstBtn) {
-      againstBtn.addEventListener('click', () => this.onVote(this.proposal.id, 'AGAINST'));
+      againstBtn.addEventListener('click', () => this.onVote(this.proposal.id, 'AGAINST'))
     }
   }
 }

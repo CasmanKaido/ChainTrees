@@ -1,181 +1,183 @@
 /* Education Hub Styles */
 .education-page {
-    padding: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .education-header {
-    text-align: center;
-    margin-bottom: 3rem;
+  text-align: center;
+  margin-bottom: 3rem;
 }
 
 .education-title {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    background: linear-gradient(135deg, #38bdf8, #818cf8);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #38bdf8, #818cf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* Content Grid */
 .content-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
 }
 
 /* Article Card */
 .article-card {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    overflow: hidden;
-    transition: transform 0.3s, border-color 0.3s;
-    display: flex;
-    flex-direction: column;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  overflow: hidden;
+  transition:
+    transform 0.3s,
+    border-color 0.3s;
+  display: flex;
+  flex-direction: column;
 }
 
 .article-card:hover {
-    transform: translateY(-5px);
-    border-color: #38bdf8;
+  transform: translateY(-5px);
+  border-color: #38bdf8;
 }
 
 .article-image {
-    height: 180px;
-    background-size: cover;
-    background-position: center;
-    position: relative;
+  height: 180px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
 }
 
 .article-badge {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: rgba(0, 0, 0, 0.8);
-    padding: 0.3rem 0.8rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    color: #38bdf8;
-    border: 1px solid rgba(56, 189, 248, 0.3);
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.3);
 }
 
 .article-content {
-    padding: 1.5rem;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .article-title {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-    color: var(--text-primary);
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
 }
 
 .article-desc {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    margin-bottom: 1.5rem;
-    flex: 1;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+  flex: 1;
 }
 
 .quiz-btn {
-    width: 100%;
-    padding: 0.8rem;
-    background: linear-gradient(135deg, #38bdf8, #818cf8);
-    border: none;
-    border-radius: 8px;
-    color: white;
-    font-weight: 600;
-    cursor: pointer;
-    transition: opacity 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
+  width: 100%;
+  padding: 0.8rem;
+  background: linear-gradient(135deg, #38bdf8, #818cf8);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 .quiz-btn:hover {
-    opacity: 0.9;
+  opacity: 0.9;
 }
 
 .quiz-btn.completed {
-    background: rgba(16, 185, 129, 0.2);
-    color: #34d399;
-    border: 1px solid rgba(16, 185, 129, 0.3);
-    cursor: default;
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  cursor: default;
 }
 
 /* Quiz Modal */
 .quiz-content {
-    max-width: 600px;
+  max-width: 600px;
 }
 
 .quiz-question {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-bottom: 1.5rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
 }
 
 .quiz-options {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
 
 .quiz-option {
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-align: left;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
 }
 
 .quiz-option:hover {
-    background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .quiz-option.selected {
-    background: rgba(56, 189, 248, 0.2);
-    border-color: #38bdf8;
+  background: rgba(56, 189, 248, 0.2);
+  border-color: #38bdf8;
 }
 
 .quiz-option.correct {
-    background: rgba(16, 185, 129, 0.2);
-    border-color: #10b981;
+  background: rgba(16, 185, 129, 0.2);
+  border-color: #10b981;
 }
 
 .quiz-option.wrong {
-    background: rgba(239, 68, 68, 0.2);
-    border-color: #ef4444;
+  background: rgba(239, 68, 68, 0.2);
+  border-color: #ef4444;
 }
 
 .quiz-feedback {
-    margin-top: 1rem;
-    padding: 1rem;
-    border-radius: 8px;
-    text-align: center;
-    font-weight: bold;
-    display: none;
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: bold;
+  display: none;
 }
 
 .quiz-feedback.show {
-    display: block;
+  display: block;
 }
 
 .feedback-success {
-    background: rgba(16, 185, 129, 0.1);
-    color: #34d399;
+  background: rgba(16, 185, 129, 0.1);
+  color: #34d399;
 }
 
 .feedback-error {
-    background: rgba(239, 68, 68, 0.1);
-    color: #f87171;
+  background: rgba(239, 68, 68, 0.1);
+  color: #f87171;
 }

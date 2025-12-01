@@ -1,79 +1,79 @@
 /* Header Styles */
 .app-header {
-    background: rgba(26, 32, 44, 0.8);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border);
-    position: sticky;
-    top: 0;
-    z-index: 100;
+  background: rgba(26, 32, 44, 0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .header-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: var(--space-sm) var(--space-lg);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-sm) var(--space-lg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .logo {
-    font-family: var(--font-display);
-    font-size: 1.5rem;
-    font-weight: 700;
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* Navigation Styles */
 .main-nav {
-    display: flex;
-    gap: var(--space-sm);
-    background: var(--surface);
-    padding: 4px;
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--border);
+  display: flex;
+  gap: var(--space-sm);
+  background: var(--surface);
+  padding: 4px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
 }
 
 .nav-btn {
-    background: transparent;
-    border: none;
-    color: var(--text-secondary);
-    padding: 8px 16px;
-    border-radius: var(--radius-md);
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
 .nav-btn:hover {
-    color: var(--text);
+  color: var(--text);
 }
 
 .nav-btn.active {
-    background: var(--primary);
-    color: white;
+  background: var(--primary);
+  color: white;
 }
 
 /* Footer Styles */
 .app-footer {
-    text-align: center;
-    padding: var(--space-lg);
-    color: var(--text-secondary);
-    border-top: 1px solid var(--border);
-    margin-top: auto;
+  text-align: center;
+  padding: var(--space-lg);
+  color: var(--text-secondary);
+  border-top: 1px solid var(--border);
+  margin-top: auto;
 }
 
 @media (max-width: 768px) {
-    .header-content {
-        flex-direction: column;
-        gap: var(--space-md);
-    }
+  .header-content {
+    flex-direction: column;
+    gap: var(--space-md);
+  }
 
-    .main-nav {
-        width: 100%;
-        justify-content: center;
-    }
+  .main-nav {
+    width: 100%;
+    justify-content: center;
+  }
 }

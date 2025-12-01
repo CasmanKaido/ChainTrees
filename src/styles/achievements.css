@@ -1,248 +1,248 @@
 /* Achievements Styles */
 .achievements-page {
-    padding: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .achievements-header {
-    text-align: center;
-    margin-bottom: 3rem;
+  text-align: center;
+  margin-bottom: 3rem;
 }
 
 .achievements-title {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    background: linear-gradient(135deg, #a855f7, #ec4899);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* Progress Section */
 .progress-section {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    padding: 2rem;
-    margin-bottom: 3rem;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 3rem;
 }
 
 .progress-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-    font-weight: 600;
-    color: var(--text-primary);
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
 }
 
 .progress-bar-bg {
-    width: 100%;
-    height: 12px;
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 6px;
-    overflow: hidden;
+  width: 100%;
+  height: 12px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  overflow: hidden;
 }
 
 .progress-bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #a855f7, #ec4899);
-    border-radius: 6px;
-    transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+  height: 100%;
+  background: linear-gradient(90deg, #a855f7, #ec4899);
+  border-radius: 6px;
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Badge Grid */
 .achievements-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
 }
 
 /* Badge Card */
 .badge-card {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    padding: 2rem;
-    text-align: center;
-    transition: all 0.3s;
-    position: relative;
-    overflow: hidden;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
 }
 
 .badge-card:hover {
-    transform: translateY(-5px);
-    border-color: #a855f7;
+  transform: translateY(-5px);
+  border-color: #a855f7;
 }
 
 .badge-card.locked {
-    opacity: 0.7;
-    filter: grayscale(0.8);
+  opacity: 0.7;
+  filter: grayscale(0.8);
 }
 
 .badge-card.locked:hover {
-    filter: grayscale(0.5);
-    opacity: 0.9;
+  filter: grayscale(0.5);
+  opacity: 0.9;
 }
 
 .badge-icon-container {
-    width: 100px;
-    height: 100px;
-    margin: 0 auto 1.5rem;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 1.5rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .badge-icon {
-    font-size: 4rem;
-    z-index: 2;
+  font-size: 4rem;
+  z-index: 2;
 }
 
 .badge-glow {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle, rgba(168, 85, 247, 0.4) 0%, transparent 70%);
-    z-index: 1;
-    opacity: 0;
-    transition: opacity 0.3s;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.4) 0%, transparent 70%);
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.3s;
 }
 
 .badge-card.unlocked .badge-glow {
-    opacity: 1;
+  opacity: 1;
 }
 
 .badge-name {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-    color: var(--text-primary);
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
 }
 
 .badge-desc {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    margin-bottom: 1.5rem;
-    line-height: 1.4;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.4;
 }
 
 .badge-status {
-    display: inline-block;
-    padding: 0.4rem 1rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 600;
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
 }
 
 .status-unlocked {
-    background: rgba(168, 85, 247, 0.2);
-    color: #d8b4fe;
-    border: 1px solid rgba(168, 85, 247, 0.3);
+  background: rgba(168, 85, 247, 0.2);
+  color: #d8b4fe;
+  border: 1px solid rgba(168, 85, 247, 0.3);
 }
 
 .status-locked {
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
 }
 
 .mint-badge-btn {
-    margin-top: 1rem;
-    width: 100%;
-    padding: 0.8rem;
-    background: linear-gradient(135deg, #a855f7, #ec4899);
-    border: none;
-    border-radius: 8px;
-    color: white;
-    font-weight: 600;
-    cursor: pointer;
-    transition: opacity 0.2s;
+  margin-top: 1rem;
+  width: 100%;
+  padding: 0.8rem;
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
 }
 
 .mint-badge-btn:hover {
-    opacity: 0.9;
+  opacity: 0.9;
 }
 
 .mint-badge-btn:disabled {
-    background: #4b5563;
-    cursor: not-allowed;
+  background: #4b5563;
+  cursor: not-allowed;
 }
 
 /* Rarity Styles */
 .rarity-common .badge-icon-container {
-    border-color: #94a3b8;
+  border-color: #94a3b8;
 }
 
 .rarity-rare .badge-icon-container {
-    border-color: #3b82f6;
+  border-color: #3b82f6;
 }
 
 .rarity-epic .badge-icon-container {
-    border-color: #a855f7;
+  border-color: #a855f7;
 }
 
 .rarity-legendary .badge-icon-container {
-    border-color: #eab308;
+  border-color: #eab308;
 }
 
 /* Showcase Section */
 .showcase-section {
-    margin-bottom: 4rem;
+  margin-bottom: 4rem;
 }
 
 .showcase-grid {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
 }
 
 .showcase-item {
-    width: 120px;
-    height: 120px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    font-size: 3rem;
-    position: relative;
-    transition: transform 0.3s;
+  width: 120px;
+  height: 120px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  font-size: 3rem;
+  position: relative;
+  transition: transform 0.3s;
 }
 
 .showcase-item:hover {
-    transform: scale(1.1);
-    border-color: #a855f7;
-    box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+  transform: scale(1.1);
+  border-color: #a855f7;
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
 }
 
 .showcase-tooltip {
-    position: absolute;
-    bottom: -40px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.9);
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    font-size: 0.8rem;
-    white-space: nowrap;
-    opacity: 0;
-    transition: opacity 0.2s;
-    pointer-events: none;
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.9);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
 }
 
 .showcase-item:hover .showcase-tooltip {
-    opacity: 1;
+  opacity: 1;
 }
 
 @media (max-width: 768px) {
-    .achievements-grid {
-        grid-template-columns: 1fr;
-    }
+  .achievements-grid {
+    grid-template-columns: 1fr;
+  }
 }

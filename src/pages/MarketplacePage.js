@@ -1,20 +1,20 @@
-import { marketplaceService } from '../services/marketplaceService.js';
-import { MarketplaceGrid } from '../components/MarketplaceGrid.js';
-import { AuctionGrid } from '../components/AuctionGrid.js';
-import { MarketStats } from '../components/MarketStats.js';
-import { auctionSystem } from '../utils/auctionSystem.js';
+import { marketplaceService } from '../services/marketplaceService.js'
+import { MarketplaceGrid } from '../components/MarketplaceGrid.js'
+import { AuctionGrid } from '../components/AuctionGrid.js'
+import { MarketStats } from '../components/MarketStats.js'
+import { auctionSystem } from '../utils/auctionSystem.js'
 
 export class MarketplacePage {
   constructor(containerId) {
-    this.containerId = containerId;
-    this.grid = new MarketplaceGrid('market-listings-container');
-    this.auctionGrid = new AuctionGrid('auction-listings-container');
-    this.stats = new MarketStats('market-stats-container');
+    this.containerId = containerId
+    this.grid = new MarketplaceGrid('market-listings-container')
+    this.auctionGrid = new AuctionGrid('auction-listings-container')
+    this.stats = new MarketStats('market-stats-container')
   }
 
   async render() {
-    const container = document.getElementById(this.containerId);
-    if (!container) return;
+    const container = document.getElementById(this.containerId)
+    if (!container) return
 
     container.innerHTML = `
       <div class="market-container">
@@ -60,55 +60,55 @@ export class MarketplacePage {
 
         <div id="market-listings-container"></div>
       </div>
-    `;
+    `
 
-    this.stats.render();
-    this.auctionGrid.render();
-    this.grid.render();
-    this.attachListeners();
+    this.stats.render()
+    this.auctionGrid.render()
+    this.grid.render()
+    this.attachListeners()
   }
 
   attachListeners() {
-    document.getElementById('market-sort').addEventListener('change', (e) => {
-      this.grid.updateFilters({ sort: e.target.value });
-    });
+    document.getElementById('market-sort').addEventListener('change', e => {
+      this.grid.updateFilters({ sort: e.target.value })
+    })
 
-    document.getElementById('market-species').addEventListener('change', (e) => {
-      this.grid.updateFilters({ species: e.target.value });
-    });
+    document.getElementById('market-species').addEventListener('change', e => {
+      this.grid.updateFilters({ species: e.target.value })
+    })
 
     // Global buy handler
-    window.buyListing = async (listingId) => {
+    window.buyListing = async listingId => {
       if (confirm('Confirm purchase? This will deduct ETH from your wallet.')) {
         try {
-          await marketplaceService.buyListing(listingId, '0xUserWallet');
-          alert('Purchase successful! 🌳');
-          this.grid.render();
+          await marketplaceService.buyListing(listingId, '0xUserWallet')
+          alert('Purchase successful! 🌳')
+          this.grid.render()
         } catch (e) {
-          alert(e.message);
+          alert(e.message)
         }
       }
-    };
+    }
 
     // Global bid handler
-    window.placeBid = async (auctionId) => {
-      const input = document.getElementById(`bid-input-${auctionId}`);
-      const amount = input.value;
+    window.placeBid = async auctionId => {
+      const input = document.getElementById(`bid-input-${auctionId}`)
+      const amount = input.value
 
-      if (!amount) return alert('Enter bid amount');
+      if (!amount) return alert('Enter bid amount')
 
       try {
-        await auctionSystem.placeBid(auctionId, amount, '0xUserWallet');
-        alert('Bid placed successfully! 🔥');
-        this.auctionGrid.render();
+        await auctionSystem.placeBid(auctionId, amount, '0xUserWallet')
+        alert('Bid placed successfully! 🔥')
+        this.auctionGrid.render()
       } catch (e) {
-        alert(e.message);
+        alert(e.message)
       }
-    };
+    }
 
     // Global create handler (placeholder)
     window.openCreateListing = () => {
-      alert('Select a tree from "My Forest" to list it for sale.');
-    };
+      alert('Select a tree from "My Forest" to list it for sale.')
+    }
   }
 }

@@ -1,18 +1,18 @@
-import { analyticsTracker } from '../utils/analyticsTracker.js';
-import '../styles/landing.css';
+import { analyticsTracker } from '../utils/analyticsTracker.js'
+import '../styles/landing.css'
 
 export class LandingPage {
-    constructor(containerId) {
-        this.containerId = containerId;
-    }
+  constructor(containerId) {
+    this.containerId = containerId
+  }
 
-    async render() {
-        const container = document.getElementById(this.containerId);
-        if (!container) return;
+  async render() {
+    const container = document.getElementById(this.containerId)
+    if (!container) return
 
-        analyticsTracker.trackPageView('landing');
+    analyticsTracker.trackPageView('landing')
 
-        container.innerHTML = `
+    container.innerHTML = `
       <div class="landing-page">
         <!-- Hero Section -->
         <section class="hero-section">
@@ -217,23 +217,26 @@ export class LandingPage {
           </div>
         </footer>
       </div>
-    `;
+    `
 
-        this.addAnimations();
-    }
+    this.addAnimations()
+  }
 
-    addAnimations() {
-        // Intersection Observer for scroll animations
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate-in');
-                }
-            });
-        }, { threshold: 0.1 });
+  addAnimations() {
+    // Intersection Observer for scroll animations
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-in')
+          }
+        })
+      },
+      { threshold: 0.1 }
+    )
 
-        document.querySelectorAll('.stat-card, .feature-card, .tech-badge').forEach(el => {
-            observer.observe(el);
-        });
-    }
+    document.querySelectorAll('.stat-card, .feature-card, .tech-badge').forEach(el => {
+      observer.observe(el)
+    })
+  }
 }

@@ -1,20 +1,20 @@
 export class ListTreeModal {
-    constructor(onList) {
-        this.onList = onList;
-        this.isOpen = false;
+  constructor(onList) {
+    this.onList = onList
+    this.isOpen = false
+  }
+
+  render() {
+    // Create modal container if it doesn't exist
+    if (!document.getElementById('list-modal')) {
+      const modal = document.createElement('div')
+      modal.id = 'list-modal'
+      modal.className = 'modal-overlay'
+      document.body.appendChild(modal)
     }
 
-    render() {
-        // Create modal container if it doesn't exist
-        if (!document.getElementById('list-modal')) {
-            const modal = document.createElement('div');
-            modal.id = 'list-modal';
-            modal.className = 'modal-overlay';
-            document.body.appendChild(modal);
-        }
-
-        const modal = document.getElementById('list-modal');
-        modal.innerHTML = `
+    const modal = document.getElementById('list-modal')
+    modal.innerHTML = `
       <div class="modal-content">
         <div class="modal-header">
           <h2>List Tree for Sale</h2>
@@ -36,52 +36,52 @@ export class ListTreeModal {
         
         <button class="buy-btn" id="confirm-list-btn">List Item</button>
       </div>
-    `;
+    `
 
-        this.attachListeners(modal);
+    this.attachListeners(modal)
+  }
+
+  open(userTrees) {
+    this.render()
+    const modal = document.getElementById('list-modal')
+    const select = document.getElementById('tree-select')
+
+    // Populate select
+    select.innerHTML = userTrees
+      .map(tree => `<option value="${tree.id}">Tree #${tree.id} (${tree.species})</option>`)
+      .join('')
+
+    modal.classList.add('open')
+    this.isOpen = true
+  }
+
+  close() {
+    const modal = document.getElementById('list-modal')
+    if (modal) {
+      modal.classList.remove('open')
+      this.isOpen = false
     }
+  }
 
-    open(userTrees) {
-        this.render();
-        const modal = document.getElementById('list-modal');
-        const select = document.getElementById('tree-select');
+  attachListeners(modal) {
+    modal.querySelector('.close-modal').addEventListener('click', () => this.close())
 
-        // Populate select
-        select.innerHTML = userTrees.map(tree =>
-            `<option value="${tree.id}">Tree #${tree.id} (${tree.species})</option>`
-        ).join('');
+    modal.querySelector('#confirm-list-btn').addEventListener('click', () => {
+      const treeId = document.getElementById('tree-select').value
+      const price = document.getElementById('listing-price').value
 
-        modal.classList.add('open');
-        this.isOpen = true;
-    }
+      if (!treeId || !price) {
+        alert('Please select a tree and set a price')
+        return
+      }
 
-    close() {
-        const modal = document.getElementById('list-modal');
-        if (modal) {
-            modal.classList.remove('open');
-            this.isOpen = false;
-        }
-    }
+      this.onList(treeId, price)
+      this.close()
+    })
 
-    attachListeners(modal) {
-        modal.querySelector('.close-modal').addEventListener('click', () => this.close());
-
-        modal.querySelector('#confirm-list-btn').addEventListener('click', () => {
-            const treeId = document.getElementById('tree-select').value;
-            const price = document.getElementById('listing-price').value;
-
-            if (!treeId || !price) {
-                alert('Please select a tree and set a price');
-                return;
-            }
-
-            this.onList(treeId, price);
-            this.close();
-        });
-
-        // Close on click outside
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) this.close();
-        });
-    }
+    // Close on click outside
+    modal.addEventListener('click', e => {
+      if (e.target === modal) this.close()
+    })
+  }
 }

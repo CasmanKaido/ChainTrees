@@ -3,24 +3,24 @@ import { walletState } from '../utils/walletState.js'
 import { treeGenerator } from '../generators/treeGenerator.js'
 
 export class MintPage {
-    constructor(containerId) {
-        this.container = document.getElementById(containerId)
-        this.species = [
-            { id: 0, name: 'Oak', offset: '22kg', description: 'Strong and enduring' },
-            { id: 1, name: 'Maple', offset: '20kg', description: 'Vibrant and colorful' },
-            { id: 2, name: 'Pine', offset: '18kg', description: 'Evergreen resilience' },
-            { id: 3, name: 'Birch', offset: '16kg', description: 'Elegant and graceful' },
-            { id: 4, name: 'Willow', offset: '19kg', description: 'Flexible and adapting' },
-            { id: 5, name: 'Cherry', offset: '17kg', description: 'Beautiful blossoms' },
-            { id: 6, name: 'Redwood', offset: '35kg', description: 'Giant of the forest' },
-            { id: 7, name: 'Sequoia', offset: '40kg', description: 'Ancient guardian' }
-        ]
-    }
+  constructor(containerId) {
+    this.container = document.getElementById(containerId)
+    this.species = [
+      { id: 0, name: 'Oak', offset: '22kg', description: 'Strong and enduring' },
+      { id: 1, name: 'Maple', offset: '20kg', description: 'Vibrant and colorful' },
+      { id: 2, name: 'Pine', offset: '18kg', description: 'Evergreen resilience' },
+      { id: 3, name: 'Birch', offset: '16kg', description: 'Elegant and graceful' },
+      { id: 4, name: 'Willow', offset: '19kg', description: 'Flexible and adapting' },
+      { id: 5, name: 'Cherry', offset: '17kg', description: 'Beautiful blossoms' },
+      { id: 6, name: 'Redwood', offset: '35kg', description: 'Giant of the forest' },
+      { id: 7, name: 'Sequoia', offset: '40kg', description: 'Ancient guardian' }
+    ]
+  }
 
-    render() {
-        if (!this.container) return
+  render() {
+    if (!this.container) return
 
-        this.container.innerHTML = `
+    this.container.innerHTML = `
       <div class="mint-container">
         <div class="mint-header">
           <h1 class="mint-title">Plant a Tree</h1>
@@ -37,14 +37,14 @@ export class MintPage {
       </div>
     `
 
-        this.attachEventListeners()
-    }
+    this.attachEventListeners()
+  }
 
-    renderMintCard(tree) {
-        // Generate a preview SVG using the tree ID as a seed
-        const svgPreview = treeGenerator.generateSVG(tree.id, tree.id * 123, 3)
+  renderMintCard(tree) {
+    // Generate a preview SVG using the tree ID as a seed
+    const svgPreview = treeGenerator.generateSVG(tree.id, tree.id * 123, 3)
 
-        return `
+    return `
       <div class="mint-card" data-id="${tree.id}">
         <div class="tree-preview">
           ${svgPreview}
@@ -63,60 +63,60 @@ export class MintPage {
         </div>
       </div>
     `
+  }
+
+  attachEventListeners() {
+    // Global mint function for onclick handlers
+    window.mintTree = speciesId => this.handleMint(speciesId)
+  }
+
+  async handleMint(speciesId) {
+    const account = walletState.getAccount()
+
+    if (!account.isConnected) {
+      alert('Please connect your wallet first!')
+      return
     }
 
-    attachEventListeners() {
-        // Global mint function for onclick handlers
-        window.mintTree = (speciesId) => this.handleMint(speciesId)
+    this.showModal('pending')
+
+    try {
+      // 1. Send transaction
+      const hash = await contractService.mintTree(speciesId, `ipfs://tree-${speciesId}`)
+
+      this.showModal('confirming', hash)
+
+      // 2. Wait for confirmation
+      await contractService.waitForTransaction(hash)
+
+      this.showModal('success', hash)
+    } catch (error) {
+      console.error(error)
+      this.showModal('error', error.message)
     }
+  }
 
-    async handleMint(speciesId) {
-        const account = walletState.getAccount()
+  showModal(status, data) {
+    const modal = document.getElementById('tx-modal')
+    const content = document.getElementById('tx-content')
 
-        if (!account.isConnected) {
-            alert('Please connect your wallet first!')
-            return
-        }
+    modal.classList.add('active')
 
-        this.showModal('pending')
-
-        try {
-            // 1. Send transaction
-            const hash = await contractService.mintTree(speciesId, `ipfs://tree-${speciesId}`)
-
-            this.showModal('confirming', hash)
-
-            // 2. Wait for confirmation
-            await contractService.waitForTransaction(hash)
-
-            this.showModal('success', hash)
-        } catch (error) {
-            console.error(error)
-            this.showModal('error', error.message)
-        }
-    }
-
-    showModal(status, data) {
-        const modal = document.getElementById('tx-modal')
-        const content = document.getElementById('tx-content')
-
-        modal.classList.add('active')
-
-        if (status === 'pending') {
-            content.innerHTML = `
+    if (status === 'pending') {
+      content.innerHTML = `
         <div class="tx-spinner"></div>
         <h3>Confirm in Wallet</h3>
         <p>Please sign the transaction in your wallet...</p>
       `
-        } else if (status === 'confirming') {
-            content.innerHTML = `
+    } else if (status === 'confirming') {
+      content.innerHTML = `
         <div class="tx-spinner"></div>
         <h3>Planting Tree...</h3>
         <p>Transaction submitted. Waiting for confirmation.</p>
         <a href="#" class="tx-hash">${data.slice(0, 10)}...${data.slice(-8)}</a>
       `
-        } else if (status === 'success') {
-            content.innerHTML = `
+    } else if (status === 'success') {
+      content.innerHTML = `
         <div class="tx-success-icon">🎉</div>
         <h3>Tree Planted!</h3>
         <p>Your tree has been successfully minted.</p>
@@ -124,8 +124,8 @@ export class MintPage {
           View My Forest
         </button>
       `
-        } else if (status === 'error') {
-            content.innerHTML = `
+    } else if (status === 'error') {
+      content.innerHTML = `
         <div class="tx-error-icon">❌</div>
         <h3>Minting Failed</h3>
         <p>${data}</p>
@@ -133,6 +133,6 @@ export class MintPage {
           Close
         </button>
       `
-        }
     }
+  }
 }

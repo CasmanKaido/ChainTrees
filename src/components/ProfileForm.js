@@ -1,11 +1,11 @@
 export class ProfileForm {
-    constructor(initialData, onSave) {
-        this.data = initialData;
-        this.onSave = onSave;
-    }
+  constructor(initialData, onSave) {
+    this.data = initialData
+    this.onSave = onSave
+  }
 
-    render() {
-        return `
+  render() {
+    return `
       <div class="settings-section">
         <h2 class="section-title">
           <i class="fas fa-user-circle"></i> Profile Settings
@@ -40,20 +40,20 @@ export class ProfileForm {
 
         <button class="save-btn" id="save-profile-btn">Save Changes</button>
       </div>
-    `;
-    }
+    `
+  }
 
-    attachListeners(container) {
-        const btn = container.querySelector('#save-profile-btn');
-        if (btn) {
-            btn.addEventListener('click', () => {
-                const newData = {
-                    username: container.querySelector('#username-input').value,
-                    email: container.querySelector('#email-input').value,
-                    bio: container.querySelector('#bio-input').value
-                };
-                this.onSave(newData);
-            });
+  attachListeners(container) {
+    const btn = container.querySelector('#save-profile-btn')
+    if (btn) {
+      btn.addEventListener('click', () => {
+        const newData = {
+          username: container.querySelector('#username-input').value,
+          email: container.querySelector('#email-input').value,
+          bio: container.querySelector('#bio-input').value
         }
+        this.onSave(newData)
+      })
     }
+  }
 }

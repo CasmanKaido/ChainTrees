@@ -1,21 +1,21 @@
 export class FilterControls {
-    constructor(containerId, onFilterChange) {
-        this.containerId = containerId;
-        this.onFilterChange = onFilterChange;
-        this.state = {
-            search: '',
-            species: 'all',
-            stage: 'all',
-            sort: 'newest',
-            view: 'grid'
-        };
+  constructor(containerId, onFilterChange) {
+    this.containerId = containerId
+    this.onFilterChange = onFilterChange
+    this.state = {
+      search: '',
+      species: 'all',
+      stage: 'all',
+      sort: 'newest',
+      view: 'grid'
     }
+  }
 
-    render() {
-        const container = document.getElementById(this.containerId);
-        if (!container) return;
+  render() {
+    const container = document.getElementById(this.containerId)
+    if (!container) return
 
-        container.innerHTML = `
+    container.innerHTML = `
       <div class="filter-controls">
         <div class="search-box">
           <i class="fas fa-search"></i>
@@ -62,47 +62,47 @@ export class FilterControls {
           </button>
         </div>
       </div>
-    `;
+    `
 
-        this.attachListeners();
-    }
+    this.attachListeners()
+  }
 
-    attachListeners() {
-        // Search
-        document.getElementById('gallery-search').addEventListener('input', (e) => {
-            this.state.search = e.target.value;
-            this.onFilterChange(this.state);
-        });
+  attachListeners() {
+    // Search
+    document.getElementById('gallery-search').addEventListener('input', e => {
+      this.state.search = e.target.value
+      this.onFilterChange(this.state)
+    })
 
-        // Species Filter
-        document.getElementById('species-filter').addEventListener('change', (e) => {
-            this.state.species = e.target.value;
-            this.onFilterChange(this.state);
-        });
+    // Species Filter
+    document.getElementById('species-filter').addEventListener('change', e => {
+      this.state.species = e.target.value
+      this.onFilterChange(this.state)
+    })
 
-        // Stage Filter
-        document.getElementById('stage-filter').addEventListener('change', (e) => {
-            this.state.stage = e.target.value;
-            this.onFilterChange(this.state);
-        });
+    // Stage Filter
+    document.getElementById('stage-filter').addEventListener('change', e => {
+      this.state.stage = e.target.value
+      this.onFilterChange(this.state)
+    })
 
-        // Sort
-        document.getElementById('sort-filter').addEventListener('change', (e) => {
-            this.state.sort = e.target.value;
-            this.onFilterChange(this.state);
-        });
+    // Sort
+    document.getElementById('sort-filter').addEventListener('change', e => {
+      this.state.sort = e.target.value
+      this.onFilterChange(this.state)
+    })
 
-        // View Toggles
-        document.querySelectorAll('.view-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                this.state.view = btn.dataset.view;
+    // View Toggles
+    document.querySelectorAll('.view-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        this.state.view = btn.dataset.view
 
-                // Update UI
-                document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
+        // Update UI
+        document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'))
+        btn.classList.add('active')
 
-                this.onFilterChange(this.state);
-            });
-        });
-    }
+        this.onFilterChange(this.state)
+      })
+    })
+  }
 }
