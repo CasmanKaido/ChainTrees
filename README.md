@@ -7,6 +7,7 @@ ChainTrees is a comprehensive Web3 platform that combines NFT technology with re
 ![Version](https://img.shields.io/badge/version-1.0.0-green.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Build](https://img.shields.io/badge/build-passing-success.svg)
+![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
 
 [Live Demo](#) | [Documentation](./docs/API.md) | [Contributing](./CONTRIBUTING.md)
 
