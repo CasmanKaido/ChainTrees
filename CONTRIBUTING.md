@@ -14,7 +14,8 @@ Thank you for your interest in contributing to ChainTrees! This document provide
 ### Reporting Bugs
 
 1. Check if the bug has already been reported in Issues
-2. If not, create a new issue with:
+2. If not, create a new issue using the **Bug Report** template.
+3. Provide the following information:
    - Clear title and description
    - Steps to reproduce
    - Expected vs actual behavior
@@ -24,7 +25,8 @@ Thank you for your interest in contributing to ChainTrees! This document provide
 ### Suggesting Enhancements
 
 1. Check if the enhancement has been suggested
-2. Create an issue with:
+2. Create an issue using the **Feature Request** template.
+3. Provide:
    - Clear description of the enhancement
    - Why it would be useful
    - Possible implementation approach
