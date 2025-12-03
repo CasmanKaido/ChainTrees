@@ -175,39 +175,36 @@ class ChainTreesApp {
       } else if (pageName === 'marketplace') {
         const { MarketplacePage } = await import('./pages/MarketplacePage.js')
         PageClass = MarketplacePage
-      } else if (pageName === 'governance') {
-        const { GovernancePage } = await import('./pages/GovernancePage.js')
-        PageClass = GovernancePage
+      } else if (pageName === 'settings') {
+        const { SettingsPage } = await import('./pages/SettingsPage.js')
+        PageClass = SettingsPage
       } else {
-        mainContent.innerHTML = `<p>Page "${pageName}" not available in this build.</p>`
-        return
+
+        this.currentPage = new PageClass('main-content')
+        await this.currentPage.render()
+      } catch (e) {
+        console.error(e)
+        mainContent.innerHTML = `<div class="error-container"><h2>Error Loading Page</h2><p>${e.message}</p></div>`
       }
-
-      this.currentPage = new PageClass('main-content')
-      await this.currentPage.render()
-    } catch (e) {
-      console.error(e)
-      mainContent.innerHTML = `<div class="error-container"><h2>Error Loading Page</h2><p>${e.message}</p></div>`
     }
+}
+
+  // Service Worker Registration
+  if('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker
+        .register('/sw.js')
+        .then(r => console.log('SW registered:', r))
+        .catch(err => console.log('SW registration failed:', err))
+    })
   }
-}
 
-// Service Worker Registration
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker
-      .register('/sw.js')
-      .then(r => console.log('SW registered:', r))
-      .catch(err => console.log('SW registration failed:', err))
-  })
-}
-
-// Initialize PWA install prompt
-const installPrompt = new InstallPrompt()
+  // Initialize PWA install prompt
+  const installPrompt = new InstallPrompt()
 installPrompt.init()
 
-// Initialize application
-if (document.readyState === 'loading') {
+  // Initialize application
+  if(document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => new ChainTreesApp())
 } else {
   new ChainTreesApp()
