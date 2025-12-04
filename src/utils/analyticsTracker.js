@@ -4,6 +4,27 @@ export class AnalyticsTracker {
     this.sessionId = this.generateSessionId()
     this.sessionStart = Date.now()
     this.maxEvents = 500
+    this.hasConsent = false
+    this.batchQueue = []
+    this.batchInterval = 5000 // 5 seconds
+    this.initBatching()
+  }
+
+  setConsent(granted) {
+    this.hasConsent = granted;
+    if (granted) this.processBatch();
+  }
+
+  initBatching() {
+    setInterval(() => this.processBatch(), this.batchInterval);
+  }
+
+  processBatch() {
+    if (!this.hasConsent || this.batchQueue.length === 0) return;
+
+    const batch = this.batchQueue.splice(0, 10);
+    console.log('Sending analytics batch:', batch);
+    // In production: fetch('/api/analytics/batch', { body: JSON.stringify(batch) ... })
   }
 
   generateSessionId() {
@@ -91,9 +112,8 @@ export class AnalyticsTracker {
     this.events.push(event)
     this.trimEvents()
 
-    // In production, send to analytics service
-    if (process.env.NODE_ENV === 'production') {
-      this.sendToAnalytics(event)
+    if (this.hasConsent) {
+      this.batchQueue.push(event);
     }
   }
 
