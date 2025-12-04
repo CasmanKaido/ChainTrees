@@ -189,22 +189,16 @@ class ChainTreesApp {
     }
 }
 
-  // Service Worker Registration
-  if('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker
-        .register('/sw.js')
-        .then(r => console.log('SW registered:', r))
-        .catch(err => console.log('SW registration failed:', err))
-    })
-  }
+import { registerServiceWorker } from './serviceWorker.js';
+// Register PWA service worker after app initialization
+registerServiceWorker();
 
-  // Initialize PWA install prompt
-  const installPrompt = new InstallPrompt()
+// Initialize PWA install prompt
+const installPrompt = new InstallPrompt()
 installPrompt.init()
 
-  // Initialize application
-  if(document.readyState === 'loading') {
+// Initialize application
+if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => new ChainTreesApp())
 } else {
   new ChainTreesApp()
