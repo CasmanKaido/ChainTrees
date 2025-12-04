@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { WalletConnect } from '../../../src/components/WalletConnect.js'
 
 describe('WalletConnect Component', () => {
@@ -6,8 +6,9 @@ describe('WalletConnect Component', () => {
     let mockContainer
 
     beforeEach(() => {
-        // Create a mock DOM container
+        // Create a mock DOM container with ID
         mockContainer = document.createElement('div')
+        mockContainer.id = 'wallet-test-container'
         document.body.appendChild(mockContainer)
 
         // Mock localStorage
@@ -18,11 +19,13 @@ describe('WalletConnect Component', () => {
             clear: vi.fn()
         }
 
-        walletConnect = new WalletConnect()
+        walletConnect = new WalletConnect('wallet-test-container')
     })
 
     afterEach(() => {
-        document.body.removeChild(mockContainer)
+        if (mockContainer && mockContainer.parentNode) {
+            document.body.removeChild(mockContainer)
+        }
         vi.clearAllMocks()
     })
 
