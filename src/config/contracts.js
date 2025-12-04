@@ -4,22 +4,28 @@ import RewardSystemABI from '../contracts/abis/RewardSystem.json'
 import AchievementsABI from '../contracts/abis/Achievements.json'
 
 // Contract Addresses
-// REPLACE THESE WITH REAL ADDRESSES AFTER DEPLOYMENT
+// Updated with deployed addresses from contracts/deployments/baseSepolia.json
 export const CONTRACT_ADDRESSES = {
-  // Localhost / Testnet Placeholders
+  // Sepolia
   11155111: {
-    // Sepolia
     ChainTree: '0x0000000000000000000000000000000000000000',
     TreeToken: '0x0000000000000000000000000000000000000000',
     RewardSystem: '0x0000000000000000000000000000000000000000',
     Achievements: '0x0000000000000000000000000000000000000000'
   },
+  // Mumbai
   80001: {
-    // Mumbai
     ChainTree: '0x0000000000000000000000000000000000000000',
     TreeToken: '0x0000000000000000000000000000000000000000',
     RewardSystem: '0x0000000000000000000000000000000000000000',
     Achievements: '0x0000000000000000000000000000000000000000'
+  },
+  // Base Sepolia (DEPLOYED - 2025-11-29)
+  84532: {
+    ChainTree: '0xADbe79538107df6cC8cE28C8faf0DB7397f3CD89',
+    TreeToken: '0x5a95d4A11b975e4d0E518a38b388302c433dC5cE',
+    RewardSystem: '0x280298D01194142B42463A9A69fB4e91490BC581',
+    Achievements: '0xfEBDD786A1Ba3CF8345FEbbFeEd2017429080F6b'
   },
   // Default to empty strings for other networks
   default: {
