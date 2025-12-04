@@ -12,6 +12,8 @@
 // Core Components
 import { WalletConnect } from './components/WalletConnect.js'
 import { InstallPrompt } from './components/InstallPrompt.js'
+import { applySEO } from './utils/seo.js'
+import { registerServiceWorker } from './serviceWorker.js'
 
 // Utility Systems
 import { errorBoundary } from './utils/errorBoundary.js'
@@ -23,6 +25,7 @@ import { keyboardShortcuts } from './utils/keyboardShortcuts.js'
 import { accessibilityManager } from './utils/accessibilityManager.js'
 
 // Styles
+import 'animate.css'
 import './styles/main.css'
 import './styles/layout.css'
 import './styles/mobile.css'
@@ -44,6 +47,7 @@ import './styles/marketplace.css'
 import './styles/auction.css'
 import './styles/offers.css'
 import './styles/governance.css'
+import './styles/animations.css'
 import './config/walletConfig.js'
 
 console.log('🌳 ChainTrees v1.0.0 - Initializing...')
@@ -76,6 +80,8 @@ class ChainTreesApp {
   init() {
     console.log('✅ ChainTrees initialized')
     this.renderLayout()
+    // Apply SEO tags for the initial page
+    applySEO()
     this.initializeWallet()
     this.setupNavigation()
     this.loadPage('landing') // Start with landing page
@@ -179,18 +185,21 @@ class ChainTreesApp {
         const { SettingsPage } = await import('./pages/SettingsPage.js')
         PageClass = SettingsPage
       } else {
+        throw new Error(`Page ${pageName} not found`)
+      }
 
+      if (PageClass) {
         this.currentPage = new PageClass('main-content')
         await this.currentPage.render()
-      } catch (e) {
-        console.error(e)
-        mainContent.innerHTML = `<div class="error-container"><h2>Error Loading Page</h2><p>${e.message}</p></div>`
       }
+    } catch (e) {
+      console.error(e)
+      mainContent.innerHTML = `<div class="error-container"><h2>Error Loading Page</h2><p>${e.message}</p></div>`
     }
+  }
 }
 
-import { registerServiceWorker } from './serviceWorker.js';
-// Register PWA service worker after app initialization
+// Register PWA service worker using utility
 registerServiceWorker();
 
 // Initialize PWA install prompt
