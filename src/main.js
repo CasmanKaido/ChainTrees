@@ -194,7 +194,9 @@ class ChainTreesApp {
       }
     } catch (e) {
       console.error(e)
-      mainContent.innerHTML = `<div class="error-container"><h2>Error Loading Page</h2><p>${e.message}</p></div>`
+      import('./components/ErrorFallback.js').then(({ ErrorFallback }) => {
+        new ErrorFallback(mainContent, e, () => this.loadPage(pageName)).render();
+      });
     }
   }
 }
