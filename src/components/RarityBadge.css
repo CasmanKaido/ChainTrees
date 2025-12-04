@@ -1,0 +1,47 @@
+/* src/components/RarityBadge.css */
+.rarity-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #fff;
+    background: var(--bg-primary);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease;
+}
+
+.rarity-badge:hover {
+    transform: scale(1.05);
+}
+
+.rarity-badge.common {
+    background: #9e9e9e;
+}
+
+.rarity-badge.uncommon {
+    background: #4caf50;
+}
+
+.rarity-badge.rare {
+    background: #2196f3;
+}
+
+.rarity-badge.epic {
+    background: #9c27b0;
+}
+
+.rarity-badge.legendary {
+    background: #ff9800;
+}
+
+.rarity-badge .score {
+    font-family: 'Inter', sans-serif;
+}
+
+.rarity-badge .tier {
+    text-transform: uppercase;
+    opacity: 0.85;
+}
