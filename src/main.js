@@ -184,6 +184,9 @@ class ChainTreesApp {
       } else if (pageName === 'settings') {
         const { SettingsPage } = await import('./pages/SettingsPage.js')
         PageClass = SettingsPage
+      } else if (pageName === 'demo') {
+        const { DemoPage } = await import('./pages/DemoPage.js')
+        PageClass = DemoPage
       } else {
         throw new Error(`Page ${pageName} not found`)
       }
