@@ -1,134 +1,183 @@
 export class GovernanceSystem {
   constructor() {
     this.storageKey = 'chaintrees_proposals'
-    this.proposals = this.loadProposals()
+    this.proposals = []
+    this.votes = new Map()
+    this.delegations = new Map()
+    this.treasury = { balance: 0 }
+    this.quorum = 500
+    this.minimumProposalTokens = 0
   }
 
-  loadProposals() {
+  load() {
     const stored = localStorage.getItem(this.storageKey)
-    return stored ? JSON.parse(stored) : []
+    if (stored) {
+      const data = JSON.parse(stored)
+      this.proposals = data.proposals || []
+      this.treasury = data.treasury || { balance: 0 }
+    }
   }
 
   save() {
-    localStorage.setItem(this.storageKey, JSON.stringify(this.proposals))
+    localStorage.setItem(this.storageKey, JSON.stringify({
+      proposals: this.proposals,
+      treasury: this.treasury
+    }))
   }
 
-  /**
-   * Create a new governance proposal
-   */
-  createProposal(title, description, creator, durationDays = 3) {
-    const endTime = new Date()
-    endTime.setDate(endTime.getDate() + durationDays)
+  getTokenBalance(address) {
+    // Mock implementation - in real app, query blockchain
+    return 1000
+  }
 
-    const proposal = {
-      id: `prop_${Date.now()}`,
-      title,
-      description,
-      creator,
-      createdAt: new Date().toISOString(),
-      endTime: endTime.toISOString(),
-      status: 'ACTIVE', // ACTIVE, PASSED, REJECTED, EXECUTED
-      forVotes: 0,
-      againstVotes: 0,
-      abstainVotes: 0,
-      voters: {} // Map address -> vote choice
+  createProposal(proposalData) {
+    if (this.minimumProposalTokens > 0) {
+      const balance = this.getTokenBalance(proposalData.proposer)
+      if (balance < this.minimumProposalTokens) {
+        throw new Error('Insufficient tokens to create proposal')
+      }
     }
 
-    this.proposals.unshift(proposal)
+    const proposal = {
+      id: `prop_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      title: proposalData.title,
+      description: proposalData.description,
+      proposer: proposalData.proposer,
+      type: proposalData.type,
+      amount: proposalData.amount,
+      status: 'active',
+      votingStart: Date.now(),
+      votingEnd: Date.now() + (3 * 24 * 60 * 60 * 1000), // 3 days
+      passed: false,
+      createdAt: Date.now()
+    }
+
+    this.proposals.push(proposal)
     this.save()
     return proposal
   }
 
-  /**
-   * Cast a vote on a proposal
-   */
-  vote(proposalId, voter, choice, weight = 1) {
+  vote(proposalId, voter, support, weight) {
     const proposal = this.proposals.find(p => p.id === proposalId)
     if (!proposal) throw new Error('Proposal not found')
-    if (proposal.status !== 'ACTIVE') throw new Error('Proposal is not active')
-    if (new Date(proposal.endTime) < new Date()) throw new Error('Voting period ended')
-    if (proposal.voters[voter]) throw new Error('Already voted')
 
-    proposal.voters[voter] = choice
+    const now = Date.now()
+    if (now < proposal.votingStart) throw new Error('Voting period has not started')
+    if (now > proposal.votingEnd) throw new Error('Voting period has ended')
 
-    if (choice === 'FOR') proposal.forVotes += weight
-    else if (choice === 'AGAINST') proposal.againstVotes += weight
-    else if (choice === 'ABSTAIN') proposal.abstainVotes += weight
+    const voteKey = `${proposalId}-${voter}`
+    if (this.votes.has(voteKey)) throw new Error('Already voted on this proposal')
 
+    const voteWeight = weight || this.getTokenBalance(voter)
+    const vote = {
+      proposalId,
+      voter,
+      support,
+      weight: voteWeight,
+      timestamp: now
+    }
+
+    this.votes.set(voteKey, vote)
     this.save()
-    return proposal
+    return vote
   }
 
-  /**
-   * Execute a proposal if it has passed
-   */
+  getTally(proposalId) {
+    const tally = { for: 0, against: 0, abstain: 0 }
+
+    for (const [key, vote] of this.votes.entries()) {
+      if (vote.proposalId === proposalId) {
+        if (vote.support === 'for') tally.for += vote.weight
+        else if (vote.support === 'against') tally.against += vote.weight
+        else if (vote.support === 'abstain') tally.abstain += vote.weight
+      }
+    }
+
+    return tally
+  }
+
+  delegate(delegator, delegate) {
+    this.delegations.set(delegator, delegate)
+  }
+
+  undelegate(delegator) {
+    this.delegations.delete(delegator)
+  }
+
+  getDelegation(delegator) {
+    return this.delegations.get(delegator) || null
+  }
+
+  getDelegatedPower(delegate) {
+    let power = 0
+    for (const [delegator, delegateTo] of this.delegations.entries()) {
+      if (delegateTo === delegate) {
+        power += this.getTokenBalance(delegator)
+      }
+    }
+    return power
+  }
+
   executeProposal(proposalId) {
     const proposal = this.proposals.find(p => p.id === proposalId)
     if (!proposal) throw new Error('Proposal not found')
 
-    if (proposal.status === 'EXECUTED') throw new Error('Already executed')
-    if (proposal.status === 'REJECTED') throw new Error('Proposal was rejected')
-
-    // Check if voting period ended
-    if (new Date(proposal.endTime) > new Date()) {
-      throw new Error('Voting period not ended')
+    if (Date.now() < proposal.votingEnd) {
+      throw new Error('Voting period has not ended')
     }
 
-    const totalVotes = proposal.forVotes + proposal.againstVotes + proposal.abstainVotes
-    if (totalVotes === 0) {
-      proposal.status = 'REJECTED' // No quorum
-      this.save()
-      return proposal
+    const tally = this.getTally(proposalId)
+    const totalVotes = tally.for + tally.against + tally.abstain
+
+    if (totalVotes < this.quorum) {
+      return {
+        executed: false,
+        passed: false,
+        reason: 'Quorum not met'
+      }
     }
 
-    // Simple majority check
-    if (proposal.forVotes > proposal.againstVotes) {
-      proposal.status = 'EXECUTED'
-      // In real app, trigger on-chain action here
-    } else {
-      proposal.status = 'REJECTED'
-    }
+    const passed = tally.for > tally.against
+    proposal.status = 'executed'
+    proposal.passed = passed
 
     this.save()
-    return proposal
+
+    return {
+      executed: true,
+      passed
+    }
   }
 
-  /**
-   * Check and update status of all proposals
-   */
-  updateStatuses() {
-    const now = new Date()
-    let changed = false
-
-    this.proposals.forEach(p => {
-      if (p.status === 'ACTIVE' && new Date(p.endTime) <= now) {
-        // Auto-close/execute logic
-        if (p.forVotes > p.againstVotes) {
-          p.status = 'PASSED' // Ready for execution
-        } else {
-          p.status = 'REJECTED'
-        }
-        changed = true
-      }
-    })
-
-    if (changed) this.save()
-  }
-
-  getProposals(filter = 'ALL') {
-    this.updateStatuses() // Ensure statuses are up to date
-
-    if (filter === 'ACTIVE') {
-      return this.proposals.filter(p => p.status === 'ACTIVE')
-    }
-    if (filter === 'CLOSED') {
-      return this.proposals.filter(p => p.status !== 'ACTIVE')
-    }
+  getAllProposals() {
     return this.proposals
   }
 
-  getProposalById(id) {
-    return this.proposals.find(p => p.id === id)
+  getProposalsByStatus(status) {
+    return this.proposals.filter(p => p.status === status)
+  }
+
+  getProposal(id) {
+    return this.proposals.find(p => p.id === id) || null
+  }
+
+  getTreasuryBalance() {
+    return this.treasury.balance
+  }
+
+  addToTreasury(amount) {
+    this.treasury.balance += amount
+    this.save()
+  }
+
+  withdrawFromTreasury(proposalId, amount) {
+    const proposal = this.proposals.find(p => p.id === proposalId)
+    if (!proposal || proposal.status !== 'executed' || !proposal.passed) {
+      throw new Error('Proposal not approved')
+    }
+
+    this.treasury.balance -= amount
+    this.save()
   }
 }
 
