@@ -1,0 +1,20 @@
+{
+    "network": "base",
+    "chainId": 8453,
+    "deployer": "0x418f2DEbcb4D9a6E9eA5f9D7dd7678965aDA7464",
+    "deploymentMethod": "Remix IDE",
+    "timestamp": "2025-11-30T00:00:00.000Z",
+    "contracts": {
+        "ChainTree": "0xA15D1368905aCc892C1E7939d5ec94CA64719981",
+        "TreeToken": "0x06B68c3c42f98a5ee87876d9128574EDFda32bD9",
+        "RewardSystem": "0xFFD32443218A03079cb00a7aC31eA97DBCE7aB75",
+        "Achievements": "0x6A93104f5705b3A1ca6FDbd6fe056d2b4B20693e"
+    },
+    "verified": false,
+    "explorer": {
+        "ChainTree": "https://basescan.org/address/0xA15D1368905aCc892C1E7939d5ec94CA64719981",
+        "TreeToken": "https://basescan.org/address/0x06B68c3c42f98a5ee87876d9128574EDFda32bD9",
+        "RewardSystem": "https://basescan.org/address/0xFFD32443218A03079cb00a7aC31eA97DBCE7aB75",
+        "Achievements": "https://basescan.org/address/0x6A93104f5705b3A1ca6FDbd6fe056d2b4B20693e"
+    }
+}
