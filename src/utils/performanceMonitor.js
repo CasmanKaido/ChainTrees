@@ -1,12 +1,31 @@
+import { onCLS, onFID, onLCP, onFCP, onTTFB } from 'web-vitals';
+
 export class PerformanceMonitor {
   constructor() {
     this.metrics = {
       pageLoads: [],
       apiCalls: [],
       renders: [],
-      errors: []
+      errors: [],
+      vitals: {}
     }
     this.maxEntries = 100
+    this.initVitals()
+  }
+
+  initVitals() {
+    if (typeof window === 'undefined') return;
+
+    onCLS(metric => this.trackVital('CLS', metric));
+    onFID(metric => this.trackVital('FID', metric));
+    onLCP(metric => this.trackVital('LCP', metric));
+    onFCP(metric => this.trackVital('FCP', metric));
+    onTTFB(metric => this.trackVital('TTFB', metric));
+  }
+
+  trackVital(name, metric) {
+    this.metrics.vitals[name] = metric.value;
+    console.log(`[Vital] ${name}:`, metric.value);
   }
 
   /**
